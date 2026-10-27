@@ -7,7 +7,12 @@ import { MONTH_NAMES } from '../lib/months';
 import { RAIN_LABELS } from '../lib/rain';
 import { esc } from './esc';
 
-const LEVEL_LABELS = { country: 'Country (average of its provinces)', province: 'Province or region', island: 'Island' };
+const LEVEL_LABELS = {
+  country: 'Country (average of its provinces)',
+  province: 'Province or region',
+  city: 'City sector around the airport',
+  island: 'Island',
+};
 const EQUIPMENT = { yes: 'usually available', partial: 'only sometimes available', no: 'generally not available' };
 const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
@@ -86,7 +91,7 @@ export class Panel {
     const month = this.getMonth();
     const i = month - 1;
     if (!p) return '<h2>Unknown area</h2>';
-    const title = `<h2>${esc(p.name)}</h2><p class="sub">${esc(regionNames.of(p.country) ?? p.country)}, ${LEVEL_LABELS[p.level]}. ${MONTH_NAMES[i]}.</p>`;
+    const title = `<h2>${esc(p.name)}${p.iata ? ` <small>${esc(p.iata)}</small>` : ''}</h2><p class="sub">${esc(regionNames.of(p.country) ?? p.country)}, ${LEVEL_LABELS[p.level]}. ${MONTH_NAMES[i]}.</p>`;
     const hi = c?.hi[i] ?? null;
     const lo = c?.lo[i] ?? null;
     if (!c || hi === null) return `${title}<p>No climate data for this month.</p>`;

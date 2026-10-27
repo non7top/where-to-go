@@ -1,6 +1,6 @@
 import type { RainLevel } from '../lib/rain';
 
-export type Level = 'country' | 'province' | 'island';
+export type Level = 'country' | 'province' | 'city' | 'island';
 export type Equipment = 'yes' | 'partial' | 'no';
 export type EventCategory = 'festival' | 'fair' | 'seasonal' | 'holiday' | 'concert';
 
@@ -9,9 +9,8 @@ export interface AreaProps {
   name: string;
   level: Level;
   country: string;
-  minzoom: number;
-  maxzoom: number;
   point: [number, number];
+  iata?: string;
 }
 
 export interface AreaClimate {

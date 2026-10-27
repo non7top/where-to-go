@@ -19,8 +19,9 @@
             "properties": {
               "id": { "type": "string" },
               "name": { "type": "string" },
-              "level": { "enum": ["country", "province", "island"] },
+              "level": { "enum": ["country", "province", "city", "island"] },
               "country": { "type": "string", "pattern": "^[A-Z]{2}$" },
+              "iata": { "type": "string", "pattern": "^[A-Z]{3}(/[A-Z]{3})*$" },
               "point": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
             }
           }

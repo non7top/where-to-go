@@ -107,11 +107,20 @@ button:hover {
   gap: 8px;
 }
 
-#shortcut-menu {
+button.primary {
+  color: var(--accent-text);
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.menu {
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
-  min-width: 190px;
+  min-width: 220px;
+  max-height: min(65vh, 460px);
+  overflow-y: auto;
   margin: 0;
   padding: 6px;
   list-style: none;
@@ -121,20 +130,29 @@ button:hover {
   box-shadow: var(--shadow);
 }
 
-#shortcut-menu[hidden] {
+.menu[hidden] {
   display: none;
 }
 
-#shortcut-menu button {
+.menu button {
   display: block;
   width: 100%;
   text-align: left;
   border: 0;
 }
 
-#shortcut-menu button:hover,
-#shortcut-menu button:focus-visible {
+.menu button:hover,
+.menu button:focus-visible {
   background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.menu-group {
+  padding: 8px 10px 2px;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 #month-bar {

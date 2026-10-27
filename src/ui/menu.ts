@@ -1,14 +1,19 @@
-import type { Shortcut } from '../data/types';
+import type { MenuItem } from '../lib/cities';
 import { esc } from './esc';
 
-export function initShortcuts(
+export function initMenu(
   button: HTMLButtonElement,
   menu: HTMLElement,
-  shortcuts: Shortcut[],
-  go: (s: Shortcut) => void,
+  items: readonly MenuItem[],
+  pick: (id: string) => void,
 ) {
-  menu.innerHTML = shortcuts
-    .map((s) => `<li role="none"><button type="button" role="menuitem" data-id="${esc(s.id)}">${esc(s.name)}</button></li>`)
+  let lastGroup: string | undefined;
+  menu.innerHTML = items
+    .map((it) => {
+      const header = it.group !== undefined && it.group !== lastGroup ? `<li role="presentation" class="menu-group">${esc(it.group)}</li>` : '';
+      lastGroup = it.group;
+      return `${header}<li role="none"><button type="button" role="menuitem" data-id="${esc(it.id)}">${esc(it.label)}</button></li>`;
+    })
     .join('');
 
   const setOpen = (open: boolean) => {
@@ -20,16 +25,15 @@ export function initShortcuts(
   button.addEventListener('click', () => setOpen(Boolean(menu.hidden)));
   menu.addEventListener('click', (e) => {
     const id = (e.target as HTMLElement).closest<HTMLElement>('[data-id]')?.dataset.id;
-    const s = shortcuts.find((x) => x.id === id);
-    if (!s) return;
+    if (!id) return;
     setOpen(false);
-    go(s);
+    pick(id);
   });
   menu.addEventListener('keydown', (e) => {
-    const items = [...menu.querySelectorAll<HTMLButtonElement>('button')];
-    const i = items.indexOf(document.activeElement as HTMLButtonElement);
-    if (e.key === 'ArrowDown') items[(i + 1) % items.length]?.focus();
-    else if (e.key === 'ArrowUp') items[(i - 1 + items.length) % items.length]?.focus();
+    const buttons = [...menu.querySelectorAll<HTMLButtonElement>('button')];
+    const i = buttons.indexOf(document.activeElement as HTMLButtonElement);
+    if (e.key === 'ArrowDown') buttons[(i + 1) % buttons.length]?.focus();
+    else if (e.key === 'ArrowUp') buttons[(i - 1 + buttons.length) % buttons.length]?.focus();
     else return;
     e.preventDefault();
   });

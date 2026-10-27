@@ -10,15 +10,18 @@ import { isMarked } from '../lib/rain';
 import { clusterIcon, eventIcon, RAIN_PATTERNS, rainTile, tileImage } from './patterns';
 
 // maplibre-gl 6 finds its worker next to the main script, which a bundler breaks.
-setWorkerUrl(workerUrl);
+// The standalone (file://) build sets __WTG_WORKER_URL__ to an inline blob instead.
+setWorkerUrl((globalThis as { __WTG_WORKER_URL__?: string }).__WTG_WORKER_URL__ ?? workerUrl);
 
 export const COUNTRY_MAXZOOM = 2.2;
+export const CITY_MINZOOM = 4;
 export const ISLAND_MINZOOM = 5;
 export const REGION_BOUNDS: [[number, number], [number, number]] = [[92, -10], [146, 48]];
 
 const LEVELS: { level: Level; minzoom: number; maxzoom: number }[] = [
   { level: 'country', minzoom: 0, maxzoom: COUNTRY_MAXZOOM },
   { level: 'province', minzoom: COUNTRY_MAXZOOM, maxzoom: 24 },
+  { level: 'city', minzoom: CITY_MINZOOM, maxzoom: 24 },
   { level: 'island', minzoom: ISLAND_MINZOOM, maxzoom: 24 },
 ];
 const CATEGORIES: EventCategory[] = ['festival', 'fair', 'seasonal', 'holiday', 'concert'];
@@ -107,8 +110,8 @@ export class WeatherMap {
         id: `line-${level}`, type: 'line', source: 'areas', minzoom, maxzoom,
         filter: ['==', ['get', 'level'], level],
         paint: {
-          'line-color': css('--outline'),
-          'line-width': ['interpolate', ['linear'], ['zoom'], 2, 0.3, 5, 0.8, 9, 1.4],
+          'line-color': css(level === 'city' ? '--text' : '--outline'),
+          'line-width': level === 'city' ? 1.6 : ['interpolate', ['linear'], ['zoom'], 2, 0.3, 5, 0.8, 9, 1.4],
         },
       });
     }
@@ -252,7 +255,9 @@ export class WeatherMap {
     const { map } = this;
     map.setPaintProperty('ocean', 'background-color', css('--ocean'));
     map.setPaintProperty('land', 'fill-color', css('--land'));
-    for (const { level } of LEVELS) map.setPaintProperty(`line-${level}`, 'line-color', css('--outline'));
+    for (const { level } of LEVELS) {
+      map.setPaintProperty(`line-${level}`, 'line-color', css(level === 'city' ? '--text' : '--outline'));
+    }
     map.setPaintProperty('area-hover', 'line-color', css('--text'));
     map.setPaintProperty('area-selected', 'line-color', css('--accent'));
   }

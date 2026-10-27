@@ -9,11 +9,13 @@ import { WeatherMap } from './map/map';
 import { renderLegend } from './ui/legend';
 import { Panel } from './ui/panel';
 import { createMonthBar } from './ui/slider';
-import { initShortcuts } from './ui/shortcuts';
+import { initMenu } from './ui/menu';
+import { cityMenuItems, findCityByCode } from './lib/cities';
 import { esc } from './ui/esc';
 
 const el = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const OKINAWA = { lon: 127.9, lat: 26.5 };
+const CITY_ZOOM = 8;
 
 function showError(message: string) {
   const box = el('error');
@@ -21,13 +23,14 @@ function showError(message: string) {
   box.hidden = false;
 }
 
-function readHash(): { m?: number; v?: [number, number, number] } {
+function readHash(): { m?: number; v?: [number, number, number]; c?: string } {
   const p = new URLSearchParams(location.hash.slice(1));
   const m = Number(p.get('m'));
   const v = (p.get('v') ?? '').split(',').map(Number);
   return {
     m: Number.isInteger(m) && m >= 1 && m <= 12 ? m : undefined,
     v: v.length === 3 && v.every(Number.isFinite) ? (v as [number, number, number]) : undefined,
+    c: p.get('c') ?? undefined,
   };
 }
 
@@ -55,7 +58,9 @@ async function start() {
   let month = initial.m ?? new Date().getMonth() + 1;
   const tooltip = el('tooltip');
   let overEvent = false;
-  const names = new Map(data.areas.features.map((f) => [f.properties.id, f.properties.name]));
+  const areaProps = data.areas.features.map((f) => f.properties);
+  const names = new Map(areaProps.map((p) => [p.id, p.iata ? `${p.name} (${p.iata})` : p.name]));
+  const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
   const showTip = (html: string | null, p: { x: number; y: number }) => {
     if (!html) {
@@ -122,9 +127,29 @@ async function start() {
 
   renderLegend(el('legend'));
 
-  const menu = initShortcuts(el<HTMLButtonElement>('shortcuts-btn'), el('shortcut-menu'), data.shortcuts, (s) =>
-    main.flyTo(s.lon, s.lat, s.zoom),
+  const goCity = (id: string) => {
+    const p = areaProps.find((a) => a.id === id);
+    if (!p) return;
+    main.flyTo(p.point[0], p.point[1], CITY_ZOOM);
+    panel.showArea(id);
+  };
+  const cityMenu = initMenu(
+    el<HTMLButtonElement>('cities-btn'),
+    el('city-menu'),
+    cityMenuItems(areaProps, (cc) => regionNames.of(cc) ?? cc),
+    goCity,
   );
+  const placeMenu = initMenu(
+    el<HTMLButtonElement>('shortcuts-btn'),
+    el('shortcut-menu'),
+    data.shortcuts.map((s) => ({ id: s.id, label: s.name })),
+    (id) => {
+      const s = data.shortcuts.find((x) => x.id === id);
+      if (s) main.flyTo(s.lon, s.lat, s.zoom);
+    },
+  );
+  const startCity = initial.c ? findCityByCode(areaProps, initial.c) : undefined;
+  if (startCity) main.map.once('load', () => goCity(startCity.id));
   el('reset-btn').addEventListener('click', () => {
     panel.hide();
     main.fitRegion(true);
@@ -133,7 +158,7 @@ async function start() {
 
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
-    if (menu.close()) return;
+    if (cityMenu.close() || placeMenu.close()) return;
     if (panel.isOpen()) panel.hide();
   });
 

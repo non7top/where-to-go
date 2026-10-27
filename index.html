@@ -14,10 +14,12 @@
       <header class="topbar">
         <h1>Where to go</h1>
         <div class="tools">
+          <button id="cities-btn" class="primary" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="city-menu">Cities</button>
           <button id="shortcuts-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="shortcut-menu">Places</button>
           <button id="reset-btn" type="button">Reset view</button>
         </div>
-        <ul id="shortcut-menu" role="menu" hidden></ul>
+        <ul id="city-menu" class="menu" role="menu" hidden></ul>
+        <ul id="shortcut-menu" class="menu" role="menu" hidden></ul>
       </header>
 
       <button id="inset" type="button" aria-label="Jump to Okinawa">

@@ -116,7 +116,21 @@ async function main() {
     },
   }));
 
-  const areas = { type: 'FeatureCollection', features: [...countries, ...provinces, ...islands] };
+  const citySrc = JSON.parse(await readFile('data-src/cities.json', 'utf8'));
+  const cities = citySrc.map((c) => ({
+    type: 'Feature',
+    geometry: circle([c.lon, c.lat], c.radiusKm),
+    properties: {
+      id: `city-${c.iata.split('/')[0].toLowerCase()}`,
+      name: c.name,
+      level: 'city',
+      country: c.country,
+      iata: c.iata,
+      point: [c.lon, c.lat],
+    },
+  }));
+
+  const areas = { type: 'FeatureCollection', features: [...countries, ...provinces, ...islands, ...cities] };
   await writeFile(path.join(OUT, 'areas.geojson'), JSON.stringify(areas) + '\n');
 
   const landOut = path.join(OUT, 'land.geojson');

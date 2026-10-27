@@ -155,7 +155,7 @@ export class Panel {
         ].filter(Boolean).join(' &middot; ')}</p>`
       : '';
     const back = backTo ? `<p><button type="button" data-act="back" data-id="${backTo}">Back to area</button></p>` : '';
-    const here = occ ? `<p><b>Peak here</b> ${esc(dayLabel(occ.day))}${occ.spread > 0 ? `, +-${occ.spread} days` : ''}</p>` : '';
+    const here = occ ? `<p><b>${occ.dateLabel ? 'Next' : 'Peak here'}</b> ${esc(occ.dateLabel ?? dayLabel(occ.day))}${!occ.dateLabel && occ.spread > 0 ? `, +-${occ.spread} days` : ''}</p>` : '';
     const title = occ?.label ?? e.name;
     const alias = occ?.label ? `${esc(e.name)}. ` : '';
     return `<h2><img class="ev-icon lg" alt="" src="${iconDataUrl(iconFor(e))}"> ${esc(title)}</h2>

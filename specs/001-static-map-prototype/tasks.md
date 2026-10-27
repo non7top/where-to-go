@@ -70,6 +70,7 @@
 - [x] T034 Region narrowing by rectangle (`src/lib/scope.ts`, `WeatherMap.initBoxSelect`): Select area button or Shift and drag, outline on the map, Zoom and Clear, Escape clears. Checked in a browser with synthetic pointer events (a real mouse drag and touch drag are not tried)
 - [x] T036 Shanghai ginkgo: season mid-November to mid-December with the peak in the second half of November, six named spots as stars shown only when zoomed in (`detail`), fixed the highlight star sharing its image name with the festival icon; data tests in `tests/data.test.ts`
 - [x] T037 Map icons as grids (`src/lib/stack.ts`, four per row, merged when grids would overlap, "more" cell) instead of "+" cluster bubbles; hover previews from the right card (place outline, event halo). Checked with a real mouse in headless Chromium: 22 icons with no overlapping pairs, halo on hover and cleared after
+- [x] T038 Sectored badges for two to four events at one spot (`comboIcon`, `sectorAt`), checked with a real mouse on both halves; Dream Yosacoy Festival with a weekday-rule date (`peakWindows`, first Saturday of November for two days: 7-8 Nov 2026, then 6-7 Nov 2027), aliases for search, and Odaiba and Marunouchi stars; tests for the rule
 - [x] T035 Global search (`src/lib/search.ts`, `src/ui/search.ts`): places, airport codes, events, local names and aliases; "/" focuses it. Checked in a browser at desktop and 390 px widths
 
 ## Phase 8: Hosting and checks

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { DAYS_LIMIT, etaText, etaToDay } from '../src/lib/timeuntil';
 import {
-  circDist, dayFromMonthDay, dayLabel, dayOfYear, interpMonthly, isActive, MID_DAY, monthOfDay, sectionLabel, seasonOf, SEASONS, wrapDay,
+  circDist, dateLabel, dayFromMonthDay, dayLabel, dayOfYear, nthWeekday, interpMonthly, isActive, MID_DAY, monthOfDay, sectionLabel, seasonOf, SEASONS, wrapDay,
 } from '../src/lib/season';
-import { buildOccurrences, iconFor, peakFromAnchors } from '../src/lib/events';
+import { buildOccurrences, iconFor, peakFromAnchors, peakWindows } from '../src/lib/events';
 import { dayToDeg, degToDay, pointerDeg, polar, sectorPath, turn } from '../src/lib/ring';
 import { dayAtX, drumScale, drumX, offsetFrom, onFront, VISIBLE_DAYS } from '../src/lib/dial';
 import type { AreaProps, MapEvent } from '../src/data/types';
@@ -190,5 +190,33 @@ describe('iconFor', () => {
     expect(iconFor({ category: 'seasonal', icon: 'maple' })).toBe('maple');
     expect(iconFor({ category: 'concert' })).toBe('note');
     expect(iconFor({ category: 'fair' })).toBe('booth');
+  });
+});
+
+describe('dates worked out by rule', () => {
+  it('finds the nth weekday of a month', () => {
+    expect(nthWeekday(2026, 11, 1, 'sat').getDate()).toBe(7);
+    expect(nthWeekday(2027, 11, 1, 'sat').getDate()).toBe(6);
+    expect(nthWeekday(2026, 11, 2, 'sun').getDate()).toBe(8);
+    expect(nthWeekday(2026, 2, 1, 'sun').getDate()).toBe(1);
+  });
+  it('labels a date and a multi-day span', () => {
+    expect(dateLabel(new Date(2026, 10, 7), 2)).toBe('7-8 Nov 2026');
+    expect(dateLabel(new Date(2026, 9, 31), 2)).toBe('31 Oct-1 Nov 2026');
+    expect(dateLabel(new Date(2027, 10, 6))).toBe('6 Nov 2027');
+  });
+  const yosacoy = { peaks: [{ rule: { month: 11, nth: 1, weekday: 'sat' as const }, length: 2, spread: 1 }] };
+  it('uses this year until its window has passed, then next year', () => {
+    const before = peakWindows(yosacoy, new Date(2026, 9, 27))[0]!;
+    expect(before.day).toBe(dayFromMonthDay('11-07'));
+    expect(before.dateLabel).toBe('7-8 Nov 2026');
+    const during = peakWindows(yosacoy, new Date(2026, 10, 8))[0]!;
+    expect(during.dateLabel).toBe('7-8 Nov 2026');
+    const after = peakWindows(yosacoy, new Date(2026, 10, 20))[0]!;
+    expect(after.day).toBe(dayFromMonthDay('11-06'));
+    expect(after.dateLabel).toBe('6-7 Nov 2027');
+  });
+  it('leaves fixed dates alone', () => {
+    expect(peakWindows({ peaks: [{ on: '04-14', spread: 1 }] }, new Date(2026, 9, 27))).toEqual([{ day: dayFromMonthDay('04-14'), spread: 1 }]);
   });
 });

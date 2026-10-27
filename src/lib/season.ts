@@ -1,3 +1,5 @@
+import type { Weekday } from '../data/types';
+
 export const YEAR_DAYS = 365;
 export const HALF_WINDOW = 7;
 
@@ -98,4 +100,18 @@ export const SEASONS: readonly SeasonSpan[] = [
 export function seasonOf(day: number): SeasonSpan {
   const d = wrapDay(Math.round(day));
   return SEASONS.find((s) => wrapDay(d - s.start) < s.len)!;
+}
+
+const WEEKDAYS: readonly Weekday[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+
+// The nth (1 for first) given weekday of a month, e.g. the first Saturday of November.
+export function nthWeekday(year: number, month: number, nth: number, weekday: Weekday): Date {
+  const shift = (WEEKDAYS.indexOf(weekday) - new Date(year, month - 1, 1).getDay() + 7) % 7;
+  return new Date(year, month - 1, 1 + shift + (nth - 1) * 7);
+}
+
+export function dateLabel(start: Date, length = 1): string {
+  const end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + length - 1);
+  const day = length > 1 ? `${start.getDate()}${end.getMonth() === start.getMonth() ? '' : ` ${MONTH_ABBR[start.getMonth()]}`}-${end.getDate()}` : String(start.getDate());
+  return `${day} ${MONTH_ABBR[end.getMonth()]} ${end.getFullYear()}`;
 }

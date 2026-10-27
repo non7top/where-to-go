@@ -1,4 +1,5 @@
 import type { IconName } from '../data/types';
+import { sectorStart } from '../lib/stack';
 import { canvas } from './patterns';
 
 type Ctx = CanvasRenderingContext2D;
@@ -354,4 +355,67 @@ export function iconDataUrl(name: IconName): string {
     urls.set(name, url);
   }
   return url;
+}
+
+const hexAlpha = (hex: string, a: number) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+};
+
+// A round badge cut into sectors, one per event: halves for two, a Mercedes-style three, quarters for four.
+export function comboIcon(names: readonly IconName[]): ImageData {
+  const n = names.length;
+  const S = 64;
+  const C = S / 2;
+  const R = 29;
+  const [, ctx] = canvas(S, S);
+  ctx.fillStyle = 'rgba(0,0,0,0.28)';
+  ctx.beginPath();
+  ctx.arc(C, C + 1.5, R + 1.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(C, C, R, 0, Math.PI * 2);
+  ctx.fill();
+
+  const start = sectorStart(n);
+  const rad = (deg: number) => ((deg - 90) * Math.PI) / 180;
+  names.forEach((name, i) => {
+    const a0 = start + (i * 360) / n;
+    const a1 = a0 + 360 / n;
+    ctx.fillStyle = hexAlpha(ICONS[name].color, 0.2);
+    ctx.beginPath();
+    ctx.moveTo(C, C);
+    ctx.arc(C, C, R, rad(a0), rad(a1));
+    ctx.closePath();
+    ctx.fill();
+  });
+  ctx.strokeStyle = '#2b3440';
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+  for (let i = 0; i < n; i++) {
+    const a = rad(start + (i * 360) / n);
+    ctx.beginPath();
+    ctx.moveTo(C, C);
+    ctx.lineTo(C + R * Math.cos(a), C + R * Math.sin(a));
+    ctx.stroke();
+  }
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(C, C, R, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Each glyph sits at the middle of its sector, smaller the more sectors there are.
+  const scale = { 2: 0.95, 3: 0.8, 4: 0.72 }[n] ?? 0.7;
+  const reach = n === 2 ? 14.5 : 15.5;
+  names.forEach((name, i) => {
+    const mid = rad(start + ((i + 0.5) * 360) / n);
+    ctx.save();
+    ctx.translate(C + reach * Math.cos(mid), C + reach * Math.sin(mid));
+    ctx.scale(scale, scale);
+    ctx.translate(-12, -12);
+    ICONS[name].draw(ctx, ICONS[name].color);
+    ctx.restore();
+  });
+  return ctx.getImageData(0, 0, S, S);
 }

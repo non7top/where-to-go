@@ -21,6 +21,7 @@ const events: MapEvent[] = [
     ],
   },
   { id: 'comiket', name: 'Comiket', category: 'fair', lon: 0, lat: 0, when: 'August', summary: '', peaks: [{ on: '08-13', spread: 1 }] },
+  { id: 'dream-yosacoy', name: 'Dream Yosacoy Festival', category: 'festival', lon: 0, lat: 0, when: 'November', summary: '', peaks: [{ on: '11-07', spread: 1 }], aliases: ['yosakoi', 'よさこい'] },
 ];
 const index = buildSearchIndex(areas, events, (cc) => names[cc] ?? cc);
 
@@ -54,6 +55,11 @@ describe('search', () => {
     expect(search(index, '홍엽')[0]?.id).toBe('momiji|KR');
     expect(search(index, 'hóngyè')[0]?.id).toBe('momiji|CN');
     expect(search(index, '紅葉').map((r) => r.id)).toContain('momiji|CN');
+  });
+  it('finds an event by its aliases as well as its name', () => {
+    expect(search(index, 'yosacoy')[0]?.id).toBe('dream-yosacoy');
+    expect(search(index, 'yosakoi')[0]?.id).toBe('dream-yosacoy');
+    expect(search(index, 'よさこい')[0]?.id).toBe('dream-yosacoy');
   });
   it('needs every word and ignores an empty query', () => {
     expect(search(index, 'seoul busan')).toEqual([]);

@@ -42,7 +42,7 @@ export function buildSearchIndex(
   for (const e of events) {
     const icon = iconFor(e);
     const fronts = e.fronts ?? [];
-    items.push({ kind: 'event', id: e.id, label: e.name, sub: e.when, icon, hay: fold(`${e.name} ${fronts.map((f) => `${f.label ?? ''} ${(f.aliases ?? []).join(' ')}`).join(' ')}`), weight: 3.5 });
+    items.push({ kind: 'event', id: e.id, label: e.name, sub: e.when, icon, hay: fold(`${e.name} ${(e.aliases ?? []).join(' ')} ${fronts.map((f) => `${f.label ?? ''} ${(f.aliases ?? []).join(' ')}`).join(' ')}`), weight: 3.5 });
     for (const f of fronts) {
       if (!f.label) continue;
       items.push({

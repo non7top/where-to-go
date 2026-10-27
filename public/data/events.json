@@ -496,5 +496,52 @@
       "official": "https://www.discoverhongkong.com/"
     },
     "icon": "boat"
+  },
+  {
+    "id": "dream-yosacoy",
+    "name": "Dream Yosacoy Festival",
+    "category": "festival",
+    "icon": "star",
+    "lon": 139.7745,
+    "lat": 35.6296,
+    "peaks": [
+      {
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": "sat"
+        },
+        "length": 2,
+        "spread": 1
+      }
+    ],
+    "when": "first full weekend of November, Odaiba and Marunouchi, Tokyo (7-8 November 2026, 6-7 November 2027)",
+    "summary": "One of Tokyo's largest traditional-meets-modern dance festivals, with thousands of dancers.",
+    "details": "A yosakoi dance festival: thousands of dancers with naruko clappers, night projection-mapping collaborations at the Odaiba Statue of Liberty, and live performances around Fuji Television Plaza and Marunouchi. It is always held on the first full weekend of November.",
+    "aliases": [
+      "yosakoi",
+      "dream yosakoi",
+      "よさこい",
+      "ドリームよさこい"
+    ],
+    "highlights": [
+      {
+        "name": "Odaiba (Statue of Liberty, Fuji Television Plaza)",
+        "lon": 139.7745,
+        "lat": 35.6296,
+        "note": "Night projection mapping and dance stages.",
+        "detail": true
+      },
+      {
+        "name": "Marunouchi",
+        "lon": 139.764,
+        "lat": 35.6812,
+        "note": "Live performances.",
+        "detail": true
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Yosakoi"
+    }
   }
 ]

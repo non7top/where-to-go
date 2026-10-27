@@ -38,6 +38,8 @@ export interface MapEvent {
   fronts?: Front[];
   links?: { wiki?: string; official?: string };
   icon?: IconName;
+  // Extra names the search also matches.
+  aliases?: string[];
   when: string;
   approx?: boolean;
   summary: string;
@@ -50,8 +52,20 @@ export interface MapEvent {
   highlights?: Highlight[];
 }
 
+export type Weekday = 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat';
+
+// A date that is worked out each year, such as the first Saturday of November.
+export interface PeakRule {
+  month: number;
+  nth: number;
+  weekday: Weekday;
+}
+
+// Either a fixed day of the year (`on`) or a weekday rule (`rule`, lasting `length` days from that day).
 export interface Peak {
-  on: string;
+  on?: string;
+  rule?: PeakRule;
+  length?: number;
   spread: number;
 }
 

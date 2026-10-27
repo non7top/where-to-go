@@ -9,11 +9,11 @@ import { comfortColor, NO_DATA_COLOR } from '../lib/color';
 import { feltHigh } from '../lib/feel';
 import type { Occurrence } from '../lib/events';
 import { boundsFrom, boundsPolygon, isTinyBox } from '../lib/scope';
-import { stackPoints } from '../lib/stack';
+import { sectorAt, stackPoints } from '../lib/stack';
 import type { Bounds } from '../lib/scope';
 import { interpMonthly, isActive, monthOfDay } from '../lib/season';
 import { isMarked } from '../lib/rain';
-import { eventIcon, ICON_NAMES } from './icons';
+import { comboIcon, eventIcon, ICON_NAMES } from './icons';
 import { clusterIcon, RAIN_PATTERNS, rainTile, starIcon, tileImage } from './patterns';
 
 // maplibre-gl 6 finds its worker next to the main script, which a bundler breaks.
@@ -186,9 +186,9 @@ export class WeatherMap {
     });
     // Halo for the icons of the event row hovered in the side card (filter set by previewEvent).
     map.addLayer({
-      id: 'event-halo', type: 'circle', source: 'events', filter: ['==', ['get', 'id'], '\u0000'],
+      id: 'event-halo', type: 'circle', source: 'events', filter: ['==', ['get', 'keys'], '\u0000'],
       paint: {
-        'circle-radius': 19,
+        'circle-radius': ['case', ['>', ['get', 'n'], 1], 25, 19],
         'circle-color': css('--accent'),
         'circle-opacity': 0.3,
         'circle-stroke-color': css('--accent'),
@@ -301,7 +301,7 @@ export class WeatherMap {
 
   previewEvent(eventId: string | null, country = '') {
     if (!this.map.getLayer('event-halo')) return;
-    this.map.setFilter('event-halo', eventId ? ['all', ['==', ['get', 'id'], eventId], ['==', ['get', 'cc'], country]] : ['==', ['get', 'id'], '\u0000']);
+    this.map.setFilter('event-halo', eventId ? ['in', `|${eventId}:${country}|`, ['get', 'keys']] : ['==', ['get', 'keys'], '\u0000']);
   }
 
   setSelectMode(on: boolean) {
@@ -328,13 +328,25 @@ export class WeatherMap {
     const f = this.map.queryRenderedFeatures(point, { layers: ['event-points', 'event-stars', 'event-stars-detail'] })[0];
     if (!f) return null;
     const isStar = f.layer.id !== 'event-points';
-    const event = this.eventsById.get((isStar ? f.properties?.eventId : f.properties?.id) as string);
-    if (!event) return null;
+    let occ: Occurrence | undefined;
+    if (!isStar) {
+      const members = String(f.properties?.members ?? '').split(',').filter(Boolean).map(Number);
+      let pick = members[0];
+      if (members.length > 1 && f.geometry.type === 'Point') {
+        // A sectored badge: the sector under the pointer decides which event it is.
+        const c = this.map.project(f.geometry.coordinates as [number, number]);
+        pick = members[sectorAt(members.length, point.x - c.x, point.y - c.y)];
+      }
+      occ = pick === undefined ? undefined : this.data.occurrences[pick];
+    }
+    const event = this.eventsById.get((isStar ? f.properties?.eventId : occ?.eventId) as string);
+    const more = !isStar && Number(f.properties?.more) > 0;
+    if (!event && !more) return null;
     return {
-      event,
+      event: (event ?? this.data.events[0])!,
       label: isStar ? (f.properties?.name as string) : undefined,
-      occ: isStar ? undefined : this.data.occurrences[f.properties?.oi as number],
-      more: !isStar && Number(f.properties?.more) > 0,
+      occ,
+      more,
     };
   }
 
@@ -393,19 +405,28 @@ export class WeatherMap {
       const px = this.map.project([occurrences[i]!.lon, occurrences[i]!.lat]);
       return { x: px.x, y: px.y, key: occurrences[i]!.eventId, index: i };
     });
+    const keyOf = (o: Occurrence) => `|${o.eventId}:${o.label ? (o.country ?? '') : ''}|`;
     const features: Feature<GeoPoint>[] = stackPoints(points).flatMap((stack) =>
       stack.cells.map((cell) => {
         const at = this.map.unproject([stack.x + cell.dx, stack.y + cell.dy]);
-        const occ = cell.index === null ? null : occurrences[cell.index]!;
+        const members = cell.members ?? (cell.index === null ? [] : [cell.index]);
+        const occs = members.map((m) => occurrences[m]!);
+        const icons = occs.map((o) => iconFor(this.eventsById.get(o.eventId) ?? { category: 'festival' }));
+        let icon: string = cell.index === null ? 'cluster' : icons[0]!;
+        if (icons.length > 1) {
+          icon = `combo:${icons.join('+')}`;
+          if (!this.map.hasImage(icon)) this.map.addImage(icon, comboIcon(icons), { pixelRatio: 2 });
+        }
         return {
           type: 'Feature' as const,
           geometry: { type: 'Point' as const, coordinates: [at.lng, at.lat] },
           properties: {
-            id: occ?.eventId ?? '',
             oi: cell.index ?? -1,
+            members: members.join(','),
+            n: members.length,
             more: cell.more ?? 0,
-            cc: occ?.label ? (occ.country ?? '') : '',
-            icon: occ ? iconFor(this.eventsById.get(occ.eventId) ?? { category: 'festival' }) : 'cluster',
+            keys: occs.map(keyOf).join(''),
+            icon,
           },
         };
       }),

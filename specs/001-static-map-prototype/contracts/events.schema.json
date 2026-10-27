@@ -115,7 +115,6 @@
         "items": {
           "type": "object",
           "required": [
-            "on",
             "spread"
           ],
           "properties": {
@@ -127,9 +126,58 @@
               "type": "integer",
               "minimum": 0,
               "maximum": 60
+            },
+            "rule": {
+              "type": "object",
+              "required": [
+                "month",
+                "nth",
+                "weekday"
+              ],
+              "properties": {
+                "month": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 12
+                },
+                "nth": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5
+                },
+                "weekday": {
+                  "enum": [
+                    "sun",
+                    "mon",
+                    "tue",
+                    "wed",
+                    "thu",
+                    "fri",
+                    "sat"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 14
             }
           },
-          "additionalProperties": false
+          "additionalProperties": false,
+          "oneOf": [
+            {
+              "required": [
+                "on"
+              ]
+            },
+            {
+              "required": [
+                "rule"
+              ]
+            }
+          ]
         }
       },
       "fronts": {
@@ -243,6 +291,12 @@
           "star",
           "booth"
         ]
+      },
+      "aliases": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       }
     },
     "additionalProperties": false,

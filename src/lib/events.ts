@@ -1,5 +1,5 @@
 import type { AreaProps, IconName, MapEvent } from '../data/types';
-import { dayFromMonthDay, isActive } from './season';
+import { dateLabel, dayFromMonthDay, dayOfYear, isActive, nthWeekday } from './season';
 
 export const CATEGORY_LABELS: Record<MapEvent['category'], string> = {
   festival: 'Festival',
@@ -31,6 +31,8 @@ export interface Occurrence {
   areaId?: string;
   country?: string;
   label?: string;
+  // For a date worked out by rule: the actual date, e.g. "7-8 Nov 2026".
+  dateLabel?: string;
 }
 
 export interface StarPoint {
@@ -41,6 +43,27 @@ export interface StarPoint {
   day: number;
   spread: number;
   detail?: boolean;
+}
+
+export interface PeakWindow {
+  day: number;
+  spread: number;
+  dateLabel?: string;
+}
+
+// The next occurrence of each peak from `now`: a fixed day, or a weekday rule worked out for this year
+// (or next year once this year's window has passed).
+export function peakWindows(e: Pick<MapEvent, 'peaks'>, now: Date): PeakWindow[] {
+  return (e.peaks ?? []).map((p) => {
+    if (!p.rule) return { day: dayFromMonthDay(p.on ?? '01-01'), spread: p.spread };
+    const length = p.length ?? 1;
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const at = (year: number) => nthWeekday(year, p.rule!.month, p.rule!.nth, p.rule!.weekday);
+    let start = at(now.getFullYear());
+    const over = new Date(start.getFullYear(), start.getMonth(), start.getDate() + length - 1 + p.spread);
+    if (over < today) start = at(now.getFullYear() + 1);
+    return { day: dayOfYear(start), spread: p.spread, dateLabel: dateLabel(start, length) };
+  });
 }
 
 // Peak day along a latitude table: linear between anchors, flat beyond the ends.
@@ -62,12 +85,14 @@ export function peakFromAnchors(lat: number, anchors: readonly [number, string][
 export function buildOccurrences(
   events: readonly MapEvent[],
   areas: readonly AreaProps[],
+  now: Date = new Date(),
 ): { occurrences: Occurrence[]; stars: StarPoint[] } {
   const occurrences: Occurrence[] = [];
   const stars: StarPoint[] = [];
   for (const e of events) {
-    for (const p of e.peaks ?? []) {
-      occurrences.push({ eventId: e.id, lon: e.lon, lat: e.lat, day: dayFromMonthDay(p.on), spread: p.spread, country: e.country });
+    const windows = peakWindows(e, now);
+    for (const w of windows) {
+      occurrences.push({ eventId: e.id, lon: e.lon, lat: e.lat, day: w.day, spread: w.spread, country: e.country, dateLabel: w.dateLabel });
     }
     for (const f of e.fronts ?? []) {
       const overrides = new Map((f.overrides ?? []).map((o) => [o.areaId, o]));
@@ -80,9 +105,9 @@ export function buildOccurrences(
       }
     }
     for (const h of e.highlights ?? []) {
-      const windows = h.on ? [{ on: h.on, spread: h.spread ?? 7 }] : (e.peaks ?? []);
-      for (const w of windows) {
-        stars.push({ eventId: e.id, name: h.name, lon: h.lon, lat: h.lat, day: dayFromMonthDay(w.on), spread: w.spread, detail: h.detail });
+      const own = h.on ? [{ day: dayFromMonthDay(h.on), spread: h.spread ?? 7 }] : windows;
+      for (const w of own) {
+        stars.push({ eventId: e.id, name: h.name, lon: h.lon, lat: h.lat, day: w.day, spread: w.spread, detail: h.detail });
       }
     }
   }

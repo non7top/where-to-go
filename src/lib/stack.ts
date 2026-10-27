@@ -12,6 +12,8 @@ export interface StackCell {
   dx: number;
   dy: number;
   more?: number;
+  // A round badge cut into sectors, one per event: the source point of each sector, in sector order.
+  members?: number[];
 }
 
 export interface Stack {
@@ -24,6 +26,24 @@ export const CELL_PX = 26;
 export const PER_ROW = 4;
 export const MAX_CELLS = 8;
 export const GROUP_PX = 30;
+export const COMBO_MIN = 2;
+export const COMBO_MAX = 4;
+export const COMBO_PX = 36;
+
+// Where sector 0 starts, in degrees clockwise from the top: halves (left, right), a Mercedes-style
+// three-way split with a line pointing up, and quarters (top-left, top-right, bottom-right, bottom-left).
+const SECTOR_START: Record<number, number> = { 2: 180, 3: 0, 4: 270 };
+
+export function sectorStart(n: number): number {
+  return SECTOR_START[n] ?? 0;
+}
+
+// Which sector of an n-way badge lies at an offset from its center (dy grows downward).
+export function sectorAt(n: number, dx: number, dy: number): number {
+  const deg = ((Math.atan2(dx, -dy) * 180) / Math.PI + 360) % 360;
+  const rel = (deg - sectorStart(n) + 360) % 360;
+  return Math.min(n - 1, Math.floor(rel / (360 / n)));
+}
 
 interface Group {
   x: number;
@@ -38,7 +58,9 @@ const uniqueByKey = (pts: readonly StackPoint[]): StackPoint[] => {
 
 // Size of a group's grid in pixels: its distinct events, at most MAX_CELLS cells, four to a row.
 function gridSize(g: Group): { w: number; h: number } {
-  const cells = Math.min(MAX_CELLS, uniqueByKey(g.pts).length);
+  const unique = uniqueByKey(g.pts).length;
+  if (unique >= COMBO_MIN && unique <= COMBO_MAX) return { w: COMBO_PX, h: COMBO_PX };
+  const cells = Math.min(MAX_CELLS, unique);
   return { w: Math.min(PER_ROW, cells) * CELL_PX, h: Math.ceil(cells / PER_ROW) * CELL_PX };
 }
 
@@ -78,6 +100,10 @@ export function stackPoints(points: readonly StackPoint[]): Stack[] {
   }
   return groups.map((g) => {
     const unique = uniqueByKey(g.pts);
+    if (unique.length >= COMBO_MIN && unique.length <= COMBO_MAX) {
+      const members = unique.map((p) => p.index);
+      return { x: g.x, y: g.y, cells: [{ index: members[0]!, dx: 0, dy: 0, members }] };
+    }
     const hidden = unique.length > MAX_CELLS ? unique.length - (MAX_CELLS - 1) : 0;
     const shown = hidden ? unique.slice(0, MAX_CELLS - 1) : unique;
     const total = shown.length + (hidden ? 1 : 0);

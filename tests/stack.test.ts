@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CELL_PX, GROUP_PX, MAX_CELLS, stackPoints } from '../src/lib/stack';
+import { CELL_PX, COMBO_PX, GROUP_PX, MAX_CELLS, sectorAt, stackPoints } from '../src/lib/stack';
 import type { StackPoint } from '../src/lib/stack';
 
 const pt = (x: number, y: number, key: string, index: number): StackPoint => ({ x, y, key, index });
@@ -11,7 +11,7 @@ describe('stackPoints', () => {
     expect(stacks[0]!.cells).toEqual([{ index: 0, dx: 0, dy: 0 }]);
   });
 
-  it('lays a group out four to a row, centered, then a second row', () => {
+  it('lays a group of five or more out four to a row, centered, then a second row', () => {
     const stacks = stackPoints(Array.from({ length: 5 }, (_, i) => pt(i, 0, `e${i}`, i)));
     expect(stacks).toHaveLength(1);
     const cells = stacks[0]!.cells;
@@ -26,7 +26,16 @@ describe('stackPoints', () => {
 
   it('shows one icon per event in a group', () => {
     const stacks = stackPoints([pt(0, 0, 'maple', 0), pt(2, 1, 'maple', 1), pt(3, 0, 'ginkgo', 2)]);
-    expect(stacks[0]!.cells.map((c) => c.index)).toEqual([0, 2]);
+    expect(stacks[0]!.cells[0]!.members).toEqual([0, 2]);
+  });
+
+  it('combines two to four events at one spot into a single sectored badge', () => {
+    for (const n of [2, 3, 4]) {
+      const [stack] = stackPoints(Array.from({ length: n }, (_, i) => pt(i, 0, `e${i}`, i)));
+      expect(stack!.cells).toHaveLength(1);
+      expect(stack!.cells[0]).toMatchObject({ dx: 0, dy: 0, members: Array.from({ length: n }, (_, i) => i) });
+    }
+    expect(stackPoints([pt(0, 0, 'solo', 0)])[0]!.cells[0]!.members).toBeUndefined();
   });
 
   it('ends a big group with a "more" cell that counts the hidden events', () => {
@@ -44,12 +53,30 @@ describe('stackPoints', () => {
 
   it('merges neighbouring groups whose grids would overlap, so the grids never cover each other', () => {
     const left = Array.from({ length: 4 }, (_, i) => pt(0, 0, `l${i}`, i));
-    const right = Array.from({ length: 4 }, (_, i) => pt(GROUP_PX + 8, 0, `r${i}`, 10 + i));
+    const right = Array.from({ length: 4 }, (_, i) => pt(GROUP_PX + 3, 0, `r${i}`, 10 + i));
     const stacks = stackPoints([...left, ...right]);
     expect(stacks).toHaveLength(1);
     expect(stacks[0]!.cells).toHaveLength(MAX_CELLS);
     const apart = stackPoints([...left, ...right.map((p) => ({ ...p, x: 400 }))]);
     expect(apart).toHaveLength(2);
+    // Two sectored badges closer together than a badge is wide also merge.
+    const near = stackPoints([pt(0, 0, 'a', 0), pt(1, 0, 'b', 1), pt(COMBO_PX - 5, 0, 'c', 2), pt(COMBO_PX - 4, 0, 'd', 3)]);
+    expect(near.length).toBeLessThanOrEqual(2);
+  });
+
+  it('finds the sector under a point for halves, thirds and quarters', () => {
+    // Halves: sector 0 is the left half, sector 1 the right half.
+    expect(sectorAt(2, -10, 0)).toBe(0);
+    expect(sectorAt(2, 10, 0)).toBe(1);
+    // Three: lines point up, bottom-left and bottom-right; sector 0 is upper right.
+    expect(sectorAt(3, 10, -5)).toBe(0);
+    expect(sectorAt(3, 0, 10)).toBe(1);
+    expect(sectorAt(3, -10, -5)).toBe(2);
+    // Quarters in reading order from the top left.
+    expect(sectorAt(4, -5, -5)).toBe(0);
+    expect(sectorAt(4, 5, -5)).toBe(1);
+    expect(sectorAt(4, 5, 5)).toBe(2);
+    expect(sectorAt(4, -5, 5)).toBe(3);
   });
 
   it('handles no points', () => {

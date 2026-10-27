@@ -1,0 +1,399 @@
+[
+  {
+    "id": "cn-spring-festival",
+    "name": "Spring Festival (Chinese New Year)",
+    "category": "festival",
+    "tier": 1,
+    "icon": "lantern",
+    "country": "CN",
+    "lon": 116.3914,
+    "lat": 39.9027,
+    "peaks": [
+      {
+        "dates": [
+          "2027-02-06",
+          "2028-01-26"
+        ],
+        "spread": 7
+      }
+    ],
+    "when": "Chinese New Year 6 February 2027, 26 January 2028; the public holiday runs about a week",
+    "summary": "The biggest holiday in China: the world's largest yearly human migration, with temple fairs, lanterns and family dinners.",
+    "details": "Many offices and shops close for a week or more, travel is heaviest in the days before and after, and temple fairs, lion and dragon dances and fireworks fill the cities. Some places are quiet while the locals travel.",
+    "crowd": "Train and flight tickets sell out weeks ahead; tourist sites are very busy.",
+    "price": "Flights and hotels rise sharply; some restaurants and shops close.",
+    "aliases": [
+      "chinese new year",
+      "lunar new year",
+      "春节",
+      "chunjie",
+      "新年",
+      "spring festival"
+    ],
+    "highlights": [
+      {
+        "name": "Beijing (Ditan and Longtan temple fairs)",
+        "lon": 116.4089,
+        "lat": 39.9531,
+        "note": "Temple fairs with food stalls and performances."
+      },
+      {
+        "name": "Shanghai (Yu Garden lantern show)",
+        "lon": 121.488,
+        "lat": 31.2289,
+        "note": "Yu Garden lights up for the new year."
+      },
+      {
+        "name": "Guangzhou (flower fairs)",
+        "lon": 113.259,
+        "lat": 23.1288,
+        "note": "Flower markets are a Guangzhou tradition before the new year."
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Chinese_New_Year"
+    }
+  },
+  {
+    "id": "cn-lantern-festival",
+    "name": "Lantern Festival",
+    "category": "festival",
+    "tier": 2,
+    "icon": "lantern",
+    "country": "CN",
+    "lon": 116.3914,
+    "lat": 39.9027,
+    "peaks": [
+      {
+        "dates": [
+          "2027-02-20",
+          "2028-02-09"
+        ],
+        "spread": 1
+      }
+    ],
+    "when": "20 February 2027, 9 February 2028 (15th day of the first lunar month)",
+    "summary": "Marks the end of the New Year season with lantern displays, riddles and tangyuan rice balls.",
+    "aliases": [
+      "yuanxiao",
+      "元宵节",
+      "yuan xiao jie",
+      "lantern festival",
+      "tangyuan"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Lantern_Festival"
+    }
+  },
+  {
+    "id": "cn-qingming",
+    "name": "Qingming (Tomb-Sweeping Day)",
+    "category": "holiday",
+    "tier": 2,
+    "icon": "calendar",
+    "country": "CN",
+    "lon": 116.3914,
+    "lat": 39.9027,
+    "peaks": [
+      {
+        "on": "04-05",
+        "spread": 2
+      }
+    ],
+    "when": "about 4-5 April, nationwide",
+    "summary": "Families visit and clean graves; a public holiday and the start of the spring outing season.",
+    "approx": true,
+    "crowd": "Cemeteries and spring-outing spots are crowded over the three-day break.",
+    "aliases": [
+      "qingming",
+      "清明节",
+      "tomb sweeping",
+      "ching ming"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Qingming_Festival"
+    }
+  },
+  {
+    "id": "cn-dragon-boat",
+    "name": "Dragon Boat Festival (Duanwu)",
+    "category": "festival",
+    "tier": 2,
+    "icon": "boat",
+    "country": "CN",
+    "lon": 116.3914,
+    "lat": 39.9027,
+    "peaks": [
+      {
+        "dates": [
+          "2027-06-09",
+          "2028-05-28"
+        ],
+        "spread": 2
+      }
+    ],
+    "when": "9 June 2027, 28 May 2028 (5th day of the fifth lunar month)",
+    "summary": "Dragon boat races on rivers and lakes, with zongzi rice dumplings.",
+    "details": "A three-day public holiday. The 2028 date is given as 28 May by most sources; some list other dates, so check it nearer the time.",
+    "aliases": [
+      "duanwu",
+      "端午节",
+      "duanwu jie",
+      "zongzi",
+      "dragon boat"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Dragon_Boat_Festival"
+    }
+  },
+  {
+    "id": "cn-qixi",
+    "name": "Qixi Festival (Chinese Valentine's Day)",
+    "category": "festival",
+    "tier": 3,
+    "icon": "moon",
+    "country": "CN",
+    "lon": 116.3914,
+    "lat": 39.9027,
+    "peaks": [
+      {
+        "dates": [
+          "2027-08-08",
+          "2028-08-26"
+        ],
+        "spread": 1
+      }
+    ],
+    "when": "8 August 2027, 26 August 2028 (7th day of the seventh lunar month)",
+    "summary": "The legend of the weaver girl and the cowherd; a day for couples.",
+    "aliases": [
+      "qixi",
+      "七夕",
+      "chinese valentines day",
+      "double seventh"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Qixi_Festival"
+    }
+  },
+  {
+    "id": "cn-mid-autumn",
+    "name": "Mid-Autumn Festival",
+    "category": "festival",
+    "tier": 1,
+    "icon": "moon",
+    "country": "CN",
+    "lon": 116.3914,
+    "lat": 39.9027,
+    "peaks": [
+      {
+        "dates": [
+          "2027-09-15",
+          "2028-10-03"
+        ],
+        "spread": 2
+      }
+    ],
+    "when": "15 September 2027, 3 October 2028 (15th day of the eighth lunar month)",
+    "summary": "Full-moon festival of family reunion with mooncakes; the same day as Chuseok in Korea.",
+    "crowd": "Domestic travel is heavy; in some years it joins the National Day holiday.",
+    "aliases": [
+      "zhongqiu",
+      "中秋节",
+      "mooncake festival",
+      "moon festival"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Mid-Autumn_Festival"
+    }
+  },
+  {
+    "id": "cn-national-day",
+    "name": "National Day Golden Week",
+    "category": "holiday",
+    "tier": 1,
+    "icon": "calendar",
+    "country": "CN",
+    "lon": 116.3914,
+    "lat": 39.9027,
+    "peaks": [
+      {
+        "on": "10-01",
+        "spread": 3
+      }
+    ],
+    "when": "1 October, public holiday of about a week",
+    "summary": "China's other big travel week: every sight is full and prices are high.",
+    "crowd": "The most crowded week of the year at major sights, trains and airports.",
+    "price": "Hotels and flights at their yearly peak.",
+    "aliases": [
+      "golden week china",
+      "国庆节",
+      "guoqing",
+      "national day china",
+      "1 october"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/National_Day_of_the_People%27s_Republic_of_China"
+    }
+  },
+  {
+    "id": "cn-water-splashing",
+    "name": "Water-Splashing Festival (Dai New Year)",
+    "category": "festival",
+    "tier": 2,
+    "icon": "drops",
+    "lon": 100.7984,
+    "lat": 22.0148,
+    "peaks": [
+      {
+        "on": "04-14",
+        "spread": 1
+      }
+    ],
+    "when": "about 13-15 April, Xishuangbanna",
+    "summary": "The Dai New Year in Xishuangbanna: water fights in the streets of Jinghong, dragon boat races and floating lamps.",
+    "approx": true,
+    "aliases": [
+      "po shui jie",
+      "泼水节",
+      "dai new year",
+      "xishuangbanna",
+      "jinghong",
+      "water splashing"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Songkran"
+    }
+  },
+  {
+    "id": "cn-luoyang-peony",
+    "name": "Luoyang Peony Festival",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "sakura",
+    "lon": 112.4477,
+    "lat": 34.6197,
+    "peaks": [
+      {
+        "on": "04-18",
+        "spread": 12
+      }
+    ],
+    "when": "about 1 April to early May, Luoyang",
+    "summary": "Luoyang's peony festival: the city's parks fill with peonies in bloom.",
+    "approx": true,
+    "aliases": [
+      "peony",
+      "牡丹",
+      "luoyang",
+      "牡丹花会",
+      "luoyang peony"
+    ]
+  },
+  {
+    "id": "cn-weifang-kite",
+    "name": "Weifang International Kite Festival",
+    "category": "festival",
+    "tier": 3,
+    "lon": 119.1558,
+    "lat": 36.7075,
+    "peaks": [
+      {
+        "on": "04-20",
+        "spread": 3
+      }
+    ],
+    "when": "about 20 April, Weifang",
+    "summary": "Kite flyers from many countries meet in Weifang, \"the kite capital\".",
+    "approx": true,
+    "aliases": [
+      "kite festival",
+      "风筝节",
+      "weifang",
+      "潍坊国际风筝会"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Weifang"
+    }
+  },
+  {
+    "id": "cn-zigong-lantern",
+    "name": "Zigong Lantern Festival",
+    "category": "festival",
+    "tier": 3,
+    "icon": "lantern",
+    "lon": 104.6928,
+    "lat": 29.2996,
+    "peaks": [
+      {
+        "on": "02-20",
+        "spread": 25
+      }
+    ],
+    "when": "from the Spring Festival into March, Zigong",
+    "summary": "Giant sculpted lantern displays in Sichuan; one of the largest lantern shows in China.",
+    "approx": true,
+    "aliases": [
+      "zigong",
+      "自贡灯会",
+      "lantern show",
+      "zigong lantern"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Zigong"
+    }
+  },
+  {
+    "id": "cn-qingdao-beer",
+    "name": "Qingdao International Beer Festival",
+    "category": "festival",
+    "tier": 2,
+    "lon": 120.3424,
+    "lat": 36.0787,
+    "peaks": [
+      {
+        "on": "08-05",
+        "spread": 15
+      }
+    ],
+    "when": "about late July to late August, Qingdao",
+    "summary": "A month of beer tents, music and street food by the sea in Qingdao.",
+    "approx": true,
+    "aliases": [
+      "qingdao beer",
+      "青岛啤酒节",
+      "tsingtao",
+      "beer festival"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Qingdao_International_Beer_Festival"
+    }
+  },
+  {
+    "id": "cn-shoton",
+    "name": "Shoton Festival (Lhasa)",
+    "category": "festival",
+    "tier": 3,
+    "lon": 91.117,
+    "lat": 29.6576,
+    "peaks": [
+      {
+        "on": "08-25",
+        "spread": 4
+      }
+    ],
+    "when": "about late August, Lhasa (Tibetan calendar)",
+    "summary": "The yogurt festival: a giant thangka is unveiled and Tibetan opera is staged at Norbulingka.",
+    "approx": true,
+    "aliases": [
+      "shoton",
+      "雪顿节",
+      "yogurt festival",
+      "lhasa"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Shoton"
+    }
+  }
+]

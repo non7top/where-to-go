@@ -2,6 +2,9 @@ import type { RainLevel } from '../lib/rain';
 
 export type Level = 'country' | 'province' | 'city' | 'island';
 export type Equipment = 'yes' | 'partial' | 'no';
+export type IconName =
+  | 'maple' | 'ginkgo' | 'sakura' | 'book' | 'note' | 'drops' | 'lantern' | 'boat' | 'snow'
+  | 'monitor' | 'moon' | 'grass' | 'calendar' | 'star' | 'booth';
 export type EventCategory = 'festival' | 'fair' | 'seasonal' | 'holiday' | 'concert';
 
 export interface AreaProps {
@@ -34,6 +37,7 @@ export interface MapEvent {
   peaks?: Peak[];
   fronts?: Front[];
   links?: { wiki?: string; official?: string };
+  icon?: IconName;
   when: string;
   approx?: boolean;
   summary: string;
@@ -54,6 +58,8 @@ export interface Peak {
 // A season that sweeps across a country: the peak date follows latitude, with per-area overrides.
 export interface Front {
   country: string;
+  label?: string;
+  aliases?: string[];
   anchors: [number, string][];
   spread: number;
   minLat?: number;

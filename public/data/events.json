@@ -46,7 +46,8 @@
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Songkran_(Thailand)",
       "official": "https://www.tourismthailand.org/"
-    }
+    },
+    "icon": "drops"
   },
   {
     "id": "loy-krathong",
@@ -66,7 +67,8 @@
     ],
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Loy_Krathong"
-    }
+    },
+    "icon": "lantern"
   },
   {
     "id": "awa-odori",
@@ -104,7 +106,8 @@
     ],
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Gion_Matsuri"
-    }
+    },
+    "icon": "lantern"
   },
   {
     "id": "sapporo-snow",
@@ -123,7 +126,8 @@
     ],
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Sapporo_Snow_Festival"
-    }
+    },
+    "icon": "snow"
   },
   {
     "id": "harbin-ice",
@@ -142,7 +146,8 @@
     ],
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Harbin_International_Ice_and_Snow_Sculpture_Festival"
-    }
+    },
+    "icon": "snow"
   },
   {
     "id": "comiket",
@@ -168,7 +173,8 @@
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Comiket",
       "official": "https://www.comiket.co.jp/"
-    }
+    },
+    "icon": "book"
   },
   {
     "id": "silver-grass-seoul",
@@ -184,7 +190,8 @@
         "on": "10-15",
         "spread": 7
       }
-    ]
+    ],
+    "icon": "grass"
   },
   {
     "id": "chuseok",
@@ -205,7 +212,8 @@
     ],
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Chuseok"
-    }
+    },
+    "icon": "moon"
   },
   {
     "id": "golden-week",
@@ -253,7 +261,8 @@
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Thai_National_Book_Fair",
       "official": "https://www.thailand.go.th/event-detail/54th-national-book-fair--24th-bangkok-international-book-fair-2026"
-    }
+    },
+    "icon": "book"
   },
   {
     "id": "tibe",
@@ -272,7 +281,8 @@
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Taipei_International_Book_Exhibition",
       "official": "https://www.tibe.org.tw/en/"
-    }
+    },
+    "icon": "book"
   },
   {
     "id": "bibf",
@@ -287,7 +297,8 @@
       }
     ],
     "when": "16-20 June 2027",
-    "summary": "Large annual publishing fair in Beijing."
+    "summary": "Large annual publishing fair in Beijing.",
+    "icon": "book"
   },
   {
     "id": "hk-book-fair",
@@ -307,7 +318,8 @@
     "crowd": "Extremely crowded; some days are shut to new entries.",
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Hong_Kong_Book_Fair"
-    }
+    },
+    "icon": "book"
   },
   {
     "id": "sibf",
@@ -323,7 +335,8 @@
     ],
     "when": "late June (2027 dates not announced; 2026 was 24-28 June)",
     "approx": true,
-    "summary": "Seoul's main book fair, held at COEX."
+    "summary": "Seoul's main book fair, held at COEX.",
+    "icon": "book"
   },
   {
     "id": "klibf",
@@ -342,7 +355,8 @@
     "summary": "Ten-day book fair at the World Trade Centre Kuala Lumpur.",
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Kuala_Lumpur_International_Book_Fair"
-    }
+    },
+    "icon": "book"
   },
   {
     "id": "mibf",
@@ -358,7 +372,8 @@
     ],
     "when": "mid September (2027 dates not announced; 2026 was 9-13 September)",
     "approx": true,
-    "summary": "Philippine book fair at the SMX Convention Center."
+    "summary": "Philippine book fair at the SMX Convention Center.",
+    "icon": "book"
   },
   {
     "id": "canton-fair",
@@ -403,7 +418,8 @@
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Computex",
       "official": "https://www.computex.biz/"
-    }
+    },
+    "icon": "monitor"
   },
   {
     "id": "tokyo-game-show",
@@ -422,7 +438,8 @@
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Tokyo_Game_Show",
       "official": "https://tgs.cesa.or.jp/en/"
-    }
+    },
+    "icon": "monitor"
   },
   {
     "id": "animejapan",
@@ -442,7 +459,8 @@
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/AnimeJapan",
       "official": "https://www.anime-japan.jp/en/"
-    }
+    },
+    "icon": "monitor"
   },
   {
     "id": "hk-dragon-boat",
@@ -476,6 +494,7 @@
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Dragon_Boat_Festival",
       "official": "https://www.discoverhongkong.com/"
-    }
+    },
+    "icon": "boat"
   }
 ]

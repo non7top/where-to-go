@@ -1,16 +1,6 @@
-import type { EventCategory } from '../data/types';
-
 export const RAIN_PATTERNS = { moderate: 'rain-moderate', heavy: 'rain-heavy' } as const;
 
-export const CATEGORY_COLORS: Record<EventCategory, string> = {
-  festival: '#d6336c',
-  fair: '#7048e8',
-  seasonal: '#0b8f7f',
-  holiday: '#c47f00',
-  concert: '#1971c2',
-};
-
-function canvas(w: number, h: number): [HTMLCanvasElement, CanvasRenderingContext2D] {
+export function canvas(w: number, h: number): [HTMLCanvasElement, CanvasRenderingContext2D] {
   const c = document.createElement('canvas');
   c.width = w;
   c.height = h;
@@ -42,69 +32,6 @@ export function rainTile(kind: keyof typeof RAIN_PATTERNS): HTMLCanvasElement {
 
 export function tileImage(c: HTMLCanvasElement): ImageData {
   return c.getContext('2d')!.getImageData(0, 0, c.width, c.height);
-}
-
-function glyph(ctx: CanvasRenderingContext2D, category: EventCategory, color: string) {
-  ctx.fillStyle = color;
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 3;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  switch (category) {
-    case 'festival': {
-      ctx.beginPath();
-      for (let i = 0; i < 10; i++) {
-        const r = i % 2 === 0 ? 12 : 5;
-        const a = -Math.PI / 2 + (i * Math.PI) / 5;
-        ctx.lineTo(24 + r * Math.cos(a), 25 + r * Math.sin(a));
-      }
-      ctx.closePath();
-      ctx.fill();
-      break;
-    }
-    case 'fair': {
-      ctx.beginPath();
-      ctx.moveTo(24, 12);
-      ctx.lineTo(36, 24);
-      ctx.lineTo(12, 24);
-      ctx.closePath();
-      ctx.fill();
-      ctx.fillRect(14, 25, 20, 10);
-      break;
-    }
-    case 'seasonal': {
-      ctx.beginPath();
-      ctx.ellipse(24, 24, 7, 13, Math.PI / 4, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 1.8;
-      ctx.beginPath();
-      ctx.moveTo(17, 31);
-      ctx.lineTo(31, 17);
-      ctx.stroke();
-      break;
-    }
-    case 'holiday': {
-      ctx.lineWidth = 2.5;
-      ctx.strokeRect(13, 15, 22, 19);
-      ctx.fillRect(13, 15, 22, 6);
-      ctx.fillRect(18, 25, 4, 4);
-      ctx.fillRect(26, 25, 4, 4);
-      break;
-    }
-    case 'concert': {
-      ctx.beginPath();
-      ctx.ellipse(19, 33, 5.5, 4, -0.4, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(23.5, 32);
-      ctx.lineTo(23.5, 13);
-      ctx.lineTo(32, 17);
-      ctx.stroke();
-      break;
-    }
-  }
 }
 
 export function starIcon(): ImageData {
@@ -145,23 +72,5 @@ export function clusterIcon(): ImageData {
   ctx.moveTo(24, 15);
   ctx.lineTo(24, 33);
   ctx.stroke();
-  return ctx.getImageData(0, 0, 48, 48);
-}
-
-// White disc with a colored ring so the icon stands out on every temperature color.
-export function eventIcon(category: EventCategory): ImageData {
-  const [, ctx] = canvas(48, 48);
-  ctx.fillStyle = 'rgba(0,0,0,0.28)';
-  ctx.beginPath();
-  ctx.arc(24, 25, 22, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#fff';
-  ctx.beginPath();
-  ctx.arc(24, 24, 21, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = CATEGORY_COLORS[category];
-  ctx.lineWidth = 3;
-  ctx.stroke();
-  glyph(ctx, category, CATEGORY_COLORS[category]);
   return ctx.getImageData(0, 0, 48, 48);
 }

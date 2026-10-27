@@ -1,4 +1,4 @@
-import type { AreaProps, MapEvent } from '../data/types';
+import type { AreaProps, IconName, MapEvent } from '../data/types';
 import { dayFromMonthDay, isActive } from './season';
 
 export const CATEGORY_LABELS: Record<MapEvent['category'], string> = {
@@ -9,6 +9,19 @@ export const CATEGORY_LABELS: Record<MapEvent['category'], string> = {
   concert: 'Concert',
 };
 
+const DEFAULT_ICON: Record<MapEvent['category'], IconName> = {
+  festival: 'star',
+  fair: 'booth',
+  seasonal: 'sakura',
+  holiday: 'calendar',
+  concert: 'note',
+};
+
+// An event's own icon, else the default for its category.
+export function iconFor(e: Pick<MapEvent, 'icon' | 'category'>): IconName {
+  return e.icon ?? DEFAULT_ICON[e.category];
+}
+
 export interface Occurrence {
   eventId: string;
   lon: number;
@@ -16,6 +29,8 @@ export interface Occurrence {
   day: number;
   spread: number;
   areaId?: string;
+  country?: string;
+  label?: string;
 }
 
 export interface StarPoint {
@@ -51,7 +66,7 @@ export function buildOccurrences(
   const stars: StarPoint[] = [];
   for (const e of events) {
     for (const p of e.peaks ?? []) {
-      occurrences.push({ eventId: e.id, lon: e.lon, lat: e.lat, day: dayFromMonthDay(p.on), spread: p.spread });
+      occurrences.push({ eventId: e.id, lon: e.lon, lat: e.lat, day: dayFromMonthDay(p.on), spread: p.spread, country: e.country });
     }
     for (const f of e.fronts ?? []) {
       const overrides = new Map((f.overrides ?? []).map((o) => [o.areaId, o]));
@@ -60,7 +75,7 @@ export function buildOccurrences(
         const o = overrides.get(a.id);
         if (!o && f.minLat !== undefined && a.point[1] < f.minLat) continue;
         const day = o ? dayFromMonthDay(o.on) : peakFromAnchors(a.point[1], f.anchors);
-        occurrences.push({ eventId: e.id, lon: a.point[0], lat: a.point[1], day, spread: o?.spread ?? f.spread, areaId: a.id });
+        occurrences.push({ eventId: e.id, lon: a.point[0], lat: a.point[1], day, spread: o?.spread ?? f.spread, areaId: a.id, country: f.country, label: f.label });
       }
     }
     for (const h of e.highlights ?? []) {

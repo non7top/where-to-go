@@ -44,7 +44,8 @@
             43.1,
             "04-29"
           ]
-        ]
+        ],
+        "label": "Sakura, hanami (桜, 花見)"
       },
       {
         "country": "KR",
@@ -66,7 +67,8 @@
             38.3,
             "04-13"
           ]
-        ]
+        ],
+        "label": "Beotkkot (벚꽃)"
       },
       {
         "country": "CN",
@@ -89,7 +91,8 @@
             39.9,
             "04-08"
           ]
-        ]
+        ],
+        "label": "Yinghua (樱花)"
       }
     ],
     "highlights": [
@@ -131,7 +134,8 @@
     ],
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Hanami"
-    }
+    },
+    "icon": "sakura"
   },
   {
     "id": "momiji",
@@ -142,7 +146,7 @@
     "when": "mid-October in the far north, late November to early December in the south",
     "approx": true,
     "summary": "The colour front moves south: peak in each area, plus or minus 7 days.",
-    "details": "Autumn colour starts in the north and the mountains and moves south. Dates are rough typical peaks (mostly from general knowledge, not a forecast) and shift by a week or two each year; the area table is meant to be corrected. Altitude is not modelled, so mountain areas peak earlier than shown. China is a very rough starter.",
+    "details": "Autumn colour starts in the north and the mountains and moves south. In Japan it is momiji (紅葉); in China hongye (红叶, traditional 紅葉), literally red leaf; in Korea danpung (단풍), also hong'yeop (홍엽), while the maple tree itself is danpungnamu (단풍나무). Dates are rough typical peaks from general knowledge, not a forecast; they shift by a week or two each year, and the area table is meant to be corrected. Altitude is not modelled, so mountain areas peak earlier than shown. China is a very rough starter.",
     "crowd": "Among the busiest times of the year at famous spots.",
     "price": "Hotel prices peak in Kyoto.",
     "fronts": [
@@ -175,6 +179,13 @@
             43.1,
             "10-20"
           ]
+        ],
+        "label": "Momiji (紅葉)",
+        "aliases": [
+          "koyo",
+          "kouyou",
+          "紅葉狩り",
+          "momijigari"
         ]
       },
       {
@@ -197,6 +208,15 @@
             38.3,
             "10-18"
           ]
+        ],
+        "label": "Danpung (단풍)",
+        "aliases": [
+          "danpungnamu",
+          "단풍나무",
+          "丹楓",
+          "hong'yeop",
+          "홍엽",
+          "紅葉"
         ]
       },
       {
@@ -220,6 +240,12 @@
             47.0,
             "10-05"
           ]
+        ],
+        "label": "Hongye (红叶)",
+        "aliases": [
+          "hóngyè",
+          "紅葉",
+          "red leaf"
         ]
       }
     ],
@@ -262,6 +288,134 @@
     ],
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Momijigari"
+    },
+    "icon": "maple"
+  },
+  {
+    "id": "ginkgo",
+    "name": "Ginkgo leaves (icho)",
+    "category": "seasonal",
+    "icon": "ginkgo",
+    "lon": 135.0,
+    "lat": 35.0,
+    "when": "mid-October in the far north to early December in the south",
+    "approx": true,
+    "summary": "Golden ginkgo avenues: the colour front moves south, a little after the maple leaves in Japan.",
+    "details": "Ginkgo avenues turn gold and drop their leaves, often a week or so after the maples. Dates are rough typical peaks from general knowledge, not a forecast; they shift by a week or two each year, and the area table is meant to be corrected. China is a very rough starter.",
+    "crowd": "Famous avenues are crowded at the peak, especially at weekends.",
+    "fronts": [
+      {
+        "country": "JP",
+        "spread": 7,
+        "minLat": 30,
+        "anchors": [
+          [
+            31.6,
+            "12-08"
+          ],
+          [
+            33.6,
+            "12-05"
+          ],
+          [
+            35.7,
+            "12-02"
+          ],
+          [
+            38.3,
+            "11-15"
+          ],
+          [
+            40.8,
+            "11-03"
+          ],
+          [
+            43.1,
+            "10-23"
+          ]
+        ],
+        "label": "Icho (イチョウ)"
+      },
+      {
+        "country": "KR",
+        "spread": 7,
+        "anchors": [
+          [
+            33.3,
+            "11-15"
+          ],
+          [
+            35.2,
+            "11-15"
+          ],
+          [
+            37.6,
+            "11-05"
+          ],
+          [
+            38.3,
+            "10-25"
+          ]
+        ],
+        "label": "Eunhaeng (은행나무)"
+      },
+      {
+        "country": "CN",
+        "spread": 7,
+        "minLat": 28,
+        "anchors": [
+          [
+            30.0,
+            "11-30"
+          ],
+          [
+            34.3,
+            "11-18"
+          ],
+          [
+            40.0,
+            "11-05"
+          ],
+          [
+            47.0,
+            "10-12"
+          ]
+        ],
+        "label": "Yinxing (银杏)"
+      }
+    ],
+    "highlights": [
+      {
+        "name": "Meiji Jingu Gaien avenue, Tokyo",
+        "lon": 139.7188,
+        "lat": 35.6743,
+        "on": "11-28",
+        "spread": 7
+      },
+      {
+        "name": "Hokkaido University avenue, Sapporo",
+        "lon": 141.3406,
+        "lat": 43.0771,
+        "on": "10-23",
+        "spread": 7
+      },
+      {
+        "name": "Namiseom, Korea",
+        "lon": 127.5253,
+        "lat": 37.7913,
+        "on": "10-30",
+        "spread": 7
+      },
+      {
+        "name": "Diaoyutai ginkgo avenue, Beijing",
+        "lon": 116.3119,
+        "lat": 39.9174,
+        "on": "11-05",
+        "spread": 7
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Ginkgo_biloba"
     }
   }
 ]

@@ -3,7 +3,7 @@ import { DAYS_LIMIT, etaText, etaToDay } from '../src/lib/timeuntil';
 import {
   circDist, dayFromMonthDay, dayLabel, dayOfYear, interpMonthly, isActive, MID_DAY, monthOfDay, sectionLabel, seasonOf, SEASONS, wrapDay,
 } from '../src/lib/season';
-import { buildOccurrences, peakFromAnchors } from '../src/lib/events';
+import { buildOccurrences, iconFor, peakFromAnchors } from '../src/lib/events';
 import { dayToDeg, degToDay, pointerDeg, polar, sectorPath, turn } from '../src/lib/ring';
 import { dayAtX, drumScale, drumX, offsetFrom, onFront, VISIBLE_DAYS } from '../src/lib/dial';
 import type { AreaProps, MapEvent } from '../src/data/types';
@@ -182,5 +182,13 @@ describe('seasons', () => {
     expect(seasonOf(dayFromMonthDay('01-20')).name).toBe('Winter');
     expect(seasonOf(dayFromMonthDay('02-28')).name).toBe('Winter');
     expect(seasonOf(dayFromMonthDay('03-01')).name).toBe('Spring');
+  });
+});
+
+describe('iconFor', () => {
+  it('uses the event icon, else the category default', () => {
+    expect(iconFor({ category: 'seasonal', icon: 'maple' })).toBe('maple');
+    expect(iconFor({ category: 'concert' })).toBe('note');
+    expect(iconFor({ category: 'fair' })).toBe('booth');
   });
 });

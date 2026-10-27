@@ -194,6 +194,15 @@
                 },
                 "additionalProperties": false
               }
+            },
+            "label": {
+              "type": "string"
+            },
+            "aliases": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           },
           "additionalProperties": false
@@ -212,6 +221,25 @@
           }
         },
         "additionalProperties": false
+      },
+      "icon": {
+        "enum": [
+          "maple",
+          "ginkgo",
+          "sakura",
+          "book",
+          "note",
+          "drops",
+          "lantern",
+          "boat",
+          "snow",
+          "monitor",
+          "moon",
+          "grass",
+          "calendar",
+          "star",
+          "booth"
+        ]
       }
     },
     "additionalProperties": false,

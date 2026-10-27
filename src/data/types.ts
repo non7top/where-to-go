@@ -5,7 +5,7 @@ export type Equipment = 'yes' | 'partial' | 'no';
 export type IconName =
   | 'maple' | 'ginkgo' | 'sakura' | 'book' | 'note' | 'drops' | 'lantern' | 'boat' | 'snow'
   | 'monitor' | 'moon' | 'grass' | 'calendar' | 'star' | 'booth'
-  | 'fireworks' | 'lily' | 'wisteria' | 'hydrangea' | 'lavender' | 'sunflower' | 'plum' | 'cosmos' | 'firefly' | 'whale' | 'sun';
+  | 'fireworks' | 'lily' | 'wisteria' | 'hydrangea' | 'lavender' | 'sunflower' | 'plum' | 'cosmos' | 'firefly' | 'whale' | 'sun' | 'strawberry';
 export type EventCategory = 'festival' | 'fair' | 'seasonal' | 'holiday' | 'concert';
 
 export interface AreaProps {
@@ -66,9 +66,11 @@ export interface PeakRule {
   weekday: Weekday;
 }
 
-// Either a fixed day of the year (`on`) or a weekday rule (`rule`, lasting `length` days from that day).
+// A fixed day of the year (`on`), a weekday rule (`rule`) or a list of full dates for moving feasts (`dates`),
+// the latter two lasting `length` days from that day.
 export interface Peak {
   on?: string;
+  dates?: string[];
   rule?: PeakRule;
   length?: number;
   spread: number;

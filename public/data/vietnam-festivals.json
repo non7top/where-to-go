@@ -1,0 +1,87 @@
+[
+  {
+    "id": "tet",
+    "name": "Tet (Vietnamese New Year)",
+    "category": "festival",
+    "tier": 1,
+    "icon": "lantern",
+    "country": "VN",
+    "lon": 105.8358,
+    "lat": 21.037,
+    "peaks": [
+      {
+        "dates": [
+          "2027-02-06",
+          "2028-01-26"
+        ],
+        "spread": 4
+      }
+    ],
+    "when": "27 January-3 February 2027 region: Tet day 6 February 2027, 26 January 2028; the break is about a week",
+    "summary": "Vietnam's biggest holiday: families travel home, many shops close for days, and cities fill with flowers and lights.",
+    "details": "The lunar new year, falling on the same day as Chinese New Year. In the days before, flower streets and markets open; on Tet itself many restaurants and shops are closed and transport is full. The length of the official break is set each year by the government.",
+    "crowd": "Travel peaks at both ends of the break; trains and flights sell out.",
+    "price": "Hotels and flights rise sharply; some places close.",
+    "perk": "Flower streets, lion dances and fireworks in the main cities.",
+    "aliases": [
+      "tet nguyen dan",
+      "tết",
+      "tết nguyên đán",
+      "lunar new year",
+      "vietnamese new year"
+    ],
+    "highlights": [
+      {
+        "name": "Hanoi (Hoan Kiem Lake and the flower market)",
+        "lon": 105.8525,
+        "lat": 21.0288,
+        "note": "Flower market and fireworks around the lake."
+      },
+      {
+        "name": "Ho Chi Minh City (Nguyen Hue flower street)",
+        "lon": 106.704,
+        "lat": 10.7737,
+        "note": "Flower street along Nguyen Hue walking street."
+      },
+      {
+        "name": "Hoi An",
+        "lon": 108.324,
+        "lat": 15.878,
+        "note": "Lanterns and lion dances in the old town."
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/T%E1%BA%BFt"
+    }
+  },
+  {
+    "id": "vn-national-day",
+    "name": "National Day (Independence Day)",
+    "category": "holiday",
+    "tier": 1,
+    "icon": "calendar",
+    "country": "VN",
+    "lon": 105.8358,
+    "lat": 21.037,
+    "peaks": [
+      {
+        "on": "09-02",
+        "spread": 1
+      }
+    ],
+    "when": "2 September, nationwide (the break around it is set each year)",
+    "summary": "Vietnam's National Day marks the 1945 Declaration of Independence; Hanoi has a ceremony at Ba Dinh Square.",
+    "details": "Celebrated on 2 September with a parade or ceremony at Ba Dinh Square, fireworks and concerts. The holiday often runs a day or more beyond the 2nd, depending on that year's announcement. Reunification Day, 30 April, is a separate holiday.",
+    "crowd": "Domestic travel is heavy over the long weekend.",
+    "aliases": [
+      "independence day vietnam",
+      "quoc khanh",
+      "quốc khánh",
+      "2 september",
+      "national day vietnam"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Independence_Day_%28Vietnam%29"
+    }
+  }
+]

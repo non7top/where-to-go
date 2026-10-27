@@ -536,6 +536,28 @@ export const ICONS: Record<IconName, Icon> = {
       line(ctx, 6, 21, 18, 21);
     },
   },
+  strawberry: {
+    color: '#d6202f',
+    draw(ctx, c) {
+      ctx.fillStyle = c;
+      ctx.beginPath();
+      ctx.moveTo(12, 21.5);
+      ctx.bezierCurveTo(5, 17, 3.2, 12, 4.6, 8.8);
+      ctx.bezierCurveTo(6.4, 6.6, 9.6, 7.4, 12, 8.6);
+      ctx.bezierCurveTo(14.4, 7.4, 17.6, 6.6, 19.4, 8.8);
+      ctx.bezierCurveTo(20.8, 12, 19, 17, 12, 21.5);
+      ctx.fill();
+      ctx.fillStyle = '#fde9a8';
+      for (const [x, y] of [[8.4, 11.6], [12, 11.2], [15.6, 11.6], [10.2, 14.8], [13.8, 14.8], [12, 18]] as const) {
+        ctx.beginPath();
+        ctx.ellipse(x, y, 0.7, 1, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = '#3d8b3d';
+      polygon(ctx, [[12, 8.4], [8.2, 5.6], [10.4, 7.4], [10.8, 3.8], [12, 6.6], [13.2, 3.8], [13.6, 7.4], [15.8, 5.6]]);
+      ctx.fill();
+    },
+  },
 };
 
 export const ICON_NAMES = Object.keys(ICONS) as IconName[];

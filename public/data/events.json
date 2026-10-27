@@ -55,20 +55,39 @@
     "category": "festival",
     "lon": 98.99,
     "lat": 18.79,
-    "when": "24 November 2026 (full moon of the 12th lunar month; later years differ)",
+    "when": "24 November 2026, 13 November 2027 (full moon of the 12th lunar month; sources differ by a day), all over Thailand",
     "approx": true,
-    "summary": "Floating lanterns and krathong boats, Chiang Mai.",
-    "details": "Lanterns released into the sky and krathong floated on water at the November full moon.",
+    "summary": "Krathong floats and lanterns on the full moon of the 12th lunar month, in every town; Yi Peng lantern release in Chiang Mai.",
+    "details": "Krathong floats are set on rivers and ponds across Thailand. Chiang Mai adds Yi Peng, with thousands of sky lanterns released the same nights.",
     "peaks": [
       {
-        "on": "11-24",
+        "dates": [
+          "2026-11-24",
+          "2027-11-13"
+        ],
         "spread": 2
       }
     ],
     "links": {
       "wiki": "https://en.wikipedia.org/wiki/Loy_Krathong"
     },
-    "icon": "lantern"
+    "icon": "lantern",
+    "country": "TH",
+    "aliases": [
+      "loi krathong",
+      "loi kratong",
+      "yi peng",
+      "yee peng",
+      "ลอยกระทง"
+    ],
+    "highlights": [
+      {
+        "name": "Chiang Mai (Yi Peng)",
+        "lon": 98.99,
+        "lat": 18.79,
+        "note": "Mass sky-lantern release; the most famous celebration."
+      }
+    ]
   },
   {
     "id": "awa-odori",
@@ -199,14 +218,17 @@
     "category": "holiday",
     "lon": 126.98,
     "lat": 37.58,
-    "when": "about 14-16 September 2027 (autumn full moon; the date moves each year)",
-    "approx": true,
+    "when": "15th day of the 8th lunar month: 25 September 2026, 15 September 2027, 3 October 2028 (the holiday runs a day either side)",
     "summary": "Korean harvest holiday with many events and festivals.",
     "crowd": "More tourists than usual.",
     "perk": "Free entrance to the palaces and to many events and festivals.",
     "peaks": [
       {
-        "on": "09-15",
+        "dates": [
+          "2026-09-25",
+          "2027-09-15",
+          "2028-10-03"
+        ],
         "spread": 1
       }
     ],

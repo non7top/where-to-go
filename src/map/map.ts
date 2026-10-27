@@ -457,8 +457,10 @@ export class WeatherMap {
       map.setPaintProperty(`line-${level}`, 'line-color', css(level === 'city' ? '--text' : '--outline'));
     }
     map.setPaintProperty('border-country', 'line-color', css('--border-strong'));
-    map.setPaintProperty('event-halo', 'circle-color', css('--accent'));
-    map.setPaintProperty('event-halo', 'circle-stroke-color', css('--accent'));
+    if (map.getLayer('event-halo')) {
+      map.setPaintProperty('event-halo', 'circle-color', css('--accent'));
+      map.setPaintProperty('event-halo', 'circle-stroke-color', css('--accent'));
+    }
     map.setPaintProperty('scope-fill', 'fill-color', css('--accent'));
     map.setPaintProperty('scope-line', 'line-color', css('--accent'));
     map.setPaintProperty('area-hover', 'line-color', css('--text'));

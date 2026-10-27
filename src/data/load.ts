@@ -25,16 +25,15 @@ const read = <T>(name: string): Promise<T> => (inline ? Promise.resolve(inline[n
 
 // The only place that knows where data comes from; a backend can replace these URLs later.
 export async function loadAll(): Promise<AppData> {
-  const [areas, land, climate, events, concerts, fronts, shortcuts] = await Promise.all([
+  const [areas, land, climate, shortcuts, eventFiles] = await Promise.all([
     read<AppData['areas']>('areas.geojson'),
     read<AppData['land']>('land.geojson'),
     read<AppData['climate']>('climate.json'),
-    read<MapEvent[]>('events.json'),
-    read<MapEvent[]>('concerts.json'),
-    read<MapEvent[]>('fronts.json'),
     read<Shortcut[]>('shortcuts.json'),
+    // Event data is split across files (by kind and region); this list says which to load.
+    read<string[]>('event-files.json'),
   ]);
-  const all = [...events, ...concerts, ...fronts];
+  const all = (await Promise.all(eventFiles.map((f) => read<MapEvent[]>(f)))).flat();
   const { occurrences, stars } = buildOccurrences(all, areas.features.map((f) => f.properties));
   return { areas, land, climate, events: all, occurrences, stars, shortcuts };
 }

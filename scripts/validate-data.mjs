@@ -25,29 +25,31 @@ function assert(cond, msg) {
 
 const areas = await json('public/data/areas.geojson');
 const climate = await json('public/data/climate.json');
-const events = await json('public/data/events.json');
-const concerts = await json('public/data/concerts.json');
-const fronts = await json('public/data/fronts.json');
+const eventFiles = await json('public/data/event-files.json');
 
 check('areas.geojson', await json('specs/001-static-map-prototype/contracts/areas.schema.json'), areas);
 const climateSchema = await json('specs/001-static-map-prototype/contracts/climate.schema.json');
 check('climate.json', climateSchema, climate);
 const eventsSchema = await json('specs/001-static-map-prototype/contracts/events.schema.json');
-check('events.json', eventsSchema, events);
-check('concerts.json', eventsSchema, concerts);
-check('fronts.json', eventsSchema, fronts);
+const allEvents = [];
+for (const f of eventFiles) {
+  const list = await json(`public/data/${f}`);
+  check(f, eventsSchema, list);
+  allEvents.push(...list);
+}
 
 const areaIds = new Set(areas.features.map((f) => f.properties.id));
 assert(areaIds.size === areas.features.length, 'duplicate area ids');
 for (const id of areaIds) assert(id in climate, `no climate for area ${id}`);
 for (const id of Object.keys(climate)) assert(areaIds.has(id), `climate for unknown area ${id}`);
-for (const e of [...events, ...concerts, ...fronts]) {
+for (const e of allEvents) {
   if (e.areaId) assert(areaIds.has(e.areaId), `event ${e.id}: unknown areaId ${e.areaId}`);
   for (const f of e.fronts ?? []) {
     for (const o of f.overrides ?? []) assert(areaIds.has(o.areaId), `event ${e.id}: front override for unknown area ${o.areaId}`);
   }
 }
-const ids = [...events, ...concerts, ...fronts].map((e) => e.id);
-assert(new Set(ids).size === ids.length, 'duplicate event ids');
+const ids = allEvents.map((e) => e.id);
+assert(new Set(ids).size === ids.length, `duplicate event ids: ${ids.filter((x, i) => ids.indexOf(x) !== i).join(', ')}`);
+console.log(`${allEvents.length} events in ${eventFiles.length} files`);
 
 if (failed) process.exit(1);

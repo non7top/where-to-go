@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Where to go</title>
+    <meta name="description" content="Pick when and where to travel in East and Southeast Asia by monthly weather." />
+    <link rel="icon" href="data:," />
+  </head>
+  <body>
+    <div id="app">
+      <div id="map" aria-label="Map of East and Southeast Asia colored by monthly weather"></div>
+
+      <header class="topbar">
+        <h1>Where to go</h1>
+        <div class="tools">
+          <button id="shortcuts-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="shortcut-menu">Places</button>
+          <button id="reset-btn" type="button">Reset view</button>
+        </div>
+        <ul id="shortcut-menu" role="menu" hidden></ul>
+      </header>
+
+      <button id="inset" type="button" aria-label="Jump to Okinawa">
+        <div id="inset-map"></div>
+        <span class="inset-label">Okinawa</span>
+      </button>
+
+      <aside id="legend" aria-label="Legend"></aside>
+      <div id="month-bar"></div>
+      <aside id="panel" hidden></aside>
+      <div id="tooltip" role="tooltip" hidden></div>
+      <div id="error" role="alert" hidden></div>
+      <footer class="credits">Boundaries: Natural Earth. Climate: NASA POWER, 2015-2024 monthly means. Approximate.</footer>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -3,7 +3,7 @@ import { DAYS_LIMIT, etaText, etaToDay } from '../src/lib/timeuntil';
 import {
   circDist, dateLabel, dayFromMonthDay, dayLabel, dayOfYear, nthWeekday, interpMonthly, isActive, MID_DAY, monthOfDay, sectionLabel, seasonOf, SEASONS, wrapDay,
 } from '../src/lib/season';
-import { buildOccurrences, iconFor, peakFromAnchors, peakWindows } from '../src/lib/events';
+import { buildOccurrences, iconFor, nearestCountry, peakFromAnchors, peakWindows } from '../src/lib/events';
 import { dayToDeg, degToDay, pointerDeg, polar, sectorPath, turn } from '../src/lib/ring';
 import { dayAtX, drumScale, drumX, offsetFrom, onFront, VISIBLE_DAYS } from '../src/lib/dial';
 import type { AreaProps, MapEvent } from '../src/data/types';
@@ -103,6 +103,36 @@ describe('fronts', () => {
     expect(occurrences.map((o) => o.tier)).toEqual([3, 3]);
     expect(stars.map((st) => st.tier)).toEqual([3]);
     expect(buildOccurrences([{ ...e, tier: undefined }], []).occurrences[0]!.tier).toBe(1);
+  });
+});
+
+describe('dates listed per year', () => {
+  const chuseok = { peaks: [{ dates: ['2026-09-25', '2027-09-15', '2028-10-03'], spread: 1 }] };
+  it('picks the first listed date whose window has not passed', () => {
+    expect(peakWindows(chuseok, new Date(2026, 8, 1))[0]!.dateLabel).toBe('25 Sep 2026');
+    expect(peakWindows(chuseok, new Date(2026, 8, 26))[0]!.dateLabel).toBe('25 Sep 2026');
+    expect(peakWindows(chuseok, new Date(2026, 9, 27))[0]).toMatchObject({ dateLabel: '15 Sep 2027', day: dayFromMonthDay('09-15') });
+    expect(peakWindows(chuseok, new Date(2027, 9, 27))[0]!.dateLabel).toBe('3 Oct 2028');
+  });
+  it('keeps the last date once all are over', () => {
+    expect(peakWindows(chuseok, new Date(2029, 0, 5))[0]!.dateLabel).toBe('3 Oct 2028');
+  });
+});
+
+describe('where an event is', () => {
+  const areas: AreaProps[] = [
+    { id: 'kr', name: 'Seoul', level: 'city', country: 'KR', point: [126.98, 37.57] },
+    { id: 'jp', name: 'Tokyo', level: 'province', country: 'JP', point: [139.7, 35.7] },
+    { id: 'cn', name: 'China', level: 'country', country: 'CN', point: [127, 37.5] },
+  ];
+  it('takes the country of the nearest area, ignoring country-level shapes', () => {
+    expect(nearestCountry(126.88, 37.57, areas)).toBe('KR');
+    expect(nearestCountry(139.77, 35.63, areas)).toBe('JP');
+  });
+  it('sets home on every occurrence', () => {
+    const e: MapEvent = { id: 'e', name: 'E', category: 'festival', lon: 126.88, lat: 37.57, when: '', summary: '', peaks: [{ on: '10-01', spread: 1 }] };
+    expect(buildOccurrences([e], areas).occurrences[0]!.home).toBe('KR');
+    expect(buildOccurrences([{ ...e, country: 'JP' }], areas).occurrences[0]!.home).toBe('JP');
   });
 });
 

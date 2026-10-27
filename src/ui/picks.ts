@@ -131,7 +131,7 @@ export class Picks {
         const occ = data.occurrences[g.best]!;
         const e = data.events.find((x) => x.id === occ.eventId);
         if (!e) return [];
-        const flag = occ.label && occ.country ? flagImg(occ.country) : '';
+        const flag = flagImg(occ.home);
         const detail = g.n > 1 ? `${g.n} areas, peak around ${dayLabel(occ.day)}` : e.when;
         return [`<li><button type="button" data-oi="${data.occurrences.indexOf(occ)}" data-ev="${esc(occ.eventId)}" data-cc="${esc(occ.label ? (occ.country ?? '') : '')}"><img class="ev-icon" alt="" src="${iconDataUrl(iconFor(e))}"><span class="pick-main"><b>${flag}${esc(occ.label ?? e.name)}</b><small>${CATEGORY_LABELS[e.category]}, ${esc(detail)}</small></span></button></li>`];
       });

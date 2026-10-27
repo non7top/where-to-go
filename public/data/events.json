@@ -199,14 +199,17 @@
     "category": "holiday",
     "lon": 126.98,
     "lat": 37.58,
-    "when": "about 14-16 September 2027 (autumn full moon; the date moves each year)",
-    "approx": true,
+    "when": "15th day of the 8th lunar month: 25 September 2026, 15 September 2027, 3 October 2028 (the holiday runs a day either side)",
     "summary": "Korean harvest holiday with many events and festivals.",
     "crowd": "More tourists than usual.",
     "perk": "Free entrance to the palaces and to many events and festivals.",
     "peaks": [
       {
-        "on": "09-15",
+        "dates": [
+          "2026-09-25",
+          "2027-09-15",
+          "2028-10-03"
+        ],
         "spread": 1
       }
     ],

@@ -136,6 +136,24 @@ describe('where an event is', () => {
   });
 });
 
+describe('nationwide events', () => {
+  const areas: AreaProps[] = [
+    { id: 'a', name: 'A', level: 'city', country: 'TH', point: [100.5, 13.7] },
+    { id: 'b', name: 'B', level: 'city', country: 'TH', point: [99, 18.8] },
+    { id: 'c', name: 'C', level: 'province', country: 'TH', point: [101, 15] },
+    { id: 'd', name: 'D', level: 'city', country: 'LA', point: [102.6, 17.9] },
+  ];
+  const e: MapEvent = { id: 'n', name: 'N', category: 'festival', country: 'TH', lon: 100.9, lat: 15.5, when: '', summary: '', peaks: [{ on: '04-14', spread: 1 }] };
+  it('gets one occurrence per major city of its country', () => {
+    const { occurrences } = buildOccurrences([e], areas);
+    expect(occurrences.map((o) => [o.lon, o.lat])).toEqual([[100.5, 13.7], [99, 18.8]]);
+  });
+  it('keeps its own point when the country has no city area', () => {
+    const { occurrences } = buildOccurrences([{ ...e, country: 'KH' }], areas);
+    expect(occurrences.map((o) => [o.lon, o.lat])).toEqual([[100.9, 15.5]]);
+  });
+});
+
 describe('etaToDay', () => {
   const today = new Date(2026, 9, 27);
   const at = (md: string) => etaToDay(today, dayFromMonthDay(md));

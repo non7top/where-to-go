@@ -125,8 +125,13 @@ export function buildOccurrences(
   for (const e of events) {
     const tier = e.tier ?? 1;
     const windows = peakWindows(e, now);
+    // A nationwide event is drawn in each major city of its country; one point only if the country has none.
+    const cities = e.country ? areas.filter((a) => a.level === 'city' && a.country === e.country) : [];
+    const places = cities.length ? cities.map((a) => ({ lon: a.point[0], lat: a.point[1] })) : [{ lon: e.lon, lat: e.lat }];
     for (const w of windows) {
-      occurrences.push({ eventId: e.id, lon: e.lon, lat: e.lat, day: w.day, spread: w.spread, country: e.country, home: e.country ?? nearestCountry(e.lon, e.lat, areas), tier, dateLabel: w.dateLabel });
+      for (const at of places) {
+        occurrences.push({ eventId: e.id, lon: at.lon, lat: at.lat, day: w.day, spread: w.spread, country: e.country, home: e.country ?? nearestCountry(at.lon, at.lat, areas), tier, dateLabel: w.dateLabel });
+      }
     }
     for (const f of e.fronts ?? []) {
       const overrides = new Map((f.overrides ?? []).map((o) => [o.areaId, o]));

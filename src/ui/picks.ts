@@ -132,7 +132,7 @@ export class Picks {
         const e = data.events.find((x) => x.id === occ.eventId);
         if (!e) return [];
         const flag = flagImg(occ.home);
-        const detail = g.n > 1 ? `${g.n} areas, peak around ${dayLabel(occ.day)}` : e.when;
+        const detail = g.n > 1 && !e.country ? `${g.n} areas, peak around ${dayLabel(occ.day)}` : e.when;
         return [`<li><button type="button" data-oi="${data.occurrences.indexOf(occ)}" data-ev="${esc(occ.eventId)}" data-cc="${esc(occ.label ? (occ.country ?? '') : '')}"><img class="ev-icon" alt="" src="${iconDataUrl(iconFor(e))}"><span class="pick-main"><b>${flag}${esc(occ.label ?? e.name)}</b><small>${CATEGORY_LABELS[e.category]}, ${esc(detail)}</small></span></button></li>`];
       });
     return rows.length ? `<ul>${rows.join('')}</ul>` : '<p class="sub">No listed events in this period.</p>';

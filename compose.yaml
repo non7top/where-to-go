@@ -1,0 +1,22 @@
+x-app: &app
+  build: .
+  user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
+  working_dir: /app
+  volumes:
+    - .:/app
+    - npm-cache:/home/app/.npm
+    - data-cache:/home/app/data-cache
+
+services:
+  app:
+    <<: *app
+
+  dev:
+    <<: *app
+    command: npm run dev
+    ports:
+      - "5173:5173"
+
+volumes:
+  npm-cache:
+  data-cache:

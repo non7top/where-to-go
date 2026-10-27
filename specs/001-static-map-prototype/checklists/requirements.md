@@ -34,4 +34,5 @@
 ## Notes
 
 - FR-019 (static files, no server) is a delivery constraint requested by the user and set by the constitution, not a framework choice.
-- Open for `/speckit-clarify`: temperature basis (daytime high vs mean) and the exact band edges; how rain and monsoon marks are decided; gradient vs discrete colors; how the zoom-cut shortcuts are presented.
+- Clarified 2026-10-27: temperature basis, rain mark source, gradient colors, zoom-cut presentation (see spec Clarifications).
+- Still open for the plan: whether humidity shifts the color bands (dry heat like Astana in summer feels comfortable above 23C), the public rainfall data source, and how the Okinawa inset is placed on narrow screens.

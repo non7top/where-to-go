@@ -8,6 +8,15 @@
 
 **Input**: User description: "Fully static map prototype with navigation, zoom, events and overall looks. Weather by month drives the map colors, with rain seasons marked, zoomable down to nearby areas that differ, and event icons. All data can be generated ahead of time."
 
+## Clarifications
+
+### Session 2026-10-27
+
+- Q: What does the temperature in the color bands mean? -> A: Comfort for walking in a baseline outfit: jeans, t-shirt, hoodie and a light jacket or raincoat. Warm days with cooler nights are fine, and light rain is only marked, not penalized in the color. Reference points: early May in Japan, summer in Astana, spring and autumn in Baku count as comfortable.
+- Q: How is the rain and monsoon mark decided? -> A: Derived from public rainfall data prepared ahead of time, with a hand override per area-month. In addition, each area-month can carry an optional subjective comfort rating from 5 to 1.
+- Q: Gradient or discrete colors? -> A: Smooth gradient.
+- Q: How are zoom-cuts presented? -> A: Both a shortcut list and a fixed inset for the main case (Okinawa).
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - See the weather of the whole region by month (Priority: P1)
@@ -111,11 +120,12 @@ The page looks finished: consistent colors, readable labels, and a layout that a
 
 - **FR-001**: The page MUST show a zoomable, pannable map of Southeast Asia and East Asia.
 - **FR-002**: The page MUST provide a month control covering all twelve months, defaulting to the current month.
-- **FR-003**: Each area MUST be colored by its temperature band for the selected month: bluish below 15C (colder is bluer), a blend from 15 to 17C, green from 17 to 23C, orange from 23 to 30C, and red above 30C.
-- **FR-004**: Rain and monsoon seasons MUST be shown as a mark separate from the temperature color, and MUST NOT change the color.
+- **FR-003**: Each area MUST be colored for the selected month on a smooth gradient of typical daytime temperature: bluish below 15C (colder is bluer), blending to green at about 17-23C, then orange up to about 30C, and red above. Cooler nights MUST NOT change the color.
+- **FR-004**: Rain and monsoon seasons MUST be shown as a mark separate from the temperature color, and MUST NOT change the color. The mark is derived from public rainfall data prepared ahead of time, and a curator MUST be able to override it per area and month.
 - **FR-005**: Weather MUST be defined per area, so nearby areas can differ; rain seasons MUST be per area.
 - **FR-006**: Finer areas MUST appear as the visitor zooms in, and coarser areas MUST be shown when zoomed out.
-- **FR-007**: The page MUST provide shortcuts that jump to small areas (starting with Okinawa) at a readable zoom, and a control to reset the view.
+- **FR-007**: The page MUST provide a shortcut list that jumps to small areas at a readable zoom, a fixed inset showing Okinawa at readable size, and a control to reset the view.
+- **FR-021**: Each area-month MAY carry a subjective comfort rating from 5 (best) to 1, set by a curator, and the area panel MUST show it when present.
 - **FR-008**: Events MUST be shown as category icons at their location, filtered by the selected month.
 - **FR-009**: Event categories MUST include festival or main event, fair or convention, seasonal sight, national holiday, and concert.
 - **FR-010**: Event details MUST open on hover (summary) and on click or tap (full details), and MUST be reachable without hover.
@@ -133,7 +143,7 @@ The page looks finished: consistent colors, readable labels, and a layout that a
 ### Key Entities *(include if feature involves data)*
 
 - **Area**: A place on the map with a name, a parent area, a shape, and a zoom range in which it shows. Has twelve monthly climate entries.
-- **Monthly climate**: For one area and one month: temperature range, rain status, rain or monsoon mark, and cost tier.
+- **Monthly climate**: For one area and one month: temperature range, rain status, rain or monsoon mark, cost tier, and an optional comfort rating from 5 to 1.
 - **Event**: A name, category, location, month coverage (exact date or approximate window), a short description, and optional crowd, price and perk notes.
 - **Shortcut**: A named jump target with a position and zoom, for small areas that vanish at region scale.
 
@@ -155,7 +165,8 @@ The page looks finished: consistent colors, readable labels, and a layout that a
 - Starter areas include: Seoul, Busan, Kyoto, Tokyo, Hokkaido, Okinawa, Bangkok, Chiang Mai, Phuket, Ko Tao, Phu Quoc and Hanoi, with finer areas appearing as the visitor zooms in.
 - Starter events include: Songkran, Awa Odori, Comiket, momiji, silver grass festival, Chuseok, Golden Week and at least one concert.
 - Weather values are approximate and hand-curated or generated ahead of time from public climate data; they do not need to be exact.
-- "Temperature" in the color bands means a typical daytime temperature for the month; this is a default and may be changed in the clarify step.
+- The colors describe daytime comfort for walking in a baseline outfit (see Clarifications), so the 17-23C green band is a starting point. Dry heat such as summer in Astana may feel comfortable at higher temperatures; whether humidity shifts the bands is left for the plan, and the comfort rating covers such cases meanwhile.
+- The comfort rating is optional curator data and does not change map colors in this release.
 - The map need not be geographically precise; simplified outlines and rough area shapes are acceptable.
 - The cost tier for each area-month is hand-set, and events only annotate it in this release.
 - The page is in English only.

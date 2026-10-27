@@ -15,15 +15,19 @@ async function getJson<T>(name: string): Promise<T> {
   return (await res.json()) as T;
 }
 
+// The standalone build ships the files inlined in assets/data.js, because fetch() does not work from file://.
+const inline = (globalThis as { __WTG_DATA__?: Record<string, unknown> }).__WTG_DATA__;
+const read = <T>(name: string): Promise<T> => (inline ? Promise.resolve(inline[name] as T) : getJson<T>(name));
+
 // The only place that knows where data comes from; a backend can replace these URLs later.
 export async function loadAll(): Promise<AppData> {
   const [areas, land, climate, events, concerts, shortcuts] = await Promise.all([
-    getJson<AppData['areas']>('areas.geojson'),
-    getJson<AppData['land']>('land.geojson'),
-    getJson<AppData['climate']>('climate.json'),
-    getJson<MapEvent[]>('events.json'),
-    getJson<MapEvent[]>('concerts.json'),
-    getJson<Shortcut[]>('shortcuts.json'),
+    read<AppData['areas']>('areas.geojson'),
+    read<AppData['land']>('land.geojson'),
+    read<AppData['climate']>('climate.json'),
+    read<MapEvent[]>('events.json'),
+    read<MapEvent[]>('concerts.json'),
+    read<Shortcut[]>('shortcuts.json'),
   ]);
   return { areas, land, climate, events: [...events, ...concerts], shortcuts };
 }

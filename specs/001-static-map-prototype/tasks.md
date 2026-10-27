@@ -68,6 +68,7 @@
 - [x] T032 Per-event icons drawn in `src/map/icons.ts` (maple, ginkgo, sakura, book, note, drops, lantern, boat, snow, monitor, moon, grass, calendar, star, booth) used on the map, in lists, cards and search; `iconFor` default by category; ginkgo front added; local names and aliases per country for sakura, momiji and ginkgo
 - [x] T033 Right card as two panels (`src/ui/picks.ts`): top 10 green places grouped by country, events five rows tall and scrolling, scroll position kept while the dial turns
 - [x] T034 Region narrowing by rectangle (`src/lib/scope.ts`, `WeatherMap.initBoxSelect`): Select area button or Shift and drag, outline on the map, Zoom and Clear, Escape clears. Checked in a browser with synthetic pointer events (a real mouse drag and touch drag are not tried)
+- [x] T036 Shanghai ginkgo: season mid-November to mid-December with the peak in the second half of November, six named spots as stars shown only when zoomed in (`detail`), fixed the highlight star sharing its image name with the festival icon; data tests in `tests/data.test.ts`
 - [x] T035 Global search (`src/lib/search.ts`, `src/ui/search.ts`): places, airport codes, events, local names and aliases; "/" focuses it. Checked in a browser at desktop and 390 px widths
 
 ## Phase 8: Hosting and checks

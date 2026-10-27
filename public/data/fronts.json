@@ -319,7 +319,7 @@
     "when": "mid-October in the far north to early December in the south",
     "approx": true,
     "summary": "Golden ginkgo avenues: the colour front moves south, a little after the maple leaves in Japan.",
-    "details": "Ginkgo avenues turn gold and drop their leaves, often a week or so after the maples. Dates are rough typical peaks from general knowledge, not a forecast; they shift by a week or two each year, and the area table is meant to be corrected. China is a very rough starter.",
+    "details": "Ginkgo avenues turn gold and drop their leaves, often a week or so after the maples. Dates are rough typical peaks from general knowledge, not a forecast; they shift by a week or two each year, and the area table is meant to be corrected. China is a very rough starter. Shanghai is set from a local report: the season runs from mid-November to mid-December, with the peak in the second half of November; the other Chinese areas follow latitude.",
     "crowd": "Famous avenues are crowded at the peak, especially at weekends.",
     "fronts": [
       {
@@ -415,6 +415,13 @@
           "yínxìng",
           "銀杏",
           "白果树"
+        ],
+        "overrides": [
+          {
+            "areaId": "CHN-1819",
+            "on": "11-27",
+            "spread": 14
+          }
         ]
       }
     ],
@@ -446,6 +453,68 @@
         "lat": 39.9174,
         "on": "11-05",
         "spread": 7
+      },
+      {
+        "name": "Shanghai ginkgo streets",
+        "lon": 121.47,
+        "lat": 31.23,
+        "on": "11-27",
+        "spread": 14,
+        "note": "Mid-November to mid-December, peak in the second half of November. Zoom in for the best spots."
+      },
+      {
+        "name": "Huangjin Chengdao, Changning",
+        "lon": 121.3955,
+        "lat": 31.1966,
+        "on": "11-27",
+        "spread": 14,
+        "note": "A photogenic ginkgo-lined pedestrian street where the road glows gold.",
+        "detail": true
+      },
+      {
+        "name": "Jumen Lu, Huangpu",
+        "lon": 121.4757,
+        "lat": 31.2085,
+        "on": "11-27",
+        "spread": 14,
+        "note": "Golden branches form a tunnel, and fallen leaves stay unswept through mid-December.",
+        "detail": true
+      },
+      {
+        "name": "Anting Ancient Tree Park, Jiading",
+        "lon": 121.17,
+        "lat": 31.29,
+        "on": "11-27",
+        "spread": 14,
+        "note": "Home to Shanghai's oldest ginkgo, over 1,200 years old and 27 m tall.",
+        "detail": true
+      },
+      {
+        "name": "Expo Park, Pudong",
+        "lon": 121.469,
+        "lat": 31.183,
+        "on": "11-27",
+        "spread": 14,
+        "note": "A free ginkgo lawn and zodiac sculptures along the Huangpu River.",
+        "detail": true
+      },
+      {
+        "name": "Gongqing Forest Park, Yangpu",
+        "lon": 121.556,
+        "lat": 31.3235,
+        "on": "11-27",
+        "spread": 14,
+        "note": "A large forest park with ginkgos and maples by late November.",
+        "detail": true
+      },
+      {
+        "name": "Zhenru Temple, Putuo",
+        "lon": 121.3938,
+        "lat": 31.2655,
+        "on": "11-27",
+        "spread": 14,
+        "note": "A historic ginkgo about 650 years old, from the Yuan dynasty.",
+        "detail": true
       }
     ],
     "links": {

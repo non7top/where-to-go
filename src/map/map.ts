@@ -22,6 +22,7 @@ setWorkerUrl((globalThis as { __WTG_WORKER_URL__?: string }).__WTG_WORKER_URL__ 
 export const COUNTRY_MAXZOOM = 2.2;
 export const CITY_MINZOOM = 4;
 export const ISLAND_MINZOOM = 5;
+export const DETAIL_STAR_MINZOOM = 8;
 export const REGION_BOUNDS: [[number, number], [number, number]] = [[92, -10], [146, 48]];
 
 const LEVELS: { level: Level; minzoom: number; maxzoom: number }[] = [
@@ -169,7 +170,7 @@ export class WeatherMap {
     const { map } = this;
     for (const name of ICON_NAMES) map.addImage(name, eventIcon(name), { pixelRatio: 2 });
     map.addImage('cluster', clusterIcon(), { pixelRatio: 2 });
-    map.addImage('star', starIcon(), { pixelRatio: 2 });
+    map.addImage('highlight-star', starIcon(), { pixelRatio: 2 });
     map.addSource('stars', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
     map.addSource('events', {
       type: 'geojson',
@@ -186,8 +187,12 @@ export class WeatherMap {
       },
     });
     map.addLayer({
-      id: 'event-stars', type: 'symbol', source: 'stars',
-      layout: { 'icon-image': 'star', 'icon-allow-overlap': true, 'icon-size': 0.9 },
+      id: 'event-stars', type: 'symbol', source: 'stars', filter: ['!=', ['get', 'detail'], true],
+      layout: { 'icon-image': 'highlight-star', 'icon-allow-overlap': true, 'icon-size': 0.9 },
+    });
+    map.addLayer({
+      id: 'event-stars-detail', type: 'symbol', source: 'stars', minzoom: DETAIL_STAR_MINZOOM, filter: ['==', ['get', 'detail'], true],
+      layout: { 'icon-image': 'highlight-star', 'icon-allow-overlap': true, 'icon-size': 0.8 },
     });
     map.addLayer({
       id: 'event-points', type: 'symbol', source: 'events', filter: ['!', ['has', 'point_count']],
@@ -310,9 +315,9 @@ export class WeatherMap {
   }
 
   private eventHit(point: Point): { event: MapEvent; label?: string; occ?: Occurrence } | null {
-    const f = this.map.queryRenderedFeatures(point, { layers: ['event-points', 'event-stars'] })[0];
+    const f = this.map.queryRenderedFeatures(point, { layers: ['event-points', 'event-stars', 'event-stars-detail'] })[0];
     if (!f) return null;
-    const isStar = f.layer.id === 'event-stars';
+    const isStar = f.layer.id !== 'event-points';
     const event = this.eventsById.get((isStar ? f.properties?.eventId : f.properties?.id) as string);
     if (!event) return null;
     return {
@@ -392,7 +397,7 @@ export class WeatherMap {
     const starFeatures: Feature<GeoPoint>[] = starIdx.map((i) => ({
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [stars[i]!.lon, stars[i]!.lat] },
-      properties: { eventId: stars[i]!.eventId, name: stars[i]!.name },
+      properties: { eventId: stars[i]!.eventId, name: stars[i]!.name, detail: stars[i]!.detail === true },
     }));
     (this.map.getSource('stars') as GeoJSONSource | undefined)?.setData({ type: 'FeatureCollection', features: starFeatures });
   }

@@ -101,6 +101,9 @@
               "type": "integer",
               "minimum": 0,
               "maximum": 60
+            },
+            "detail": {
+              "type": "boolean"
             }
           },
           "additionalProperties": false

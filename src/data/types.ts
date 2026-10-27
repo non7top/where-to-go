@@ -73,6 +73,8 @@ export interface Highlight {
   note?: string;
   on?: string;
   spread?: number;
+  // Shown only when zoomed in, so a cluster of close spots does not pile up in the region view.
+  detail?: boolean;
 }
 
 export interface Shortcut {

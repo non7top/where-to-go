@@ -40,6 +40,7 @@ export interface StarPoint {
   lat: number;
   day: number;
   spread: number;
+  detail?: boolean;
 }
 
 // Peak day along a latitude table: linear between anchors, flat beyond the ends.
@@ -81,7 +82,7 @@ export function buildOccurrences(
     for (const h of e.highlights ?? []) {
       const windows = h.on ? [{ on: h.on, spread: h.spread ?? 7 }] : (e.peaks ?? []);
       for (const w of windows) {
-        stars.push({ eventId: e.id, name: h.name, lon: h.lon, lat: h.lat, day: dayFromMonthDay(w.on), spread: w.spread });
+        stars.push({ eventId: e.id, name: h.name, lon: h.lon, lat: h.lat, day: dayFromMonthDay(w.on), spread: w.spread, detail: h.detail });
       }
     }
   }

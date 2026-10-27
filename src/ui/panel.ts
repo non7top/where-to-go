@@ -8,7 +8,7 @@ import { RAIN_LABELS } from '../lib/rain';
 import { esc } from './esc';
 
 const LEVEL_LABELS = { country: 'Country (average of its provinces)', province: 'Province or region', island: 'Island' };
-const EQUIPMENT = { yes: 'typical', partial: 'sometimes available', no: 'not typical' };
+const EQUIPMENT = { yes: 'usually available', partial: 'only sometimes available', no: 'generally not available' };
 const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
 type View = { kind: 'area'; id: string } | { kind: 'event'; event: MapEvent; backTo: string | null } | null;
@@ -123,7 +123,7 @@ export class Panel {
       .join('');
     const back = backTo ? `<p><button type="button" data-act="back" data-id="${backTo}">Back to area</button></p>` : '';
     return `<h2>${esc(e.name)}</h2>
-      <p class="sub">${CATEGORY_LABELS[e.category]}. ${esc(e.when)}${e.approx ? ' (approximate)' : ''}</p>
+      <p class="sub">${CATEGORY_LABELS[e.category]}, ${esc(e.when)}${e.approx ? ' (approximate)' : ''}</p>
       <p>${esc(e.details ?? e.summary)}</p>${notes}${back}`;
   }
 }

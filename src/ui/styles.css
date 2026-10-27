@@ -421,16 +421,27 @@ button:hover {
     font-size: 12px;
   }
 
+  .credits {
+    right: 64px;
+    left: 8px;
+    width: auto;
+    max-width: none;
+    font-size: 9px;
+    line-height: 1.2;
+    text-align: left;
+    transform: none;
+  }
+
   #legend {
     left: 8px;
-    bottom: 22px;
+    bottom: 36px;
     width: 200px;
     padding: 8px 10px;
   }
 
   #inset {
     right: 64px;
-    bottom: 22px;
+    bottom: 36px;
     width: 110px;
     height: 84px;
   }
@@ -438,7 +449,7 @@ button:hover {
   #panel {
     top: auto;
     right: 64px;
-    bottom: 22px;
+    bottom: 36px;
     left: 8px;
     width: auto;
     max-height: 58%;

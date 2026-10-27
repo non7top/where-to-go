@@ -41,10 +41,10 @@
 
 ## Phase 7: User Story 5 - Looks and access (P5)
 
-- [ ] T018 Responsive layout, focus styles, keyboard paths, Escape handling, contrast pass in light and dark. Done and checked in a browser: responsive layout (desktop and 390 px), month bar keyboard. Not yet checked: dark theme, Escape, tab order through all controls.
-- [ ] T019 Error state when data fails to load. Code is in `src/main.ts`; not exercised yet.
+- [ ] T018 Responsive layout, focus styles, keyboard paths, Escape handling, contrast pass in light and dark. Done and checked in a browser: responsive layout (desktop and 390 px), month bar keyboard, Escape closing the panel. Not checked: dark theme (the browser tool cannot set the color-scheme preference) and tab order through all controls.
+- [x] T019 Error state when data fails to load. Checked by hiding `climate.json` from the served build: the page shows the message instead of a blank map.
 
 ## Phase 8: Hosting and checks
 
-- [ ] T020 `.github/workflows/pages.yml` (build in container, deploy `dist/`); run with `act` before any real run. Workflow written and passes actionlint; `act` not run yet and nothing has been pushed.
-- [ ] T021 Run the `quickstart.md` scenarios in a browser, record results in the final report. Checked in a browser: slider and month change, rain marks, Busan vs Seoul zoom, shortcut menu, inset click to Okinawa, Ko Tao vs Phu Quoc in November, Seoul January night flag, Kyoto November panel and momiji card, Songkran hover in April and its absence in August, Escape closing the panel, phone layout, no requests to other hosts. Not checked: Phuket in the island comparison, Awa Odori icon, Comiket, dark theme.
+- [ ] T020 `.github/workflows/pages.yml` (build in container, deploy `dist/`); run with `act` before any real run. Workflow written and passes actionlint; `act` not run: the compose bind mount needs `act --bind`, which would run the container as root and leave root-owned files in the repo. Nothing has been pushed.
+- [ ] T021 Run the `quickstart.md` scenarios in a browser, record results in the final report. Checked in a browser: slider and month change, rain marks, Busan vs Seoul zoom, shortcut menu, inset click to Okinawa, Ko Tao vs Phu Quoc in November, Seoul January night flag, Kyoto November panel and momiji card, Songkran hover in April and its absence in August, Escape closing the panel, Awa Odori and Comiket icons in August, Phuket (moderate), Ko Tao (heavy) and Phu Quoc (none) rain states in November, phone layout, no requests to other hosts. Not checked: dark theme.

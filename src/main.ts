@@ -46,7 +46,8 @@ async function start() {
   try {
     data = await loadAll();
   } catch (e) {
-    showError(`Could not load the map data (${e instanceof Error ? e.message : 'unknown error'}). Reload to try again.`);
+    console.error(e);
+    showError('Could not load the map data. Reload to try again.');
     return;
   }
 

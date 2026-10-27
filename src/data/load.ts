@@ -1,4 +1,6 @@
 import type { FeatureCollection, Geometry } from 'geojson';
+import { buildOccurrences } from '../lib/events';
+import type { Occurrence, StarPoint } from '../lib/events';
 import type { AreaClimate, AreaProps, MapEvent, Shortcut } from './types';
 
 export interface AppData {
@@ -6,6 +8,8 @@ export interface AppData {
   land: FeatureCollection<Geometry>;
   climate: Record<string, AreaClimate>;
   events: MapEvent[];
+  occurrences: Occurrence[];
+  stars: StarPoint[];
   shortcuts: Shortcut[];
 }
 
@@ -21,13 +25,16 @@ const read = <T>(name: string): Promise<T> => (inline ? Promise.resolve(inline[n
 
 // The only place that knows where data comes from; a backend can replace these URLs later.
 export async function loadAll(): Promise<AppData> {
-  const [areas, land, climate, events, concerts, shortcuts] = await Promise.all([
+  const [areas, land, climate, events, concerts, fronts, shortcuts] = await Promise.all([
     read<AppData['areas']>('areas.geojson'),
     read<AppData['land']>('land.geojson'),
     read<AppData['climate']>('climate.json'),
     read<MapEvent[]>('events.json'),
     read<MapEvent[]>('concerts.json'),
+    read<MapEvent[]>('fronts.json'),
     read<Shortcut[]>('shortcuts.json'),
   ]);
-  return { areas, land, climate, events: [...events, ...concerts], shortcuts };
+  const all = [...events, ...concerts, ...fronts];
+  const { occurrences, stars } = buildOccurrences(all, areas.features.map((f) => f.properties));
+  return { areas, land, climate, events: all, occurrences, stars, shortcuts };
 }

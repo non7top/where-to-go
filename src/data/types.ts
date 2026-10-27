@@ -31,7 +31,9 @@ export interface MapEvent {
   category: EventCategory;
   lon: number;
   lat: number;
-  months: number[];
+  peaks?: Peak[];
+  fronts?: Front[];
+  links?: { wiki?: string; official?: string };
   when: string;
   approx?: boolean;
   summary: string;
@@ -44,11 +46,27 @@ export interface MapEvent {
   highlights?: Highlight[];
 }
 
+export interface Peak {
+  on: string;
+  spread: number;
+}
+
+// A season that sweeps across a country: the peak date follows latitude, with per-area overrides.
+export interface Front {
+  country: string;
+  anchors: [number, string][];
+  spread: number;
+  minLat?: number;
+  overrides?: { areaId: string; on: string; spread?: number }[];
+}
+
 export interface Highlight {
   name: string;
   lon: number;
   lat: number;
   note?: string;
+  on?: string;
+  spread?: number;
 }
 
 export interface Shortcut {

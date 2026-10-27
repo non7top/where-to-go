@@ -1,0 +1,162 @@
+# Feature Specification: Static Map Prototype
+
+**Feature Branch**: `001-static-map-prototype`
+
+**Created**: 2026-10-27
+
+**Status**: Draft
+
+**Input**: User description: "Fully static map prototype with navigation, zoom, events and overall looks. Weather by month drives the map colors, with rain seasons marked, zoomable down to nearby areas that differ, and event icons. All data can be generated ahead of time."
+
+## User Scenarios & Testing *(mandatory)*
+
+### User Story 1 - See the weather of the whole region by month (Priority: P1)
+
+A visitor opens the page and sees a map of Southeast and East Asia. A month control lets them pick any month, and the map colors each area by how warm it is that month: bluish when cool, green when comfortable, orange when warm, red when hot. Rain and monsoon seasons show as a separate mark on top of the color, so a warm, comfortable but rainy area is still readable.
+
+**Why this priority**: Weather by month is the main reason to use the app. Without it nothing else has meaning.
+
+**Independent Test**: Open the page, move the month control from January to December, and check that colors and rain marks change for areas that are known to change (for example northern Japan between January and July).
+
+**Acceptance Scenarios**:
+
+1. **Given** the page just opened, **When** the visitor looks at the map, **Then** the current month is selected and areas are colored by temperature band, with a legend explaining colors and the rain mark.
+2. **Given** any month is selected, **When** the visitor picks a different month, **Then** all area colors and rain marks update at once without a page reload.
+3. **Given** an area is in its rainy or monsoon season in the selected month, **When** the map is shown, **Then** that area carries a rain mark that is visible on top of its temperature color.
+4. **Given** an area is comfortable (about 17-23C) but rainy, **When** the visitor looks at it, **Then** it reads as green with a rain mark, not as a different color.
+
+---
+
+### User Story 2 - Zoom from the region down to nearby areas that differ (Priority: P2)
+
+The visitor can zoom and pan the map. Coarse areas are shown when zoomed out, and finer areas appear as they zoom in, so places close together but with different weather can be told apart. Small places that would vanish at region scale, such as islands, can be reached directly through a shortcut that jumps to them at a useful zoom.
+
+**Why this priority**: The user's key insight is that weather differs within a country and between close places. Without zoom the map is too coarse to be useful.
+
+**Independent Test**: Zoom into Korea in July and check that Busan and Seoul can be distinguished and show different rain marks or colors. Use a shortcut to jump to Okinawa and see it at readable size.
+
+**Acceptance Scenarios**:
+
+1. **Given** the map is zoomed out, **When** the visitor zooms into a country, **Then** finer areas inside it appear and carry their own color and rain mark.
+2. **Given** Ko Tao, Phuket and Phu Quoc are shown at fine zoom, **When** the visitor selects a month, **Then** each shows its own rainy season, which differ between the three.
+3. **Given** the visitor opens the shortcut list, **When** they choose a small area such as Okinawa, **Then** the map moves and zooms to it and it is readable at that size.
+4. **Given** the visitor has zoomed in, **When** they use a reset control, **Then** the map returns to the full-region view.
+
+---
+
+### User Story 3 - See events on the map for the chosen month (Priority: P3)
+
+For the selected month, events appear as small icons on the map at their location. Each icon shows its category: festival, fair or convention, seasonal sight, national holiday, or concert. On a device with a pointer the visitor can hover to see a short description, and on any device they can click or tap to open the details. Events appear and disappear as the month changes.
+
+**Why this priority**: Events change when and where someone wants to go (Songkran, Awa Odori, Comiket, momiji, silver grass, Chuseok, Golden Week) but the trip is still judged on weather first.
+
+**Independent Test**: Select April and see the Songkran icon in Thailand, select August and see the Awa Odori icon in Tokushima, then click each to open details.
+
+**Acceptance Scenarios**:
+
+1. **Given** a month is selected, **When** the map is shown, **Then** only events active in that month are shown, each as an icon of its category.
+2. **Given** a pointer device, **When** the visitor hovers an event icon, **Then** a short summary appears; **When** they click or tap it, **Then** full details open and stay until dismissed.
+3. **Given** an event whose date is a window (such as momiji in November), **When** its details are shown, **Then** the window is stated as approximate.
+4. **Given** several events lie close together, **When** the map is zoomed out, **Then** their icons are grouped, and **When** the visitor zooms in, **Then** they separate into individual icons.
+5. **Given** an event has crowd, price or perk information (for example Chuseok has more tourists but free palace entry), **When** its details are shown, **Then** each piece is stated separately, and an event with only a note is shown with just that note.
+
+---
+
+### User Story 4 - Read an area's summary (Priority: P4)
+
+Clicking an area opens a panel with its name, its weather for the selected month (color band, temperature range, rain status), its cost tier for that month shown as $, $$ or $$$, and the events in it that month. The panel makes quiet-but-cheap months readable, for example Japan in May or September.
+
+**Why this priority**: The map answers "where", the panel answers "what is it like there then". It reuses the data already shown.
+
+**Independent Test**: Click Kyoto in November and check that the panel shows its band, rain status, cost tier, and momiji event with its crowd and price note.
+
+**Acceptance Scenarios**:
+
+1. **Given** an area is clicked, **When** the panel opens, **Then** it shows the area name, weather for the selected month, a cost tier for that month, and a list of that month's events in the area.
+2. **Given** the panel is open, **When** the visitor changes the month, **Then** the panel content updates to the new month.
+3. **Given** an area has no events that month, **When** the panel opens, **Then** it says so rather than showing an empty list.
+
+---
+
+### User Story 5 - Comfortable looks on desktop and phone (Priority: P5)
+
+The page looks finished: consistent colors, readable labels, and a layout that adapts to screen size. On a wide screen the month control is at the bottom; on a phone it is at the side so the map keeps most of the screen. All interactions work with touch, mouse and keyboard.
+
+**Why this priority**: "Overall looks" was asked for explicitly, but it builds on the stories above.
+
+**Independent Test**: Open the page at a phone-width screen and a desktop-width screen and complete the P1 test on both; then complete it using only the keyboard.
+
+**Acceptance Scenarios**:
+
+1. **Given** a screen narrower than a typical tablet, **When** the page loads, **Then** the month control is at the side and the map uses the remaining space.
+2. **Given** a wide screen, **When** the page loads, **Then** the month control is at the bottom.
+3. **Given** a visitor who uses only a keyboard, **When** they tab through the page, **Then** they can change the month, open the shortcut list and open an event or area panel.
+4. **Given** a visitor who cannot tell colors apart, **When** they view the map, **Then** temperature bands are still distinguishable (for example by a numeric hint in the panel and legend).
+
+---
+
+### Edge Cases
+
+- December to January wraps correctly, and a rainy season that spans a year boundary (such as November to February) shows in all its months.
+- An area with no data for a month is shown in a neutral color and says "no data", not as a wrong color.
+- Areas too small to see at region scale are still reachable (shortcut list).
+- Event icons overlap at low zoom, so they group; touch devices have no hover, so details open on tap.
+- An event window straddles two months and shows in both.
+- The page is used on a slow connection, so the first view appears without waiting for all detail.
+- The user's browser has scripts disabled or fails to load data: a clear message appears instead of a blank page.
+
+## Requirements *(mandatory)*
+
+### Functional Requirements
+
+- **FR-001**: The page MUST show a zoomable, pannable map of Southeast Asia and East Asia.
+- **FR-002**: The page MUST provide a month control covering all twelve months, defaulting to the current month.
+- **FR-003**: Each area MUST be colored by its temperature band for the selected month: bluish below 15C (colder is bluer), a blend from 15 to 17C, green from 17 to 23C, orange from 23 to 30C, and red above 30C.
+- **FR-004**: Rain and monsoon seasons MUST be shown as a mark separate from the temperature color, and MUST NOT change the color.
+- **FR-005**: Weather MUST be defined per area, so nearby areas can differ; rain seasons MUST be per area.
+- **FR-006**: Finer areas MUST appear as the visitor zooms in, and coarser areas MUST be shown when zoomed out.
+- **FR-007**: The page MUST provide shortcuts that jump to small areas (starting with Okinawa) at a readable zoom, and a control to reset the view.
+- **FR-008**: Events MUST be shown as category icons at their location, filtered by the selected month.
+- **FR-009**: Event categories MUST include festival or main event, fair or convention, seasonal sight, national holiday, and concert.
+- **FR-010**: Event details MUST open on hover (summary) and on click or tap (full details), and MUST be reachable without hover.
+- **FR-011**: Events MUST support an exact date or an approximate window, and MUST show in every month they cover.
+- **FR-012**: Each event MAY carry separate crowd, price and perk notes, and any of them MAY be absent.
+- **FR-013**: Event icons that are close together MUST group at low zoom and separate at high zoom.
+- **FR-014**: Selecting an area MUST open a panel with weather for the selected month, a cost tier ($, $$, $$$) for that month, and that month's events in the area.
+- **FR-015**: The cost tier MUST be defined per area per month and be informational only; it MUST NOT affect map colors.
+- **FR-016**: The page MUST include a legend explaining temperature colors and the rain mark.
+- **FR-017**: The layout MUST place the month control at the bottom on wide screens and at the side on narrow screens.
+- **FR-018**: All controls MUST work with touch, mouse and keyboard.
+- **FR-019**: All map and event data MUST be produced ahead of time and shipped as static files; the running page MUST NOT need a server or any outside service.
+- **FR-020**: Event data MUST be kept separately from area data, and concert data separately from the other events, so each can be updated on its own.
+
+### Key Entities *(include if feature involves data)*
+
+- **Area**: A place on the map with a name, a parent area, a shape, and a zoom range in which it shows. Has twelve monthly climate entries.
+- **Monthly climate**: For one area and one month: temperature range, rain status, rain or monsoon mark, and cost tier.
+- **Event**: A name, category, location, month coverage (exact date or approximate window), a short description, and optional crowd, price and perk notes.
+- **Shortcut**: A named jump target with a position and zoom, for small areas that vanish at region scale.
+
+## Success Criteria *(mandatory)*
+
+### Measurable Outcomes
+
+- **SC-001**: A first-time visitor can tell which months are green (comfortable) for a named area, such as Seoul, within 30 seconds of opening the page.
+- **SC-002**: Changing the month updates the whole map in under 0.3 seconds on a typical laptop and a mid-range phone.
+- **SC-003**: The first view of the map is usable within 3 seconds on a typical home connection.
+- **SC-004**: At least three pairs of nearby areas show different weather or rain marks in the same month (Busan and Seoul in July; Ko Tao, Phuket and Phu Quoc in the same month).
+- **SC-005**: At least one starter event exists for each of the five event categories, and each opens its details on both hover/click and tap.
+- **SC-006**: The page is fully usable at a screen width of 360 pixels with no sideways scrolling, and fully usable using only the keyboard.
+- **SC-007**: Every starter area has data for all twelve months, or is explicitly marked as having none.
+
+## Assumptions
+
+- The first release is a prototype: starter content for a handful of areas and events, not complete coverage. More content is added later without changing the page.
+- Starter areas include: Seoul, Busan, Kyoto, Tokyo, Hokkaido, Okinawa, Bangkok, Chiang Mai, Phuket, Ko Tao, Phu Quoc and Hanoi, with finer areas appearing as the visitor zooms in.
+- Starter events include: Songkran, Awa Odori, Comiket, momiji, silver grass festival, Chuseok, Golden Week and at least one concert.
+- Weather values are approximate and hand-curated or generated ahead of time from public climate data; they do not need to be exact.
+- "Temperature" in the color bands means a typical daytime temperature for the month; this is a default and may be changed in the clarify step.
+- The map need not be geographically precise; simplified outlines and rough area shapes are acceptable.
+- The cost tier for each area-month is hand-set, and events only annotate it in this release.
+- The page is in English only.
+- Out of scope for this release: flight time and home location, interest tags, shortlist, shareable links, visa and safety notes, sightseeing lists, accounts, and any server or live data.

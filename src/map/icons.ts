@@ -362,12 +362,13 @@ const hexAlpha = (hex: string, a: number) => {
   return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
 };
 
-// A round badge cut into sectors, one per event: halves for two, a Mercedes-style three, quarters for four.
-export function comboIcon(names: readonly IconName[]): ImageData {
-  const n = names.length;
-  const S = 64;
+// A round badge cut into parts, one per event: halves would be two, then a Mercedes-style three, quarters, and
+// on up to eight. With `more` events that did not fit, the last part is a "+N" count.
+export function comboIcon(names: readonly IconName[], more = 0): ImageData {
+  const parts = names.length + (more ? 1 : 0);
+  const S = parts <= 4 ? 84 : 108;
   const C = S / 2;
-  const R = 29;
+  const R = C - 3;
   const [, ctx] = canvas(S, S);
   ctx.fillStyle = 'rgba(0,0,0,0.28)';
   ctx.beginPath();
@@ -378,23 +379,23 @@ export function comboIcon(names: readonly IconName[]): ImageData {
   ctx.arc(C, C, R, 0, Math.PI * 2);
   ctx.fill();
 
-  const start = sectorStart(n);
+  const start = sectorStart(parts);
   const rad = (deg: number) => ((deg - 90) * Math.PI) / 180;
-  names.forEach((name, i) => {
-    const a0 = start + (i * 360) / n;
-    const a1 = a0 + 360 / n;
-    ctx.fillStyle = hexAlpha(ICONS[name].color, 0.2);
+  const color = (i: number) => (i < names.length ? ICONS[names[i]!].color : '#6b7785');
+  for (let i = 0; i < parts; i++) {
+    const a0 = start + (i * 360) / parts;
+    ctx.fillStyle = hexAlpha(color(i), 0.2);
     ctx.beginPath();
     ctx.moveTo(C, C);
-    ctx.arc(C, C, R, rad(a0), rad(a1));
+    ctx.arc(C, C, R, rad(a0), rad(a0 + 360 / parts));
     ctx.closePath();
     ctx.fill();
-  });
+  }
   ctx.strokeStyle = '#2b3440';
   ctx.lineWidth = 2;
   ctx.lineCap = 'round';
-  for (let i = 0; i < n; i++) {
-    const a = rad(start + (i * 360) / n);
+  for (let i = 0; i < parts; i++) {
+    const a = rad(start + (i * 360) / parts);
     ctx.beginPath();
     ctx.moveTo(C, C);
     ctx.lineTo(C + R * Math.cos(a), C + R * Math.sin(a));
@@ -405,17 +406,28 @@ export function comboIcon(names: readonly IconName[]): ImageData {
   ctx.arc(C, C, R, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Each glyph sits at the middle of its sector, smaller the more sectors there are.
-  const scale = { 2: 0.95, 3: 0.8, 4: 0.72 }[n] ?? 0.7;
-  const reach = n === 2 ? 14.5 : 15.5;
-  names.forEach((name, i) => {
-    const mid = rad(start + ((i + 0.5) * 360) / n);
+  // Each glyph sits at the middle of its part, as large as the part allows.
+  const reach = R * 0.58;
+  const chord = 2 * reach * Math.sin(Math.PI / parts);
+  const scale = Math.min(1.3, Math.max(0.5, (chord * 0.8) / 24));
+  for (let i = 0; i < parts; i++) {
+    const mid = rad(start + ((i + 0.5) * 360) / parts);
+    const x = C + reach * Math.cos(mid);
+    const y = C + reach * Math.sin(mid);
+    if (i >= names.length) {
+      ctx.fillStyle = '#2b3440';
+      ctx.font = `700 ${Math.round(14 * scale + 8)}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(`+${more}`, x, y);
+      continue;
+    }
     ctx.save();
-    ctx.translate(C + reach * Math.cos(mid), C + reach * Math.sin(mid));
+    ctx.translate(x, y);
     ctx.scale(scale, scale);
     ctx.translate(-12, -12);
-    ICONS[name].draw(ctx, ICONS[name].color);
+    ICONS[names[i]!].draw(ctx, ICONS[names[i]!].color);
     ctx.restore();
-  });
+  }
   return ctx.getImageData(0, 0, S, S);
 }

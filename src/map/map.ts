@@ -329,18 +329,21 @@ export class WeatherMap {
     if (!f) return null;
     const isStar = f.layer.id !== 'event-points';
     let occ: Occurrence | undefined;
+    let more = false;
     if (!isStar) {
       const members = String(f.properties?.members ?? '').split(',').filter(Boolean).map(Number);
+      const extra = Number(f.properties?.more) > 0 ? 1 : 0;
       let pick = members[0];
-      if (members.length > 1 && f.geometry.type === 'Point') {
-        // A sectored badge: the sector under the pointer decides which event it is.
+      if (members.length + extra > 1 && f.geometry.type === 'Point') {
+        // A badge cut into parts: the part under the pointer decides which event it is, or the "+N" part.
         const c = this.map.project(f.geometry.coordinates as [number, number]);
-        pick = members[sectorAt(members.length, point.x - c.x, point.y - c.y)];
+        const part = sectorAt(members.length + extra, point.x - c.x, point.y - c.y);
+        pick = part < members.length ? members[part] : undefined;
+        if (pick === undefined) more = true;
       }
       occ = pick === undefined ? undefined : this.data.occurrences[pick];
     }
     const event = this.eventsById.get((isStar ? f.properties?.eventId : occ?.eventId) as string);
-    const more = !isStar && Number(f.properties?.more) > 0;
     if (!event && !more) return null;
     return {
       event: (event ?? this.data.events[0])!,
@@ -412,10 +415,11 @@ export class WeatherMap {
         const members = cell.members ?? (cell.index === null ? [] : [cell.index]);
         const occs = members.map((m) => occurrences[m]!);
         const icons = occs.map((o) => iconFor(this.eventsById.get(o.eventId) ?? { category: 'festival' }));
-        let icon: string = cell.index === null ? 'cluster' : icons[0]!;
-        if (icons.length > 1) {
-          icon = `combo:${icons.join('+')}`;
-          if (!this.map.hasImage(icon)) this.map.addImage(icon, comboIcon(icons), { pixelRatio: 2 });
+        const more = cell.more ?? 0;
+        let icon: string = icons[0]!;
+        if (cell.members) {
+          icon = `combo:${icons.join('+')}${more ? `|+${more}` : ''}`;
+          if (!this.map.hasImage(icon)) this.map.addImage(icon, comboIcon(icons, more), { pixelRatio: 2 });
         }
         return {
           type: 'Feature' as const,
@@ -423,8 +427,8 @@ export class WeatherMap {
           properties: {
             oi: cell.index ?? -1,
             members: members.join(','),
-            n: members.length,
-            more: cell.more ?? 0,
+            n: members.length + (more ? 1 : 0),
+            more,
             keys: occs.map(keyOf).join(''),
             icon,
           },

@@ -7,13 +7,14 @@ export interface StackPoint {
 }
 
 export interface StackCell {
-  // Index of the source point, or null for the "more" cell.
+  // Index of the source point, or null for a count-only cell.
   index: number | null;
   dx: number;
   dy: number;
-  more?: number;
-  // A round badge cut into sectors, one per event: the source point of each sector, in sector order.
+  // A round badge cut into parts, one per event, in part order: the source point of each part.
   members?: number[];
+  // Events that did not fit: the badge ends with one extra part saying how many.
+  more?: number;
 }
 
 export interface Stack {
@@ -23,22 +24,22 @@ export interface Stack {
 }
 
 export const CELL_PX = 26;
-export const PER_ROW = 4;
-export const MAX_CELLS = 8;
 export const GROUP_PX = 30;
-export const COMBO_MIN = 2;
-export const COMBO_MAX = 4;
-export const COMBO_PX = 36;
+// Up to this many events are shown as separate icons side by side; more become one badge cut into parts.
+export const SPLIT_MIN = 3;
+export const MAX_PARTS = 8;
 
-// Where sector 0 starts, in degrees clockwise from the top: halves (left, right), a Mercedes-style
-// three-way split with a line pointing up, and quarters (top-left, top-right, bottom-right, bottom-left).
-const SECTOR_START: Record<number, number> = { 2: 180, 3: 0, 4: 270 };
-
-export function sectorStart(n: number): number {
-  return SECTOR_START[n] ?? 0;
+export function badgePx(parts: number): number {
+  return parts <= 4 ? 46 : 58;
 }
 
-// Which sector of an n-way badge lies at an offset from its center (dy grows downward).
+// Where part 0 starts, in degrees clockwise from the top: halves, a Mercedes-style three-way split with a
+// line pointing up, quarters (top-left first), and from five up the first part starts at the top.
+export function sectorStart(n: number): number {
+  return n === 2 ? 180 : n === 4 ? 270 : 0;
+}
+
+// Which part of an n-way badge lies at an offset from its center (dy grows downward).
 export function sectorAt(n: number, dx: number, dy: number): number {
   const deg = ((Math.atan2(dx, -dy) * 180) / Math.PI + 360) % 360;
   const rel = (deg - sectorStart(n) + 360) % 360;
@@ -56,12 +57,15 @@ const uniqueByKey = (pts: readonly StackPoint[]): StackPoint[] => {
   return pts.filter((p) => !seen.has(p.key) && !!seen.add(p.key));
 };
 
-// Size of a group's grid in pixels: its distinct events, at most MAX_CELLS cells, four to a row.
-function gridSize(g: Group): { w: number; h: number } {
+// Parts of the badge for a group: its events, plus one for the count when more than MAX_PARTS.
+export function partsFor(unique: number): number {
+  return Math.min(unique, MAX_PARTS);
+}
+
+function size(g: Group): { w: number; h: number } {
   const unique = uniqueByKey(g.pts).length;
-  if (unique >= COMBO_MIN && unique <= COMBO_MAX) return { w: COMBO_PX, h: COMBO_PX };
-  const cells = Math.min(MAX_CELLS, unique);
-  return { w: Math.min(PER_ROW, cells) * CELL_PX, h: Math.ceil(cells / PER_ROW) * CELL_PX };
+  if (unique >= SPLIT_MIN) return { w: badgePx(partsFor(unique)), h: badgePx(partsFor(unique)) };
+  return { w: unique * CELL_PX, h: CELL_PX };
 }
 
 const center = (pts: readonly StackPoint[]) => ({
@@ -70,14 +74,14 @@ const center = (pts: readonly StackPoint[]) => ({
 });
 
 const overlap = (a: Group, b: Group): boolean => {
-  const sa = gridSize(a);
-  const sb = gridSize(b);
+  const sa = size(a);
+  const sb = size(b);
   return Math.abs(a.x - b.x) < (sa.w + sb.w) / 2 && Math.abs(a.y - b.y) < (sa.h + sb.h) / 2;
 };
 
-// Groups map icons that sit close together on screen and lays each group out as a small grid,
-// four to a row, centered on the group. One icon per event; a big group ends in a "more" cell.
-// Groups whose grids would overlap are merged, so the grids never cover each other.
+// Groups map icons that sit close together on screen. One or two events stay separate icons (side by side);
+// three or more become a single round badge cut into one part per event (the last part is a "+N" count
+// when there are more than MAX_PARTS). Groups whose drawings would overlap are merged.
 export function stackPoints(points: readonly StackPoint[]): Stack[] {
   const groups: Group[] = [];
   for (const p of points) {
@@ -100,21 +104,12 @@ export function stackPoints(points: readonly StackPoint[]): Stack[] {
   }
   return groups.map((g) => {
     const unique = uniqueByKey(g.pts);
-    if (unique.length >= COMBO_MIN && unique.length <= COMBO_MAX) {
-      const members = unique.map((p) => p.index);
-      return { x: g.x, y: g.y, cells: [{ index: members[0]!, dx: 0, dy: 0, members }] };
+    if (unique.length >= SPLIT_MIN) {
+      const hidden = unique.length > MAX_PARTS ? unique.length - (MAX_PARTS - 1) : 0;
+      const members = (hidden ? unique.slice(0, MAX_PARTS - 1) : unique).map((p) => p.index);
+      return { x: g.x, y: g.y, cells: [{ index: members[0]!, dx: 0, dy: 0, members, ...(hidden ? { more: hidden } : {}) }] };
     }
-    const hidden = unique.length > MAX_CELLS ? unique.length - (MAX_CELLS - 1) : 0;
-    const shown = hidden ? unique.slice(0, MAX_CELLS - 1) : unique;
-    const total = shown.length + (hidden ? 1 : 0);
-    const rows = Math.ceil(total / PER_ROW);
-    const items: { index: number | null; more?: number }[] = shown.map((p) => ({ index: p.index }));
-    if (hidden) items.push({ index: null, more: hidden });
-    const cells = items.map((item, i) => {
-      const row = Math.floor(i / PER_ROW);
-      const inRow = row === rows - 1 ? total - row * PER_ROW : PER_ROW;
-      return { ...item, dx: ((i % PER_ROW) - (inRow - 1) / 2) * CELL_PX, dy: (row - (rows - 1) / 2) * CELL_PX };
-    });
+    const cells = unique.map((p, i) => ({ index: p.index, dx: (i - (unique.length - 1) / 2) * CELL_PX, dy: 0 }));
     return { x: g.x, y: g.y, cells };
   });
 }

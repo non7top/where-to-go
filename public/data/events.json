@@ -1,0 +1,547 @@
+[
+  {
+    "id": "songkran",
+    "name": "Songkran",
+    "category": "festival",
+    "country": "TH",
+    "lon": 100.9,
+    "lat": 15.5,
+    "when": "13-15 April 2027, nationwide",
+    "summary": "Thai New Year water festival, celebrated all over Thailand.",
+    "details": "Water fights and temple visits for the Thai New Year in every town. The stars mark the best-known places to join in.",
+    "crowd": "Very crowded in city centres.",
+    "price": "Hotels rise around the dates.",
+    "highlights": [
+      {
+        "name": "Chiang Mai",
+        "lon": 98.99,
+        "lat": 18.79,
+        "note": "Largest street celebrations, around the old city moat."
+      },
+      {
+        "name": "Bangkok (Silom and Khao San)",
+        "lon": 100.5,
+        "lat": 13.75,
+        "note": "Big water-fight streets in the centre."
+      },
+      {
+        "name": "Pattaya",
+        "lon": 100.88,
+        "lat": 12.93,
+        "note": "Celebrations run a few days longer than elsewhere."
+      },
+      {
+        "name": "Phuket (Patong)",
+        "lon": 98.3,
+        "lat": 7.89,
+        "note": "Beach-town water fights."
+      }
+    ],
+    "peaks": [
+      {
+        "on": "04-14",
+        "spread": 1
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Songkran_(Thailand)",
+      "official": "https://www.tourismthailand.org/"
+    },
+    "icon": "drops"
+  },
+  {
+    "id": "loy-krathong",
+    "name": "Loy Krathong and Yi Peng",
+    "category": "festival",
+    "lon": 98.99,
+    "lat": 18.79,
+    "when": "24 November 2026 (full moon of the 12th lunar month; later years differ)",
+    "approx": true,
+    "summary": "Floating lanterns and krathong boats, Chiang Mai.",
+    "details": "Lanterns released into the sky and krathong floated on water at the November full moon.",
+    "peaks": [
+      {
+        "on": "11-24",
+        "spread": 2
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Loy_Krathong"
+    },
+    "icon": "lantern"
+  },
+  {
+    "id": "awa-odori",
+    "name": "Awa Odori",
+    "category": "festival",
+    "lon": 134.55,
+    "lat": 34.07,
+    "when": "12-15 August 2027",
+    "summary": "Japan's largest dance festival, in Tokushima.",
+    "details": "Dance groups parade through Tokushima over four nights during Obon.",
+    "crowd": "Large crowds; book ahead.",
+    "peaks": [
+      {
+        "on": "08-13",
+        "spread": 2
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Awa_Dance_Festival"
+    }
+  },
+  {
+    "id": "gion-matsuri",
+    "name": "Gion Matsuri",
+    "category": "festival",
+    "lon": 135.77,
+    "lat": 35.0,
+    "when": "the whole of July, floats on 17 and 24 July",
+    "summary": "Kyoto's month-long summer festival with float processions.",
+    "peaks": [
+      {
+        "on": "07-17",
+        "spread": 14
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Gion_Matsuri"
+    },
+    "icon": "lantern"
+  },
+  {
+    "id": "sapporo-snow",
+    "name": "Sapporo Snow Festival",
+    "category": "festival",
+    "lon": 141.35,
+    "lat": 43.06,
+    "when": "early February 2027",
+    "summary": "Snow and ice sculptures in Odori Park.",
+    "crowd": "Busy; hotels fill early.",
+    "peaks": [
+      {
+        "on": "02-08",
+        "spread": 4
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Sapporo_Snow_Festival"
+    },
+    "icon": "snow"
+  },
+  {
+    "id": "harbin-ice",
+    "name": "Harbin Ice and Snow Festival",
+    "category": "festival",
+    "lon": 126.53,
+    "lat": 45.8,
+    "when": "January to February",
+    "approx": true,
+    "summary": "Large ice sculptures and lit snow parks, deep winter.",
+    "peaks": [
+      {
+        "on": "01-20",
+        "spread": 25
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Harbin_International_Ice_and_Snow_Sculpture_Festival"
+    },
+    "icon": "snow"
+  },
+  {
+    "id": "comiket",
+    "name": "Comiket",
+    "category": "fair",
+    "lon": 139.79,
+    "lat": 35.63,
+    "when": "twice a year, August and late December",
+    "approx": true,
+    "summary": "Giant self-published comics convention at Tokyo Big Sight.",
+    "crowd": "Hundreds of thousands of visitors over the event days; nearby trains and hotels are very busy.",
+    "price": "Hotels near Tokyo Big Sight rise.",
+    "peaks": [
+      {
+        "on": "08-13",
+        "spread": 1
+      },
+      {
+        "on": "12-30",
+        "spread": 1
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Comiket",
+      "official": "https://www.comiket.co.jp/"
+    },
+    "icon": "book"
+  },
+  {
+    "id": "silver-grass-seoul",
+    "name": "Silver grass festival, Haneul Park",
+    "category": "seasonal",
+    "lon": 126.88,
+    "lat": 37.57,
+    "when": "October",
+    "approx": true,
+    "summary": "Fields of silver grass in Haneul Park, Seoul, in autumn.",
+    "peaks": [
+      {
+        "on": "10-15",
+        "spread": 7
+      }
+    ],
+    "icon": "grass"
+  },
+  {
+    "id": "chuseok",
+    "name": "Chuseok",
+    "category": "holiday",
+    "lon": 126.98,
+    "lat": 37.58,
+    "when": "about 14-16 September 2027 (autumn full moon; the date moves each year)",
+    "approx": true,
+    "summary": "Korean harvest holiday with many events and festivals.",
+    "crowd": "More tourists than usual.",
+    "perk": "Free entrance to the palaces and to many events and festivals.",
+    "peaks": [
+      {
+        "on": "09-15",
+        "spread": 1
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Chuseok"
+    },
+    "icon": "moon"
+  },
+  {
+    "id": "golden-week",
+    "name": "Golden Week",
+    "category": "holiday",
+    "lon": 139.7,
+    "lat": 35.69,
+    "when": "29 April to 5 May",
+    "approx": true,
+    "summary": "Run of Japanese public holidays.",
+    "details": "Often described as busy, but little effect has been noticed in practice.",
+    "perk": "Free entrance in many places.",
+    "peaks": [
+      {
+        "on": "05-02",
+        "spread": 3
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Golden_Week_(Japan)"
+    }
+  },
+  {
+    "id": "bangkok-book-fair",
+    "name": "National Book Fair and Bangkok International Book Fair",
+    "category": "fair",
+    "lon": 100.56,
+    "lat": 13.723,
+    "peaks": [
+      {
+        "on": "03-30",
+        "spread": 6
+      },
+      {
+        "on": "10-28",
+        "spread": 5
+      }
+    ],
+    "when": "late March to early April (55th edition listed for 24 March to 4 April 2027), and Book Expo Thailand in late October",
+    "approx": true,
+    "summary": "Thailand's two big book fairs at the Queen Sirikit National Convention Centre.",
+    "details": "The spring National Book Fair also hosts the Bangkok International Book Fair. The autumn edition is branded Book Expo Thailand (23 October to 1 November in 2026). The 2027 spring dates come from a single Thai calendar and the autumn dates repeat 2026.",
+    "crowd": "Very crowded on weekends.",
+    "perk": "Free admission.",
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Thai_National_Book_Fair",
+      "official": "https://www.thailand.go.th/event-detail/54th-national-book-fair--24th-bangkok-international-book-fair-2026"
+    },
+    "icon": "book"
+  },
+  {
+    "id": "tibe",
+    "name": "Taipei International Book Exhibition",
+    "category": "fair",
+    "lon": 121.56,
+    "lat": 25.06,
+    "peaks": [
+      {
+        "on": "02-18",
+        "spread": 3
+      }
+    ],
+    "when": "16-21 February 2027",
+    "summary": "Taiwan's biggest book fair, at the Taipei World Trade Center.",
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Taipei_International_Book_Exhibition",
+      "official": "https://www.tibe.org.tw/en/"
+    },
+    "icon": "book"
+  },
+  {
+    "id": "bibf",
+    "name": "Beijing International Book Fair",
+    "category": "fair",
+    "lon": 116.41,
+    "lat": 39.9,
+    "peaks": [
+      {
+        "on": "06-18",
+        "spread": 2
+      }
+    ],
+    "when": "16-20 June 2027",
+    "summary": "Large annual publishing fair in Beijing.",
+    "icon": "book"
+  },
+  {
+    "id": "hk-book-fair",
+    "name": "Hong Kong Book Fair",
+    "category": "fair",
+    "lon": 114.17,
+    "lat": 22.28,
+    "peaks": [
+      {
+        "on": "07-17",
+        "spread": 3
+      }
+    ],
+    "when": "about 14-20 July 2027",
+    "approx": true,
+    "summary": "Week-long book fair at the Convention and Exhibition Centre, very popular with locals.",
+    "crowd": "Extremely crowded; some days are shut to new entries.",
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Hong_Kong_Book_Fair"
+    },
+    "icon": "book"
+  },
+  {
+    "id": "sibf",
+    "name": "Seoul International Book Fair",
+    "category": "fair",
+    "lon": 127.06,
+    "lat": 37.51,
+    "peaks": [
+      {
+        "on": "06-26",
+        "spread": 2
+      }
+    ],
+    "when": "late June (2027 dates not announced; 2026 was 24-28 June)",
+    "approx": true,
+    "summary": "Seoul's main book fair, held at COEX.",
+    "icon": "book"
+  },
+  {
+    "id": "klibf",
+    "name": "Kuala Lumpur International Book Fair",
+    "category": "fair",
+    "lon": 101.69,
+    "lat": 3.16,
+    "peaks": [
+      {
+        "on": "06-02",
+        "spread": 5
+      }
+    ],
+    "when": "late May to early June (2027 dates not announced; 2026 was 29 May to 7 June)",
+    "approx": true,
+    "summary": "Ten-day book fair at the World Trade Centre Kuala Lumpur.",
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Kuala_Lumpur_International_Book_Fair"
+    },
+    "icon": "book"
+  },
+  {
+    "id": "mibf",
+    "name": "Manila International Book Fair",
+    "category": "fair",
+    "lon": 120.98,
+    "lat": 14.535,
+    "peaks": [
+      {
+        "on": "09-11",
+        "spread": 2
+      }
+    ],
+    "when": "mid September (2027 dates not announced; 2026 was 9-13 September)",
+    "approx": true,
+    "summary": "Philippine book fair at the SMX Convention Center.",
+    "icon": "book"
+  },
+  {
+    "id": "canton-fair",
+    "name": "Canton Fair (China Import and Export Fair)",
+    "category": "fair",
+    "lon": 113.38,
+    "lat": 23.1,
+    "peaks": [
+      {
+        "on": "04-25",
+        "spread": 10
+      },
+      {
+        "on": "10-27",
+        "spread": 12
+      }
+    ],
+    "when": "15 April to 5 May and 15 October to 4 November (2027 phases listed as expected)",
+    "approx": true,
+    "summary": "China's largest trade fair, in Guangzhou, in three phases each spring and autumn.",
+    "details": "Trade visitors only. Hotels in Guangzhou fill and rise sharply during the phases.",
+    "price": "Hotel prices spike.",
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Canton_Fair",
+      "official": "https://www.cantonfair.org.cn/en-US"
+    }
+  },
+  {
+    "id": "computex",
+    "name": "Computex Taipei",
+    "category": "fair",
+    "lon": 121.61,
+    "lat": 25.055,
+    "peaks": [
+      {
+        "on": "06-02",
+        "spread": 2
+      }
+    ],
+    "when": "1-4 June 2027",
+    "summary": "Large computing and electronics show at the Nangang Exhibition Center.",
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Computex",
+      "official": "https://www.computex.biz/"
+    },
+    "icon": "monitor"
+  },
+  {
+    "id": "tokyo-game-show",
+    "name": "Tokyo Game Show",
+    "category": "fair",
+    "lon": 140.035,
+    "lat": 35.648,
+    "peaks": [
+      {
+        "on": "09-18",
+        "spread": 2
+      }
+    ],
+    "when": "16-20 September 2027 (public days at the end)",
+    "summary": "Japan's biggest video game show, at Makuhari Messe.",
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Tokyo_Game_Show",
+      "official": "https://tgs.cesa.or.jp/en/"
+    },
+    "icon": "monitor"
+  },
+  {
+    "id": "animejapan",
+    "name": "AnimeJapan",
+    "category": "fair",
+    "lon": 139.795,
+    "lat": 35.63,
+    "peaks": [
+      {
+        "on": "03-29",
+        "spread": 2
+      }
+    ],
+    "when": "late March (2027 dates not announced; 2026 listed as 28-31 March)",
+    "approx": true,
+    "summary": "Anime industry fair at Tokyo Big Sight.",
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/AnimeJapan",
+      "official": "https://www.anime-japan.jp/en/"
+    },
+    "icon": "monitor"
+  },
+  {
+    "id": "hk-dragon-boat",
+    "name": "Dragon Boat Festival (Tuen Ng), Hong Kong",
+    "category": "festival",
+    "lon": 114.17,
+    "lat": 22.29,
+    "peaks": [
+      {
+        "on": "06-09",
+        "spread": 2
+      }
+    ],
+    "when": "9 June 2027 (fifth day of the fifth lunar month)",
+    "approx": true,
+    "summary": "Dragon boat races in Victoria Harbour, Stanley and Aberdeen, and a public holiday.",
+    "details": "Races run in several harbours; the date follows the lunar calendar.",
+    "perk": "Public holiday, lively waterfront.",
+    "highlights": [
+      {
+        "name": "Stanley",
+        "lon": 114.2,
+        "lat": 22.215
+      },
+      {
+        "name": "Tsim Sha Tsui waterfront",
+        "lon": 114.175,
+        "lat": 22.295
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Dragon_Boat_Festival",
+      "official": "https://www.discoverhongkong.com/"
+    },
+    "icon": "boat"
+  },
+  {
+    "id": "dream-yosacoy",
+    "name": "Dream Yosacoy Festival",
+    "category": "festival",
+    "icon": "star",
+    "lon": 139.7745,
+    "lat": 35.6296,
+    "peaks": [
+      {
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": "sat"
+        },
+        "length": 2,
+        "spread": 1
+      }
+    ],
+    "when": "first full weekend of November, Odaiba and Marunouchi, Tokyo (7-8 November 2026, 6-7 November 2027)",
+    "summary": "One of Tokyo's largest traditional-meets-modern dance festivals, with thousands of dancers.",
+    "details": "A yosakoi dance festival: thousands of dancers with naruko clappers, night projection-mapping collaborations at the Odaiba Statue of Liberty, and live performances around Fuji Television Plaza and Marunouchi. It is always held on the first full weekend of November.",
+    "aliases": [
+      "yosakoi",
+      "dream yosakoi",
+      "よさこい",
+      "ドリームよさこい"
+    ],
+    "highlights": [
+      {
+        "name": "Odaiba (Statue of Liberty, Fuji Television Plaza)",
+        "lon": 139.7745,
+        "lat": 35.6296,
+        "note": "Night projection mapping and dance stages.",
+        "detail": true
+      },
+      {
+        "name": "Marunouchi",
+        "lon": 139.764,
+        "lat": 35.6812,
+        "note": "Live performances.",
+        "detail": true
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Yosakoi"
+    }
+  }
+]

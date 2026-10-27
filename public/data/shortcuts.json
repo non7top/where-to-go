@@ -1,0 +1,10 @@
+[
+  { "id": "okinawa", "name": "Okinawa", "lon": 127.9, "lat": 26.5, "zoom": 7 },
+  { "id": "ko-tao", "name": "Ko Tao", "lon": 99.84, "lat": 10.09, "zoom": 8.5 },
+  { "id": "phuket", "name": "Phuket", "lon": 98.35, "lat": 7.95, "zoom": 8.5 },
+  { "id": "phu-quoc", "name": "Phu Quoc", "lon": 103.98, "lat": 10.29, "zoom": 8.5 },
+  { "id": "jeju", "name": "Jeju", "lon": 126.55, "lat": 33.4, "zoom": 8 },
+  { "id": "seoul-busan", "name": "Seoul and Busan", "lon": 128, "lat": 36, "zoom": 6 },
+  { "id": "hokkaido", "name": "Hokkaido", "lon": 142.8, "lat": 43.3, "zoom": 6 },
+  { "id": "taiwan", "name": "Taiwan", "lon": 121, "lat": 23.7, "zoom": 6.5 }
+]

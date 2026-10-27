@@ -1,0 +1,9 @@
+{
+  "note": "Curator overrides. country: applied to every area of that country. area: key is 'CC:Name' (name as in areas.geojson). tempOffset adds degrees C to hi and lo for a month; rainLevel (0-3) and comfort (1-5, 5 best) are keyed by month number. The comfort values below are starter values taken from the owner's remarks (Japan: May and September pleasant, mid-summer hot) and should be reviewed.",
+  "country": {
+    "KR": { "heating": "no" }
+  },
+  "area": {
+    "JP:Tokyo": { "comfort": { "5": 5, "9": 4, "7": 2, "8": 1 } }
+  }
+}

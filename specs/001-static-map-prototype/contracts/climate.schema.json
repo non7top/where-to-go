@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "climate.json",
+  "type": "object",
+  "additionalProperties": { "$ref": "#/$defs/areaClimate" },
+  "$defs": {
+    "months12": { "type": "array", "minItems": 12, "maxItems": 12 },
+    "areaClimate": {
+      "type": "object",
+      "required": ["hi", "lo", "rain", "rainLevel", "cost"],
+      "properties": {
+        "hi": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": ["number", "null"] } },
+        "lo": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": ["number", "null"] } },
+        "rain": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": ["number", "null"], "minimum": 0 } },
+        "rainLevel": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": ["integer", "null"], "minimum": 0, "maximum": 3 } },
+        "cost": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": "integer", "minimum": 1, "maximum": 3 } },
+        "wind": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": ["number", "null"], "minimum": 0 } },
+        "comfort": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 } },
+        "heating": { "enum": ["yes", "partial", "no"] },
+        "cooling": { "enum": ["yes", "partial", "no"] }
+      },
+      "additionalProperties": false
+    }
+  }
+}

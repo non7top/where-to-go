@@ -1,0 +1,524 @@
+[
+  {
+    "id": "cherry-blossom",
+    "name": "Cherry blossom",
+    "category": "seasonal",
+    "lon": 135.0,
+    "lat": 35.0,
+    "when": "late January in Okinawa, late March in the south of Japan and Korea, early May in Hokkaido",
+    "approx": true,
+    "summary": "The blossom front moves north: peak in each area, plus or minus 7 days.",
+    "details": "Cherry blossom peaks first in the far south and moves north over about three months. The season has its own name in each country: in China yinghua (樱花), in Japan sakura (桜) with hanami (花見) for the viewing parties, in Korea beotkkot (벚꽃). Dates are rough typical peaks from general knowledge, not a forecast; they shift by a week or two each year, and the area table is meant to be corrected. China is a very rough starter.",
+    "crowd": "Popular parks are crowded at the peak.",
+    "price": "Hotels rise during the peak week.",
+    "fronts": [
+      {
+        "country": "JP",
+        "spread": 7,
+        "anchors": [
+          [
+            26.2,
+            "01-25"
+          ],
+          [
+            31.6,
+            "03-24"
+          ],
+          [
+            33.6,
+            "03-25"
+          ],
+          [
+            35.7,
+            "03-29"
+          ],
+          [
+            38.3,
+            "04-08"
+          ],
+          [
+            40.8,
+            "04-19"
+          ],
+          [
+            43.1,
+            "04-29"
+          ]
+        ],
+        "label": "桜・花見 (Sakura, hanami)",
+        "aliases": [
+          "sakura",
+          "hanami",
+          "花見"
+        ]
+      },
+      {
+        "country": "KR",
+        "spread": 7,
+        "anchors": [
+          [
+            33.3,
+            "03-24"
+          ],
+          [
+            35.2,
+            "03-30"
+          ],
+          [
+            37.6,
+            "04-08"
+          ],
+          [
+            38.3,
+            "04-13"
+          ]
+        ],
+        "label": "벚꽃 (Beotkkot)",
+        "aliases": [
+          "hanami",
+          "sakura",
+          "벚나무",
+          "beotnamu"
+        ]
+      },
+      {
+        "country": "CN",
+        "spread": 7,
+        "minLat": 24,
+        "anchors": [
+          [
+            25.0,
+            "03-01"
+          ],
+          [
+            30.6,
+            "03-20"
+          ],
+          [
+            34.3,
+            "04-02"
+          ],
+          [
+            39.9,
+            "04-08"
+          ]
+        ],
+        "label": "樱花 (Yinghua)",
+        "aliases": [
+          "yīnghuā",
+          "hanami",
+          "sakura",
+          "櫻花"
+        ]
+      }
+    ],
+    "highlights": [
+      {
+        "name": "Ueno Park, Tokyo",
+        "lon": 139.77,
+        "lat": 35.715,
+        "on": "03-29",
+        "spread": 7
+      },
+      {
+        "name": "Philosopher's Path, Kyoto",
+        "lon": 135.795,
+        "lat": 35.027,
+        "on": "03-30",
+        "spread": 7
+      },
+      {
+        "name": "Hirosaki Castle",
+        "lon": 140.46,
+        "lat": 40.607,
+        "on": "04-25",
+        "spread": 7
+      },
+      {
+        "name": "Jinhae, Korea",
+        "lon": 128.66,
+        "lat": 35.14,
+        "on": "03-31",
+        "spread": 7
+      },
+      {
+        "name": "Wuhan University",
+        "lon": 114.36,
+        "lat": 30.54,
+        "on": "03-22",
+        "spread": 7
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Cherry_blossom"
+    },
+    "icon": "sakura"
+  },
+  {
+    "id": "autumn-leaves",
+    "name": "Autumn leaves",
+    "category": "seasonal",
+    "lon": 135.0,
+    "lat": 35.0,
+    "when": "mid-October in the far north, late November to early December in the south",
+    "approx": true,
+    "summary": "The colour front moves south: peak in each area, plus or minus 7 days.",
+    "details": "Autumn colour starts in the north and the mountains and moves south. The season has its own name in each country: in China hongye (红叶, traditional 紅葉), literally red leaf; in Japan momiji (紅葉); in Korea danpung (단풍), also hong'yeop (홍엽), while the maple tree itself is danpungnamu (단풍나무). Dates are rough typical peaks from general knowledge, not a forecast; they shift by a week or two each year, and the area table is meant to be corrected. Altitude is not modelled, so mountain areas peak earlier than shown. China is a very rough starter.",
+    "crowd": "Among the busiest times of the year at famous spots.",
+    "price": "Hotel prices peak in Kyoto.",
+    "fronts": [
+      {
+        "country": "JP",
+        "spread": 7,
+        "minLat": 30,
+        "anchors": [
+          [
+            31.6,
+            "12-05"
+          ],
+          [
+            33.6,
+            "12-01"
+          ],
+          [
+            35.7,
+            "11-28"
+          ],
+          [
+            38.3,
+            "11-10"
+          ],
+          [
+            40.8,
+            "10-30"
+          ],
+          [
+            43.1,
+            "10-20"
+          ]
+        ],
+        "label": "紅葉 (Momiji)",
+        "aliases": [
+          "koyo",
+          "kouyou",
+          "紅葉狩り",
+          "momijigari"
+        ]
+      },
+      {
+        "country": "KR",
+        "spread": 7,
+        "anchors": [
+          [
+            33.3,
+            "11-05"
+          ],
+          [
+            35.2,
+            "11-12"
+          ],
+          [
+            37.6,
+            "11-01"
+          ],
+          [
+            38.3,
+            "10-18"
+          ]
+        ],
+        "label": "단풍 (Danpung)",
+        "aliases": [
+          "danpungnamu",
+          "단풍나무",
+          "丹楓",
+          "hong'yeop",
+          "홍엽",
+          "momiji"
+        ]
+      },
+      {
+        "country": "CN",
+        "spread": 7,
+        "minLat": 28,
+        "anchors": [
+          [
+            30.0,
+            "11-25"
+          ],
+          [
+            34.3,
+            "11-10"
+          ],
+          [
+            40.0,
+            "10-30"
+          ],
+          [
+            47.0,
+            "10-05"
+          ]
+        ],
+        "label": "红叶 (Hongye)",
+        "aliases": [
+          "hóngyè",
+          "紅葉",
+          "red leaf",
+          "momiji"
+        ]
+      }
+    ],
+    "highlights": [
+      {
+        "name": "Arashiyama, Kyoto",
+        "lon": 135.67,
+        "lat": 35.01,
+        "on": "11-25",
+        "spread": 7
+      },
+      {
+        "name": "Nikko",
+        "lon": 139.6,
+        "lat": 36.75,
+        "on": "10-25",
+        "spread": 7
+      },
+      {
+        "name": "Seoraksan, Korea",
+        "lon": 128.47,
+        "lat": 38.12,
+        "on": "10-18",
+        "spread": 7
+      },
+      {
+        "name": "Naejangsan, Korea",
+        "lon": 126.89,
+        "lat": 35.49,
+        "on": "11-05",
+        "spread": 7
+      },
+      {
+        "name": "Xiangshan, Beijing",
+        "lon": 116.19,
+        "lat": 39.99,
+        "on": "10-28",
+        "spread": 7
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Autumn_leaf_color"
+    },
+    "icon": "maple"
+  },
+  {
+    "id": "ginkgo",
+    "name": "Ginkgo leaves",
+    "category": "seasonal",
+    "icon": "ginkgo",
+    "lon": 135.0,
+    "lat": 35.0,
+    "when": "mid-October in the far north to early December in the south",
+    "approx": true,
+    "summary": "Golden ginkgo avenues: the colour front moves south, a little after the maple leaves in Japan.",
+    "details": "Ginkgo avenues turn gold and drop their leaves, often a week or so after the maples. Dates are rough typical peaks from general knowledge, not a forecast; they shift by a week or two each year, and the area table is meant to be corrected. China is a very rough starter. Shanghai is set from a local report: the season runs from mid-November to mid-December, with the peak in the second half of November; the other Chinese areas follow latitude.",
+    "crowd": "Famous avenues are crowded at the peak, especially at weekends.",
+    "fronts": [
+      {
+        "country": "JP",
+        "spread": 7,
+        "minLat": 30,
+        "anchors": [
+          [
+            31.6,
+            "12-08"
+          ],
+          [
+            33.6,
+            "12-05"
+          ],
+          [
+            35.7,
+            "12-02"
+          ],
+          [
+            38.3,
+            "11-15"
+          ],
+          [
+            40.8,
+            "11-03"
+          ],
+          [
+            43.1,
+            "10-23"
+          ]
+        ],
+        "label": "イチョウ (Icho)",
+        "aliases": [
+          "icho",
+          "ityou",
+          "銀杏",
+          "公孫樹"
+        ]
+      },
+      {
+        "country": "KR",
+        "spread": 7,
+        "anchors": [
+          [
+            33.3,
+            "11-15"
+          ],
+          [
+            35.2,
+            "11-15"
+          ],
+          [
+            37.6,
+            "11-05"
+          ],
+          [
+            38.3,
+            "10-25"
+          ]
+        ],
+        "label": "은행나무 (Eunhaeng)",
+        "aliases": [
+          "eunhaeng",
+          "銀杏",
+          "ginkgo"
+        ]
+      },
+      {
+        "country": "CN",
+        "spread": 7,
+        "minLat": 28,
+        "anchors": [
+          [
+            30.0,
+            "11-30"
+          ],
+          [
+            34.3,
+            "11-18"
+          ],
+          [
+            40.0,
+            "11-05"
+          ],
+          [
+            47.0,
+            "10-12"
+          ]
+        ],
+        "label": "银杏 (Yinxing)",
+        "aliases": [
+          "yínxìng",
+          "銀杏",
+          "白果树"
+        ],
+        "overrides": [
+          {
+            "areaId": "CHN-1819",
+            "on": "11-27",
+            "spread": 14
+          }
+        ]
+      }
+    ],
+    "highlights": [
+      {
+        "name": "Meiji Jingu Gaien avenue, Tokyo",
+        "lon": 139.7188,
+        "lat": 35.6743,
+        "on": "11-28",
+        "spread": 7
+      },
+      {
+        "name": "Hokkaido University avenue, Sapporo",
+        "lon": 141.3406,
+        "lat": 43.0771,
+        "on": "10-23",
+        "spread": 7
+      },
+      {
+        "name": "Namiseom, Korea",
+        "lon": 127.5253,
+        "lat": 37.7913,
+        "on": "10-30",
+        "spread": 7
+      },
+      {
+        "name": "Diaoyutai ginkgo avenue, Beijing",
+        "lon": 116.3119,
+        "lat": 39.9174,
+        "on": "11-05",
+        "spread": 7
+      },
+      {
+        "name": "Shanghai ginkgo streets",
+        "lon": 121.47,
+        "lat": 31.23,
+        "on": "11-27",
+        "spread": 14,
+        "note": "Mid-November to mid-December, peak in the second half of November. Zoom in for the best spots."
+      },
+      {
+        "name": "Huangjin Chengdao, Changning",
+        "lon": 121.3955,
+        "lat": 31.1966,
+        "on": "11-27",
+        "spread": 14,
+        "note": "A photogenic ginkgo-lined pedestrian street where the road glows gold.",
+        "detail": true
+      },
+      {
+        "name": "Jumen Lu, Huangpu",
+        "lon": 121.4757,
+        "lat": 31.2085,
+        "on": "11-27",
+        "spread": 14,
+        "note": "Golden branches form a tunnel, and fallen leaves stay unswept through mid-December.",
+        "detail": true
+      },
+      {
+        "name": "Anting Ancient Tree Park, Jiading",
+        "lon": 121.17,
+        "lat": 31.29,
+        "on": "11-27",
+        "spread": 14,
+        "note": "Home to Shanghai's oldest ginkgo, over 1,200 years old and 27 m tall.",
+        "detail": true
+      },
+      {
+        "name": "Expo Park, Pudong",
+        "lon": 121.469,
+        "lat": 31.183,
+        "on": "11-27",
+        "spread": 14,
+        "note": "A free ginkgo lawn and zodiac sculptures along the Huangpu River.",
+        "detail": true
+      },
+      {
+        "name": "Gongqing Forest Park, Yangpu",
+        "lon": 121.556,
+        "lat": 31.3235,
+        "on": "11-27",
+        "spread": 14,
+        "note": "A large forest park with ginkgos and maples by late November.",
+        "detail": true
+      },
+      {
+        "name": "Zhenru Temple, Putuo",
+        "lon": 121.3938,
+        "lat": 31.2655,
+        "on": "11-27",
+        "spread": 14,
+        "note": "A historic ginkgo about 650 years old, from the Yuan dynasty.",
+        "detail": true
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Ginkgo_biloba"
+    }
+  }
+]

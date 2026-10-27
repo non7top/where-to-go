@@ -1,0 +1,90 @@
+[
+  { "iata": "ICN/GMP", "name": "Seoul", "country": "KR", "lon": 126.98, "lat": 37.57, "radiusKm": 35 },
+  { "iata": "PUS", "name": "Busan", "country": "KR", "lon": 129.07, "lat": 35.18, "radiusKm": 25 },
+  { "iata": "CJU", "name": "Jeju", "country": "KR", "lon": 126.53, "lat": 33.5, "radiusKm": 25 },
+  { "iata": "TAE", "name": "Daegu", "country": "KR", "lon": 128.6, "lat": 35.87, "radiusKm": 20 },
+
+  { "iata": "HND/NRT", "name": "Tokyo", "country": "JP", "lon": 139.69, "lat": 35.68, "radiusKm": 35 },
+  { "iata": "KIX/ITM", "name": "Osaka", "country": "JP", "lon": 135.5, "lat": 34.69, "radiusKm": 30 },
+  { "iata": "NGO", "name": "Nagoya", "country": "JP", "lon": 136.91, "lat": 35.18, "radiusKm": 25 },
+  { "iata": "FUK", "name": "Fukuoka", "country": "JP", "lon": 130.4, "lat": 33.59, "radiusKm": 25 },
+  { "iata": "CTS", "name": "Sapporo", "country": "JP", "lon": 141.35, "lat": 43.06, "radiusKm": 25 },
+  { "iata": "OKA", "name": "Naha", "country": "JP", "lon": 127.68, "lat": 26.21, "radiusKm": 20 },
+  { "iata": "HIJ", "name": "Hiroshima", "country": "JP", "lon": 132.46, "lat": 34.39, "radiusKm": 20 },
+  { "iata": "SDJ", "name": "Sendai", "country": "JP", "lon": 140.87, "lat": 38.27, "radiusKm": 20 },
+  { "iata": "KOJ", "name": "Kagoshima", "country": "JP", "lon": 130.56, "lat": 31.6, "radiusKm": 20 },
+  { "iata": "ISG", "name": "Ishigaki", "country": "JP", "lon": 124.16, "lat": 24.34, "radiusKm": 15 },
+
+  { "iata": "PEK/PKX", "name": "Beijing", "country": "CN", "lon": 116.41, "lat": 39.9, "radiusKm": 35 },
+  { "iata": "PVG/SHA", "name": "Shanghai", "country": "CN", "lon": 121.47, "lat": 31.23, "radiusKm": 35 },
+  { "iata": "CAN", "name": "Guangzhou", "country": "CN", "lon": 113.26, "lat": 23.13, "radiusKm": 30 },
+  { "iata": "SZX", "name": "Shenzhen", "country": "CN", "lon": 114.06, "lat": 22.54, "radiusKm": 25 },
+  { "iata": "CTU/TFU", "name": "Chengdu", "country": "CN", "lon": 104.07, "lat": 30.67, "radiusKm": 30 },
+  { "iata": "XIY", "name": "Xi'an", "country": "CN", "lon": 108.94, "lat": 34.34, "radiusKm": 25 },
+  { "iata": "CKG", "name": "Chongqing", "country": "CN", "lon": 106.55, "lat": 29.56, "radiusKm": 30 },
+  { "iata": "KMG", "name": "Kunming", "country": "CN", "lon": 102.83, "lat": 25.04, "radiusKm": 25 },
+  { "iata": "HRB", "name": "Harbin", "country": "CN", "lon": 126.53, "lat": 45.8, "radiusKm": 25 },
+  { "iata": "URC", "name": "Urumqi", "country": "CN", "lon": 87.62, "lat": 43.83, "radiusKm": 25 },
+  { "iata": "LXA", "name": "Lhasa", "country": "CN", "lon": 91.12, "lat": 29.65, "radiusKm": 20 },
+  { "iata": "SYX", "name": "Sanya", "country": "CN", "lon": 109.51, "lat": 18.25, "radiusKm": 20 },
+  { "iata": "HGH", "name": "Hangzhou", "country": "CN", "lon": 120.16, "lat": 30.27, "radiusKm": 25 },
+  { "iata": "HKG", "name": "Hong Kong", "country": "HK", "lon": 114.17, "lat": 22.32, "radiusKm": 20 },
+  { "iata": "MFM", "name": "Macau", "country": "MO", "lon": 113.54, "lat": 22.2, "radiusKm": 10 },
+
+  { "iata": "TPE/TSA", "name": "Taipei", "country": "TW", "lon": 121.56, "lat": 25.03, "radiusKm": 25 },
+  { "iata": "KHH", "name": "Kaohsiung", "country": "TW", "lon": 120.3, "lat": 22.63, "radiusKm": 20 },
+
+  { "iata": "ULN", "name": "Ulaanbaatar", "country": "MN", "lon": 106.92, "lat": 47.92, "radiusKm": 25 },
+
+  { "iata": "BKK/DMK", "name": "Bangkok", "country": "TH", "lon": 100.5, "lat": 13.75, "radiusKm": 35 },
+  { "iata": "CNX", "name": "Chiang Mai", "country": "TH", "lon": 98.99, "lat": 18.79, "radiusKm": 25 },
+  { "iata": "CEI", "name": "Chiang Rai", "country": "TH", "lon": 99.83, "lat": 19.91, "radiusKm": 20 },
+  { "iata": "HKT", "name": "Phuket", "country": "TH", "lon": 98.39, "lat": 7.88, "radiusKm": 20 },
+  { "iata": "KBV", "name": "Krabi", "country": "TH", "lon": 98.91, "lat": 8.09, "radiusKm": 20 },
+  { "iata": "USM", "name": "Koh Samui", "country": "TH", "lon": 100.06, "lat": 9.51, "radiusKm": 15 },
+  { "iata": "HDY", "name": "Hat Yai", "country": "TH", "lon": 100.47, "lat": 7.01, "radiusKm": 20 },
+  { "iata": "UTP", "name": "Pattaya", "country": "TH", "lon": 100.88, "lat": 12.93, "radiusKm": 20 },
+
+  { "iata": "HAN", "name": "Hanoi", "country": "VN", "lon": 105.85, "lat": 21.03, "radiusKm": 30 },
+  { "iata": "SGN", "name": "Ho Chi Minh City", "country": "VN", "lon": 106.66, "lat": 10.78, "radiusKm": 30 },
+  { "iata": "DAD", "name": "Da Nang", "country": "VN", "lon": 108.22, "lat": 16.05, "radiusKm": 25 },
+  { "iata": "CXR", "name": "Nha Trang", "country": "VN", "lon": 109.19, "lat": 12.24, "radiusKm": 20 },
+  { "iata": "PQC", "name": "Phu Quoc", "country": "VN", "lon": 103.98, "lat": 10.29, "radiusKm": 20 },
+  { "iata": "DLI", "name": "Da Lat", "country": "VN", "lon": 108.44, "lat": 11.94, "radiusKm": 20 },
+  { "iata": "HUI", "name": "Hue", "country": "VN", "lon": 107.59, "lat": 16.46, "radiusKm": 20 },
+
+  { "iata": "PNH", "name": "Phnom Penh", "country": "KH", "lon": 104.92, "lat": 11.56, "radiusKm": 25 },
+  { "iata": "REP", "name": "Siem Reap", "country": "KH", "lon": 103.86, "lat": 13.36, "radiusKm": 20 },
+
+  { "iata": "VTE", "name": "Vientiane", "country": "LA", "lon": 102.6, "lat": 17.97, "radiusKm": 25 },
+  { "iata": "LPQ", "name": "Luang Prabang", "country": "LA", "lon": 102.13, "lat": 19.89, "radiusKm": 20 },
+
+  { "iata": "RGN", "name": "Yangon", "country": "MM", "lon": 96.16, "lat": 16.84, "radiusKm": 25 },
+  { "iata": "MDL", "name": "Mandalay", "country": "MM", "lon": 96.08, "lat": 21.97, "radiusKm": 25 },
+
+  { "iata": "KUL", "name": "Kuala Lumpur", "country": "MY", "lon": 101.69, "lat": 3.14, "radiusKm": 30 },
+  { "iata": "PEN", "name": "Penang", "country": "MY", "lon": 100.33, "lat": 5.41, "radiusKm": 20 },
+  { "iata": "BKI", "name": "Kota Kinabalu", "country": "MY", "lon": 116.07, "lat": 5.98, "radiusKm": 20 },
+  { "iata": "KCH", "name": "Kuching", "country": "MY", "lon": 110.35, "lat": 1.55, "radiusKm": 20 },
+  { "iata": "LGK", "name": "Langkawi", "country": "MY", "lon": 99.73, "lat": 6.35, "radiusKm": 15 },
+
+  { "iata": "SIN", "name": "Singapore", "country": "SG", "lon": 103.82, "lat": 1.35, "radiusKm": 15 },
+
+  { "iata": "CGK", "name": "Jakarta", "country": "ID", "lon": 106.85, "lat": -6.21, "radiusKm": 35 },
+  { "iata": "DPS", "name": "Bali (Denpasar)", "country": "ID", "lon": 115.22, "lat": -8.65, "radiusKm": 25 },
+  { "iata": "SUB", "name": "Surabaya", "country": "ID", "lon": 112.75, "lat": -7.25, "radiusKm": 25 },
+  { "iata": "YIA", "name": "Yogyakarta", "country": "ID", "lon": 110.37, "lat": -7.8, "radiusKm": 20 },
+  { "iata": "KNO", "name": "Medan", "country": "ID", "lon": 98.67, "lat": 3.59, "radiusKm": 25 },
+  { "iata": "UPG", "name": "Makassar", "country": "ID", "lon": 119.41, "lat": -5.15, "radiusKm": 25 },
+  { "iata": "LOP", "name": "Lombok", "country": "ID", "lon": 116.28, "lat": -8.58, "radiusKm": 20 },
+  { "iata": "LBJ", "name": "Labuan Bajo", "country": "ID", "lon": 119.89, "lat": -8.49, "radiusKm": 15 },
+
+  { "iata": "MNL", "name": "Manila", "country": "PH", "lon": 120.98, "lat": 14.6, "radiusKm": 30 },
+  { "iata": "CEB", "name": "Cebu", "country": "PH", "lon": 123.89, "lat": 10.31, "radiusKm": 25 },
+  { "iata": "DVO", "name": "Davao", "country": "PH", "lon": 125.46, "lat": 7.19, "radiusKm": 25 },
+  { "iata": "PPS", "name": "Puerto Princesa", "country": "PH", "lon": 118.74, "lat": 9.74, "radiusKm": 20 },
+  { "iata": "MPH", "name": "Boracay", "country": "PH", "lon": 121.93, "lat": 11.97, "radiusKm": 15 },
+
+  { "iata": "BWN", "name": "Bandar Seri Begawan", "country": "BN", "lon": 114.94, "lat": 4.94, "radiusKm": 20 },
+  { "iata": "DIL", "name": "Dili", "country": "TL", "lon": 125.57, "lat": -8.56, "radiusKm": 20 }
+]

@@ -1,0 +1,31 @@
+{
+  "name": "where-to-go",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc --noEmit && vite build",
+    "build:standalone": "tsc --noEmit && vite build --config vite.standalone.config.ts",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "lint": "eslint . && tsc --noEmit",
+    "test": "vitest run && node scripts/validate-data.mjs",
+    "links": "node scripts/check-links.mjs",
+    "data": "node scripts/build-areas.mjs && node scripts/fetch-climate.mjs"
+  },
+  "dependencies": {
+    "flag-icons": "^7.6.0",
+    "maplibre-gl": "^6.16.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.0",
+    "@types/node": "^22.20.5",
+    "ajv": "^8.20.0",
+    "eslint": "^10.13.0",
+    "mapshaper": "^0.7.98",
+    "typescript": "~6.0.0",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}

@@ -73,7 +73,8 @@ index.html
 data-src/                 # inputs to the data step
 ├── overrides.json        # curator overrides: temp offsets, rain level, comfort 5-1, heating/cooling notes
 ├── costs.json            # base cost tier per country, monthly deltas
-└── islands.json          # tiny islands drawn as circles (Ko Tao, Phu Quoc)
+├── cities.json           # cities with airports: center, radius, IATA code (the Cities start menu)
+└── islands.json          # tiny islands without an airport, drawn as circles (Ko Tao)
 scripts/
 ├── build-areas.mjs       # Natural Earth -> simplified areas.geojson
 ├── fetch-climate.mjs     # NASA POWER -> climate.json

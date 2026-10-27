@@ -44,6 +44,12 @@
 - [ ] T018 Responsive layout, focus styles, keyboard paths, Escape handling, contrast pass in light and dark. Done and checked in a browser: responsive layout (desktop and 390 px), month bar keyboard, Escape closing the panel. Dark palette checked by applying the stylesheet's dark variables to the page (the browser tool could not switch the OS color-scheme preference, so the media-query switch itself is untested): panels, legend, month bar and map stay legible. Not checked: tab order through all controls.
 - [x] T019 Error state when data fails to load. Checked by hiding `climate.json` from the served build: the page shows the message instead of a blank map.
 
+## Phase 7b: Cities as the starting point (FR-023)
+
+- [x] T022 `data-src/cities.json` (74 cities with airports, SEA and EA) and `scripts/build-areas.mjs`: city sectors as circles with `level: "city"` and `iata`; climate fetched per city center
+- [x] T023 `src/lib/cities.ts` (menu grouping, lookup by any airport code) with unit tests; `src/ui/menu.ts` generic grouped menu; Cities button first in the top bar; `#c=<code>` start link
+- [x] T024 City layer on the map (outlined circles from zoom 4) and airport code in panel and tooltip. Checked in a browser: Busan from the menu flies to its sector and opens the panel with its own weather
+
 ## Phase 8: Hosting and checks
 
 - [ ] T020 `.github/workflows/pages.yml` (build in container, deploy `dist/`); run with `act` before any real run. Workflow written and passes actionlint; Ran `act push -j build --bind` with `--container-options "-u <uid>:<gid> --group-add <docker socket gid>"`: checkout, install and build all succeed and the dist archive is created, no root-owned files left. The final artifact upload fails inside act ("unknown field mime_type" from act's local artifact server, which does not support this upload-artifact version), so the upload and the deploy job are untested until a real run. Nothing has been pushed.

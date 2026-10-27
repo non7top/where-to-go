@@ -17,6 +17,7 @@
 - Q: Gradient or discrete colors? -> A: Smooth gradient.
 - Q: How are zoom-cuts presented? -> A: Both a shortcut list and a fixed inset for the main case (Okinawa).
 - Q: Do cool nights and indoor comfort matter? -> A: Cool nights are acceptable for the color, but evening comfort in accommodation matters, and some regions have heating or air conditioning in typical rooms and others do not (the user's example: Korea generally has none). So each area carries a note on typical heating and cooling, and the panel flags nights that are cold or hot where that is missing.
+- Q: What is the main starting point? -> A: A list of main cities with airports (Busan, Seoul and so on), each the center of a region sector with its own weather. Picking a city is how a visitor starts: the map moves to its sector and opens its panel.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -142,12 +143,14 @@ The page looks finished: consistent colors, readable labels, and a layout that a
 - **FR-020**: Event data MUST be kept separately from area data, and concert data separately from the other events, so each can be updated on its own.
 - **FR-021**: Each area-month MAY carry a subjective comfort rating from 5 (best) to 1, set by a curator, and the area panel MUST show it when present.
 - **FR-022**: Each area MAY carry a note on typical heating and cooling in accommodation (available, partial, not typical). When the selected month has cold nights where heating is not typical, or hot nights where cooling is not typical, the area panel MUST flag it. This flag MUST NOT change the map color.
+- **FR-023**: The page MUST provide a Cities list as the main starting point. Each entry is a city with an airport, grouped by country, and is the center of a city sector with its own monthly weather. Choosing one MUST move the map to that sector and open its area panel, which shows the airport code. A start link MAY name a city by any of its airport codes.
 
 ### Key Entities *(include if feature involves data)*
 
 - **Area**: A place on the map with a name, a parent area, a shape, a zoom range in which it shows, and an optional note on typical heating and cooling in accommodation. Has twelve monthly climate entries.
 - **Monthly climate**: For one area and one month: temperature range, rain status, rain or monsoon mark, cost tier, and an optional comfort rating from 5 to 1.
 - **Event**: A name, category, location, month coverage (exact date or approximate window), a short description, and optional crowd, price and perk notes.
+- **City sector**: An area centered on a city with an airport: name, country, airport code or codes, center point and radius. Has its own twelve monthly climate entries. Listed in the Cities menu.
 - **Shortcut**: A named jump target with a position and zoom, for small areas that vanish at region scale.
 
 ## Success Criteria *(mandatory)*

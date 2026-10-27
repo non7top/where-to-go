@@ -10,7 +10,8 @@ GeoJSON FeatureCollection. Feature properties:
 |-------|------|-------|
 | `id` | string | Unique, stable (Natural Earth adm1 code, or `island-<slug>`, or `country-<iso2>`) |
 | `name` | string | Display name |
-| `level` | `"country"` or `"province"` or `"island"` | Drives zoom range |
+| `level` | `"country"`, `"province"`, `"city"` or `"island"` | Drives zoom range |
+| `iata` | string, cities only | Airport code or codes, e.g. `PUS` or `ICN/GMP` |
 | `country` | string | ISO 3166-1 alpha-2 |
 | `point` | [lon, lat] | Climate point used for the data (`[0, 0]` for countries, which hold a mean) |
 

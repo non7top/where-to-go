@@ -1,6 +1,6 @@
 import { Map as GLMap, NavigationControl, setWorkerUrl } from 'maplibre-gl';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
-import type { GeoJSONSource, LayerSpecification, MapGeoJSONFeature, Point } from 'maplibre-gl';
+import type { GeoJSONSource, LayerSpecification, Point } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point as GeoPoint } from 'geojson';
 import type { AppData } from '../data/load';
 import type { Level, MapEvent } from '../data/types';
@@ -9,6 +9,7 @@ import { comfortColor, NO_DATA_COLOR } from '../lib/color';
 import { feltHigh } from '../lib/feel';
 import type { Occurrence } from '../lib/events';
 import { boundsFrom, boundsPolygon, isTinyBox } from '../lib/scope';
+import { stackPoints } from '../lib/stack';
 import type { Bounds } from '../lib/scope';
 import { interpMonthly, isActive, monthOfDay } from '../lib/season';
 import { isMarked } from '../lib/rain';
@@ -58,6 +59,7 @@ export class WeatherMap {
   readonly map: GLMap;
   private day = 0;
   private eventKey = '';
+  private zoomKey = 0;
   private selecting = false;
   private suppressClick = false;
   private ready = false;
@@ -172,20 +174,8 @@ export class WeatherMap {
     map.addImage('cluster', clusterIcon(), { pixelRatio: 2 });
     map.addImage('highlight-star', starIcon(), { pixelRatio: 2 });
     map.addSource('stars', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
-    map.addSource('events', {
-      type: 'geojson',
-      data: { type: 'FeatureCollection', features: [] },
-      cluster: true,
-      clusterRadius: 34,
-      clusterMaxZoom: 8,
-    });
-    map.addLayer({
-      id: 'event-clusters', type: 'symbol', source: 'events', filter: ['has', 'point_count'],
-      layout: {
-        'icon-image': 'cluster', 'icon-allow-overlap': true,
-        'icon-size': ['step', ['get', 'point_count'], 0.95, 3, 1.15, 6, 1.35],
-      },
-    });
+    // Icons are grouped and laid out in code (see lib/stack.ts), so the source is not clustered.
+    map.addSource('events', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
     map.addLayer({
       id: 'event-stars', type: 'symbol', source: 'stars', filter: ['!=', ['get', 'detail'], true],
       layout: { 'icon-image': 'highlight-star', 'icon-allow-overlap': true, 'icon-size': 0.9 },
@@ -194,22 +184,37 @@ export class WeatherMap {
       id: 'event-stars-detail', type: 'symbol', source: 'stars', minzoom: DETAIL_STAR_MINZOOM, filter: ['==', ['get', 'detail'], true],
       layout: { 'icon-image': 'highlight-star', 'icon-allow-overlap': true, 'icon-size': 0.8 },
     });
+    // Halo for the icons of the event row hovered in the side card (filter set by previewEvent).
     map.addLayer({
-      id: 'event-points', type: 'symbol', source: 'events', filter: ['!', ['has', 'point_count']],
+      id: 'event-halo', type: 'circle', source: 'events', filter: ['==', ['get', 'id'], '\u0000'],
+      paint: {
+        'circle-radius': 19,
+        'circle-color': css('--accent'),
+        'circle-opacity': 0.3,
+        'circle-stroke-color': css('--accent'),
+        'circle-stroke-width': 2.5,
+      },
+    });
+    map.addLayer({
+      id: 'event-points', type: 'symbol', source: 'events',
       layout: { 'icon-image': ['get', 'icon'], 'icon-allow-overlap': true, 'icon-size': 1 },
     });
 
     const areaLayers = LEVELS.map((l) => `fill-${l.level}`);
-    const eventLayers = ['event-points', 'event-clusters'];
+    // The grid depends on how far apart icons are on screen, so it is rebuilt after each zoom.
+    map.on('zoomend', () => {
+      this.zoomKey = Math.round(map.getZoom() * 4);
+      this.setEvents(this.day);
+    });
 
     map.on('mousemove', (e) => {
       const eh = this.eventHit(e.point);
-      const ev = eh?.event ?? null;
+      const ev = eh?.more ? null : (eh?.event ?? null);
       const hit = ev ? null : this.areaAt(e.point, areaLayers);
       this.setHover(hit);
       // While a rectangle can be drawn the cursor stays a crosshair, whatever is under it.
       const boxing = this.selecting || e.originalEvent.shiftKey;
-      map.getCanvas().style.cursor = boxing ? 'crosshair' : ev || hit || this.clusterAt(e.point) ? 'pointer' : '';
+      map.getCanvas().style.cursor = boxing ? 'crosshair' : ev || hit || eh?.more ? 'pointer' : '';
       this.opts.handlers?.onHoverEvent?.(ev, e.point, eh?.label);
       this.opts.handlers?.onHoverArea?.(hit, e.point);
     });
@@ -218,16 +223,11 @@ export class WeatherMap {
       this.opts.handlers?.onHoverEvent?.(null, { x: 0, y: 0 });
       this.opts.handlers?.onHoverArea?.(null, { x: 0, y: 0 });
     });
-    map.on('click', async (e) => {
+    map.on('click', (e) => {
       if (this.suppressClick) return;
       const hit = this.eventHit(e.point);
+      if (hit?.more) return void map.easeTo({ center: e.lngLat, zoom: map.getZoom() + 2 });
       if (hit) return void this.opts.handlers?.onEvent?.(hit.event, hit.occ);
-      const cluster = this.clusterAt(e.point, eventLayers);
-      if (cluster) {
-        const zoom = await (map.getSource('events') as GeoJSONSource).getClusterExpansionZoom(cluster.id as number);
-        map.easeTo({ center: (cluster.geometry as GeoPoint).coordinates as [number, number], zoom: zoom + 0.5 });
-        return;
-      }
       const id = this.areaAt(e.point, areaLayers);
       if (id) this.opts.handlers?.onArea?.(id);
     });
@@ -294,6 +294,16 @@ export class WeatherMap {
     });
   }
 
+  // Side-card hover: outline a place, or ring every icon of an event (one country's season, for a front).
+  previewArea(id: string | null) {
+    if (this.ready) this.setHover(id);
+  }
+
+  previewEvent(eventId: string | null, country = '') {
+    if (!this.map.getLayer('event-halo')) return;
+    this.map.setFilter('event-halo', eventId ? ['all', ['==', ['get', 'id'], eventId], ['==', ['get', 'cc'], country]] : ['==', ['get', 'id'], '\u0000']);
+  }
+
   setSelectMode(on: boolean) {
     this.selecting = on;
     this.map.getCanvasContainer().classList.toggle('selecting', on);
@@ -314,7 +324,7 @@ export class WeatherMap {
     this.map.fitBounds([[bounds.west, bounds.south], [bounds.east, bounds.north]], { padding: 60, duration: 800 });
   }
 
-  private eventHit(point: Point): { event: MapEvent; label?: string; occ?: Occurrence } | null {
+  private eventHit(point: Point): { event: MapEvent; label?: string; occ?: Occurrence; more?: boolean } | null {
     const f = this.map.queryRenderedFeatures(point, { layers: ['event-points', 'event-stars', 'event-stars-detail'] })[0];
     if (!f) return null;
     const isStar = f.layer.id !== 'event-points';
@@ -324,12 +334,8 @@ export class WeatherMap {
       event,
       label: isStar ? (f.properties?.name as string) : undefined,
       occ: isStar ? undefined : this.data.occurrences[f.properties?.oi as number],
+      more: !isStar && Number(f.properties?.more) > 0,
     };
-  }
-
-  private clusterAt(point: Point, layers = ['event-clusters']): MapGeoJSONFeature | undefined {
-    if (!this.map.getLayer('event-clusters')) return undefined;
-    return this.map.queryRenderedFeatures(point, { layers })[0];
   }
 
   private areaAt(point: Point, layers: string[]): string | null {
@@ -377,20 +383,33 @@ export class WeatherMap {
     const { occurrences, stars } = this.data;
     const occIdx = occurrences.flatMap((o, i) => (isActive(o.day, o.spread, day) ? [i] : []));
     const starIdx = stars.flatMap((st, i) => (isActive(st.day, st.spread, day) ? [i] : []));
-    // The active sets change only a few times a year, so skip the costly cluster rebuild in between.
-    const key = `${occIdx.join(',')}|${starIdx.join(',')}`;
+    // The active sets change only a few times a year, and the grid only with zoom, so skip the rebuild in between.
+    const key = `${occIdx.join(',')}|${starIdx.join(',')}|${this.zoomKey}`;
     if (key === this.eventKey) return;
     this.eventKey = key;
 
-    const features: Feature<GeoPoint>[] = occIdx.map((i) => ({
-      type: 'Feature',
-      geometry: { type: 'Point', coordinates: [occurrences[i]!.lon, occurrences[i]!.lat] },
-      properties: {
-        id: occurrences[i]!.eventId,
-        oi: i,
-        icon: iconFor(this.eventsById.get(occurrences[i]!.eventId) ?? { category: 'festival' }),
-      },
-    }));
+    // Icons that would land on top of each other are grouped and laid out as a grid, four to a row.
+    const points = occIdx.map((i) => {
+      const px = this.map.project([occurrences[i]!.lon, occurrences[i]!.lat]);
+      return { x: px.x, y: px.y, key: occurrences[i]!.eventId, index: i };
+    });
+    const features: Feature<GeoPoint>[] = stackPoints(points).flatMap((stack) =>
+      stack.cells.map((cell) => {
+        const at = this.map.unproject([stack.x + cell.dx, stack.y + cell.dy]);
+        const occ = cell.index === null ? null : occurrences[cell.index]!;
+        return {
+          type: 'Feature' as const,
+          geometry: { type: 'Point' as const, coordinates: [at.lng, at.lat] },
+          properties: {
+            id: occ?.eventId ?? '',
+            oi: cell.index ?? -1,
+            more: cell.more ?? 0,
+            cc: occ?.label ? (occ.country ?? '') : '',
+            icon: occ ? iconFor(this.eventsById.get(occ.eventId) ?? { category: 'festival' }) : 'cluster',
+          },
+        };
+      }),
+    );
     const fc: FeatureCollection<GeoPoint> = { type: 'FeatureCollection', features };
     source.setData(fc);
 
@@ -411,6 +430,8 @@ export class WeatherMap {
       map.setPaintProperty(`line-${level}`, 'line-color', css(level === 'city' ? '--text' : '--outline'));
     }
     map.setPaintProperty('border-country', 'line-color', css('--border-strong'));
+    map.setPaintProperty('event-halo', 'circle-color', css('--accent'));
+    map.setPaintProperty('event-halo', 'circle-stroke-color', css('--accent'));
     map.setPaintProperty('scope-fill', 'fill-color', css('--accent'));
     map.setPaintProperty('scope-line', 'line-color', css('--accent'));
     map.setPaintProperty('area-hover', 'line-color', css('--text'));

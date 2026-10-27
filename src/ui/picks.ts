@@ -25,6 +25,9 @@ export interface PicksOptions {
   onPick: (id: string) => void;
   onEvent: (eventId: string, occ: Occurrence) => void;
   actions: { toggleSelect: () => void; clearScope: () => void; zoomScope: () => void };
+  // Hovering a row previews it on the map; null clears the preview.
+  onHoverArea: (id: string | null) => void;
+  onHoverEvent: (eventId: string | null, country: string) => void;
 }
 
 // The right-hand card: the top 10 comfortable places on top, the events of the period below
@@ -43,6 +46,18 @@ export class Picks {
         const occ = o.data.occurrences[Number(t.dataset.oi)];
         if (occ) o.onEvent(occ.eventId, occ);
       } else if (t.dataset.id) o.onPick(t.dataset.id);
+    });
+    o.el.addEventListener('mouseover', (e) => {
+      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-id],[data-ev]');
+      if (t?.dataset.ev) o.onHoverEvent(t.dataset.ev, t.dataset.cc ?? '');
+      else if (t?.dataset.id) o.onHoverArea(t.dataset.id);
+    });
+    o.el.addEventListener('mouseout', (e) => {
+      const to = e.relatedTarget as HTMLElement | null;
+      if (!to || !to.closest?.('[data-id],[data-ev]')) {
+        o.onHoverArea(null);
+        o.onHoverEvent(null, '');
+      }
     });
   }
 
@@ -118,7 +133,7 @@ export class Picks {
         if (!e) return [];
         const flag = occ.label && occ.country ? flagImg(occ.country) : '';
         const detail = g.n > 1 ? `${g.n} areas, peak around ${dayLabel(occ.day)}` : e.when;
-        return [`<li><button type="button" data-oi="${data.occurrences.indexOf(occ)}"><img class="ev-icon" alt="" src="${iconDataUrl(iconFor(e))}"><span class="pick-main"><b>${flag}${esc(occ.label ?? e.name)}</b><small>${CATEGORY_LABELS[e.category]}, ${esc(detail)}</small></span></button></li>`];
+        return [`<li><button type="button" data-oi="${data.occurrences.indexOf(occ)}" data-ev="${esc(occ.eventId)}" data-cc="${esc(occ.label ? (occ.country ?? '') : '')}"><img class="ev-icon" alt="" src="${iconDataUrl(iconFor(e))}"><span class="pick-main"><b>${flag}${esc(occ.label ?? e.name)}</b><small>${CATEGORY_LABELS[e.category]}, ${esc(detail)}</small></span></button></li>`];
       });
     return rows.length ? `<ul>${rows.join('')}</ul>` : '<p class="sub">No listed events in this period.</p>';
   }

@@ -194,6 +194,8 @@ async function start() {
       main.flyTo(occ.lon, occ.lat, REGION_ZOOM);
       panel.showEvent(ev, null, occ);
     },
+    onHoverArea: (id) => main.previewArea(id),
+    onHoverEvent: (eventId, country) => main.previewEvent(eventId, country),
     actions: {
       toggleSelect: () => {
         selecting = !selecting;

@@ -3,7 +3,7 @@ export DOCKER_GID := $(shell id -g)
 
 RUN := docker compose run --rm app
 
-.PHONY: install data dev build lint test shell
+.PHONY: install data dev build preview lint test shell
 
 install:
 	$(RUN) npm install
@@ -16,6 +16,9 @@ dev:
 
 build:
 	$(RUN) npm run build
+
+preview:
+	docker compose run --rm --service-ports preview
 
 lint:
 	$(RUN) npm run lint

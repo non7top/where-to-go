@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
     "lint": "eslint . && tsc --noEmit",
     "test": "vitest run && node scripts/validate-data.mjs",
     "data": "node scripts/build-areas.mjs && node scripts/fetch-climate.mjs"

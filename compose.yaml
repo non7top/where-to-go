@@ -17,6 +17,12 @@ services:
     ports:
       - "5173:5173"
 
+  preview:
+    <<: *app
+    command: npm run preview
+    ports:
+      - "4173:4173"
+
 volumes:
   npm-cache:
   data-cache:

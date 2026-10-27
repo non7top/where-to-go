@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import type { Plugin } from 'vite';
 
-const DATA_FILES = ['areas.geojson', 'land.geojson', 'climate.json', 'events.json', 'concerts.json', 'shortcuts.json'];
+const DATA_FILES = ['areas.geojson', 'land.geojson', 'climate.json', 'events.json', 'concerts.json', 'fronts.json', 'shortcuts.json'];
 
 // Build that opens by double-click from disk: one classic script, data inlined, no module or fetch needs.
 const standaloneEntry: Plugin = {

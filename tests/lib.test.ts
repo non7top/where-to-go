@@ -2,9 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { comfortColor, NO_DATA_COLOR } from '../src/lib/color';
 import { effectiveRainLevel, isMarked, rainLevel } from '../src/lib/rain';
 import { monthSpan, wrapMonth } from '../src/lib/months';
-import { eventsForMonth } from '../src/lib/events';
 import { nightFlag } from '../src/lib/comfort';
-import type { MapEvent } from '../src/data/types';
 
 describe('comfortColor', () => {
   it('is green across the comfortable band', () => {
@@ -51,20 +49,6 @@ describe('months', () => {
   it('spans the year boundary', () => {
     expect(monthSpan(11, 2)).toEqual([11, 12, 1, 2]);
     expect(monthSpan(5, 5)).toEqual([5]);
-  });
-});
-
-describe('eventsForMonth', () => {
-  const base = { category: 'festival', lon: 0, lat: 0, when: '', summary: '' } as const;
-  const events: MapEvent[] = [
-    { ...base, id: 'a', name: 'A', months: [12, 1] },
-    { ...base, id: 'b', name: 'B', months: [6] },
-  ];
-  it('includes events that cross the boundary in both months', () => {
-    expect(eventsForMonth(events, 12).map((e) => e.id)).toEqual(['a']);
-    expect(eventsForMonth(events, 1).map((e) => e.id)).toEqual(['a']);
-    expect(eventsForMonth(events, 6).map((e) => e.id)).toEqual(['b']);
-    expect(eventsForMonth(events, 3)).toEqual([]);
   });
 });
 

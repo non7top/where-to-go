@@ -1,3 +1,7 @@
+import type { AreaClimate } from '../data/types';
+import { feltHigh } from './feel';
+import { interpMonthly, YEAR_DAYS } from './season';
+
 export type Stop = readonly [tempC: number, hex: string];
 
 export const NO_DATA_COLOR = '#9aa0a6';
@@ -43,4 +47,17 @@ export function comfortColor(tempC: number | null | undefined): string {
     }
   }
   return last[1];
+}
+
+export const BAND_STEP = 5;
+
+// One color per 5-day step of the year for an area, from the felt daytime high; used to tint the time dial.
+export function yearColors(c: AreaClimate | undefined): string[] {
+  const out: string[] = [];
+  for (let d = 0; d < YEAR_DAYS; d += BAND_STEP) {
+    const day = d + BAND_STEP / 2;
+    const hi = c ? interpMonthly(c.hi, day) : null;
+    out.push(comfortColor(feltHigh(hi, c?.wind ? interpMonthly(c.wind, day) : null)));
+  }
+  return out;
 }

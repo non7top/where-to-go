@@ -1,24 +1,22 @@
+import { circDist, dayOfYear, HALF_WINDOW, wrapDay } from './season';
+
 export const DAYS_LIMIT = 45;
+const DAYS_PER_MONTH = 30.4;
 
 export type Eta = { kind: 'now' } | { kind: 'days'; n: number } | { kind: 'months'; n: number };
 
-// Forward distance in months from one month number to another, 0 to 11.
-export function monthsAhead(from: number, to: number): number {
-  return (((to - from) % 12) + 12) % 12;
-}
-
-// Time until the start of the next occurrence of `month`: days up to 45, then whole months.
-export function etaTo(today: Date, month: number): Eta {
-  const ahead = monthsAhead(today.getMonth() + 1, month);
-  if (ahead === 0) return { kind: 'now' };
-  const start = new Date(today.getFullYear(), today.getMonth() + ahead, 1);
-  const midnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const days = Math.round((start.getTime() - midnight.getTime()) / 86_400_000);
-  return days <= DAYS_LIMIT ? { kind: 'days', n: days } : { kind: 'months', n: ahead };
+// Time until the selected 15-day section starts: days up to 45, then whole months.
+export function etaToDay(today: Date, centerDay: number): Eta {
+  const t = dayOfYear(today);
+  if (circDist(t, centerDay) <= HALF_WINDOW) return { kind: 'now' };
+  const untilStart = Math.round(wrapDay(centerDay - t) - HALF_WINDOW);
+  return untilStart <= DAYS_LIMIT
+    ? { kind: 'days', n: untilStart }
+    : { kind: 'months', n: Math.max(1, Math.round(untilStart / DAYS_PER_MONTH)) };
 }
 
 export function etaText(eta: Eta): string {
-  if (eta.kind === 'now') return 'This month';
+  if (eta.kind === 'now') return 'Now';
   const unit = eta.kind === 'days' ? 'day' : 'month';
   return `in ${eta.n} ${unit}${eta.n === 1 ? '' : 's'}`;
 }

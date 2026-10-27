@@ -29,6 +29,13 @@
           "concert"
         ]
       },
+      "tier": {
+        "enum": [
+          1,
+          2,
+          3
+        ]
+      },
       "lon": {
         "type": "number",
         "minimum": 60,
@@ -142,7 +149,7 @@
                 },
                 "nth": {
                   "type": "integer",
-                  "minimum": 1,
+                  "minimum": -1,
                   "maximum": 5
                 },
                 "weekday": {
@@ -289,7 +296,18 @@
           "grass",
           "calendar",
           "star",
-          "booth"
+          "booth",
+          "fireworks",
+          "lily",
+          "wisteria",
+          "hydrangea",
+          "lavender",
+          "sunflower",
+          "plum",
+          "cosmos",
+          "firefly",
+          "whale",
+          "sun"
         ]
       },
       "aliases": {

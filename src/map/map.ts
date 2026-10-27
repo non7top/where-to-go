@@ -3,7 +3,7 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import type { GeoJSONSource, LayerSpecification, Point } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point as GeoPoint } from 'geojson';
 import type { AppData } from '../data/load';
-import type { Level, MapEvent, Tier } from '../data/types';
+import type { EventCategory, Level, MapEvent, Tier } from '../data/types';
 import { iconFor, TIER_MINZOOM } from '../lib/events';
 import { comfortColor, NO_DATA_COLOR } from '../lib/color';
 import { feltHigh } from '../lib/feel';
@@ -60,6 +60,7 @@ export class WeatherMap {
   private day = 0;
   private eventKey = '';
   private zoomKey = 0;
+  private types: ReadonlySet<EventCategory> | null = null;
   private selecting = false;
   private suppressClick = false;
   private ready = false;
@@ -392,14 +393,20 @@ export class WeatherMap {
     this.setEvents(day);
   }
 
+  // Event types to draw; null draws all.
+  setTypes(types: ReadonlySet<EventCategory> | null) {
+    this.types = types;
+    this.setEvents(this.day);
+  }
+
   private setEvents(day: number) {
     const source = this.map.getSource('events') as GeoJSONSource | undefined;
     if (!source) return;
     const { occurrences, stars } = this.data;
     const zoom = this.map.getZoom();
-    const shown = (tier: Tier) => zoom >= TIER_MINZOOM[tier];
-    const occIdx = occurrences.flatMap((o, i) => (shown(o.tier) && isActive(o.day, o.spread, day) ? [i] : []));
-    const starIdx = stars.flatMap((st, i) => (shown(st.tier) && isActive(st.day, st.spread, day) ? [i] : []));
+    const shown = (tier: Tier, eventId: string) => zoom >= TIER_MINZOOM[tier] && (!this.types || this.types.has(this.eventsById.get(eventId)?.category ?? 'festival'));
+    const occIdx = occurrences.flatMap((o, i) => (shown(o.tier, o.eventId) && isActive(o.day, o.spread, day) ? [i] : []));
+    const starIdx = stars.flatMap((st, i) => (shown(st.tier, st.eventId) && isActive(st.day, st.spread, day) ? [i] : []));
     // The active sets change only a few times a year, and the grid only with zoom, so skip the rebuild in between.
     const key = `${occIdx.join(',')}|${starIdx.join(',')}|${this.zoomKey}`;
     if (key === this.eventKey) return;

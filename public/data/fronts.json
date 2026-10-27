@@ -1,14 +1,14 @@
 [
   {
-    "id": "sakura",
-    "name": "Cherry blossom (hanami)",
+    "id": "cherry-blossom",
+    "name": "Cherry blossom",
     "category": "seasonal",
     "lon": 135.0,
     "lat": 35.0,
     "when": "late January in Okinawa, late March in the south of Japan and Korea, early May in Hokkaido",
     "approx": true,
     "summary": "The blossom front moves north: peak in each area, plus or minus 7 days.",
-    "details": "Hanami (blossom viewing) peaks first in the far south and moves north over about three months. Dates are rough typical peaks (mostly from general knowledge, not a forecast) and shift by a week or two each year; the area table is meant to be corrected. China is a very rough starter.",
+    "details": "Cherry blossom peaks first in the far south and moves north over about three months. The season has its own name in each country: in China yinghua (樱花), in Japan sakura (桜) with hanami (花見) for the viewing parties, in Korea beotkkot (벚꽃). Dates are rough typical peaks from general knowledge, not a forecast; they shift by a week or two each year, and the area table is meant to be corrected. China is a very rough starter.",
     "crowd": "Popular parks are crowded at the peak.",
     "price": "Hotels rise during the peak week.",
     "fronts": [
@@ -45,7 +45,12 @@
             "04-29"
           ]
         ],
-        "label": "Sakura, hanami (桜, 花見)"
+        "label": "桜・花見 (Sakura, hanami)",
+        "aliases": [
+          "sakura",
+          "hanami",
+          "花見"
+        ]
       },
       {
         "country": "KR",
@@ -68,7 +73,13 @@
             "04-13"
           ]
         ],
-        "label": "Beotkkot (벚꽃)"
+        "label": "벚꽃 (Beotkkot)",
+        "aliases": [
+          "hanami",
+          "sakura",
+          "벚나무",
+          "beotnamu"
+        ]
       },
       {
         "country": "CN",
@@ -92,7 +103,13 @@
             "04-08"
           ]
         ],
-        "label": "Yinghua (樱花)"
+        "label": "樱花 (Yinghua)",
+        "aliases": [
+          "yīnghuā",
+          "hanami",
+          "sakura",
+          "櫻花"
+        ]
       }
     ],
     "highlights": [
@@ -133,20 +150,20 @@
       }
     ],
     "links": {
-      "wiki": "https://en.wikipedia.org/wiki/Hanami"
+      "wiki": "https://en.wikipedia.org/wiki/Cherry_blossom"
     },
     "icon": "sakura"
   },
   {
-    "id": "momiji",
-    "name": "Autumn leaves (momiji)",
+    "id": "autumn-leaves",
+    "name": "Autumn leaves",
     "category": "seasonal",
     "lon": 135.0,
     "lat": 35.0,
     "when": "mid-October in the far north, late November to early December in the south",
     "approx": true,
     "summary": "The colour front moves south: peak in each area, plus or minus 7 days.",
-    "details": "Autumn colour starts in the north and the mountains and moves south. In Japan it is momiji (紅葉); in China hongye (红叶, traditional 紅葉), literally red leaf; in Korea danpung (단풍), also hong'yeop (홍엽), while the maple tree itself is danpungnamu (단풍나무). Dates are rough typical peaks from general knowledge, not a forecast; they shift by a week or two each year, and the area table is meant to be corrected. Altitude is not modelled, so mountain areas peak earlier than shown. China is a very rough starter.",
+    "details": "Autumn colour starts in the north and the mountains and moves south. The season has its own name in each country: in China hongye (红叶, traditional 紅葉), literally red leaf; in Japan momiji (紅葉); in Korea danpung (단풍), also hong'yeop (홍엽), while the maple tree itself is danpungnamu (단풍나무). Dates are rough typical peaks from general knowledge, not a forecast; they shift by a week or two each year, and the area table is meant to be corrected. Altitude is not modelled, so mountain areas peak earlier than shown. China is a very rough starter.",
     "crowd": "Among the busiest times of the year at famous spots.",
     "price": "Hotel prices peak in Kyoto.",
     "fronts": [
@@ -180,7 +197,7 @@
             "10-20"
           ]
         ],
-        "label": "Momiji (紅葉)",
+        "label": "紅葉 (Momiji)",
         "aliases": [
           "koyo",
           "kouyou",
@@ -209,14 +226,14 @@
             "10-18"
           ]
         ],
-        "label": "Danpung (단풍)",
+        "label": "단풍 (Danpung)",
         "aliases": [
           "danpungnamu",
           "단풍나무",
           "丹楓",
           "hong'yeop",
           "홍엽",
-          "紅葉"
+          "momiji"
         ]
       },
       {
@@ -241,11 +258,12 @@
             "10-05"
           ]
         ],
-        "label": "Hongye (红叶)",
+        "label": "红叶 (Hongye)",
         "aliases": [
           "hóngyè",
           "紅葉",
-          "red leaf"
+          "red leaf",
+          "momiji"
         ]
       }
     ],
@@ -287,13 +305,13 @@
       }
     ],
     "links": {
-      "wiki": "https://en.wikipedia.org/wiki/Momijigari"
+      "wiki": "https://en.wikipedia.org/wiki/Autumn_leaf_color"
     },
     "icon": "maple"
   },
   {
     "id": "ginkgo",
-    "name": "Ginkgo leaves (icho)",
+    "name": "Ginkgo leaves",
     "category": "seasonal",
     "icon": "ginkgo",
     "lon": 135.0,
@@ -334,7 +352,13 @@
             "10-23"
           ]
         ],
-        "label": "Icho (イチョウ)"
+        "label": "イチョウ (Icho)",
+        "aliases": [
+          "icho",
+          "ityou",
+          "銀杏",
+          "公孫樹"
+        ]
       },
       {
         "country": "KR",
@@ -357,7 +381,12 @@
             "10-25"
           ]
         ],
-        "label": "Eunhaeng (은행나무)"
+        "label": "은행나무 (Eunhaeng)",
+        "aliases": [
+          "eunhaeng",
+          "銀杏",
+          "ginkgo"
+        ]
       },
       {
         "country": "CN",
@@ -381,7 +410,12 @@
             "10-12"
           ]
         ],
-        "label": "Yinxing (银杏)"
+        "label": "银杏 (Yinxing)",
+        "aliases": [
+          "yínxìng",
+          "銀杏",
+          "白果树"
+        ]
       }
     ],
     "highlights": [

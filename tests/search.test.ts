@@ -13,11 +13,11 @@ const areas = [
 const names: Record<string, string> = { KR: 'South Korea', JP: 'Japan', CN: 'China' };
 const events: MapEvent[] = [
   {
-    id: 'momiji', name: 'Autumn leaves (momiji)', category: 'seasonal', icon: 'maple', lon: 0, lat: 0, when: 'autumn', summary: '',
+    id: 'momiji', name: 'Autumn leaves', category: 'seasonal', icon: 'maple', lon: 0, lat: 0, when: 'autumn', summary: '',
     fronts: [
-      { country: 'JP', spread: 7, anchors: [[30, '11-01'], [40, '10-20']], label: 'Momiji (紅葉)' },
-      { country: 'KR', spread: 7, anchors: [[33, '11-05'], [38, '10-18']], label: 'Danpung (단풍)', aliases: ["hong'yeop", '홍엽'] },
-      { country: 'CN', spread: 7, anchors: [[30, '11-25'], [47, '10-05']], label: 'Hongye (红叶)', aliases: ['hóngyè', '紅葉'] },
+      { country: 'JP', spread: 7, anchors: [[30, '11-01'], [40, '10-20']], label: '紅葉 (Momiji)' },
+      { country: 'KR', spread: 7, anchors: [[33, '11-05'], [38, '10-18']], label: '단풍 (Danpung)', aliases: ["hong'yeop", '홍엽', 'momiji'] },
+      { country: 'CN', spread: 7, anchors: [[30, '11-25'], [47, '10-05']], label: '红叶 (Hongye)', aliases: ['hóngyè', '紅葉', 'momiji'] },
     ],
   },
   { id: 'comiket', name: 'Comiket', category: 'fair', lon: 0, lat: 0, when: 'August', summary: '', peaks: [{ on: '08-13', spread: 1 }] },
@@ -45,7 +45,8 @@ describe('search', () => {
   it('finds events by their local names in each country', () => {
     expect(search(index, 'danpung')[0]).toMatchObject({ id: 'momiji|KR', kind: 'event' });
     expect(search(index, '红叶')[0]?.id).toBe('momiji|CN');
-    expect(search(index, 'momiji').map((r) => r.id)).toContain('momiji|JP');
+    expect(search(index, 'momiji').map((r) => r.id)).toEqual(expect.arrayContaining(['momiji|JP', 'momiji|KR', 'momiji|CN']));
+    expect(search(index, 'momiji')[0]?.id).toBe('momiji|JP');
     expect(search(index, 'comiket')[0]?.id).toBe('comiket');
   });
   it('finds a season by its other names', () => {

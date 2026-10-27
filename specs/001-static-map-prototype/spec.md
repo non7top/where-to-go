@@ -23,6 +23,7 @@
 - Q: What should the time control look like? -> A: Like a disk seen from the side, not from the top, with both looks switchable. Smooth scrolling, a 15-day section, seasons marked, the strip colored by the climate at the map center or the selected area. Escape closes the selection.
 - Q: How do events with dates work? -> A: Peak plus or minus 7 days per region, including hanami and momiji in Japan, Korea and maybe China. Events are researched for the end of 2026 and 2027 (music festivals, book fairs, trade and anime fairs, boat festivals), with Wikipedia and official links.
 - Q: Right panel, icons, region and search? -> A: The right panel is two panels combined (top 10 places, events with five rows and scrolling). Better icons: a maple leaf for momiji and a blossom for sakura, plus ginkgo as its own season. Narrow by dragging a rectangle on the map. A global search bar. The autumn leaves have their own names in Korea (danpung 단풍, also hong'yeop 홍엽; the maple tree is danpungnamu 단풍나무) and China (hongye 红叶, traditional 紅葉).
+- Q: Names of the seasons? -> A: Use the local name first, in the local script, and keep "momiji" and "hanami" only as aliases outside Japan, so Koreans and Chinese are not shown a Japanese word. Neutral names: Cherry blossom, Autumn leaves, Ginkgo leaves.
 - Q: What is the main starting point? -> A: A list of main cities with airports (Busan, Seoul and so on), each the center of a region sector with its own weather. Picking a city is how a visitor starts: the map moves to its sector and opens its panel.
 
 ## User Scenarios & Testing *(mandatory)*
@@ -65,7 +66,7 @@ The visitor can zoom and pan the map. Coarse areas are shown when zoomed out, an
 
 For the selected month, events appear as small icons on the map at their location. Each icon shows its category: festival, fair or convention, seasonal sight, national holiday, or concert. On a device with a pointer the visitor can hover to see a short description, and on any device they can click or tap to open the details. Events appear and disappear as the month changes.
 
-**Why this priority**: Events change when and where someone wants to go (Songkran, Awa Odori, Comiket, momiji, silver grass, Chuseok, Golden Week) but the trip is still judged on weather first.
+**Why this priority**: Events change when and where someone wants to go (Songkran, Awa Odori, Comiket, autumn leaves, silver grass, Chuseok, Golden Week) but the trip is still judged on weather first.
 
 **Independent Test**: Select April and see the Songkran icon in Thailand, select August and see the Awa Odori icon in Tokushima, then click each to open details.
 
@@ -73,7 +74,7 @@ For the selected month, events appear as small icons on the map at their locatio
 
 1. **Given** a month is selected, **When** the map is shown, **Then** only events active in that month are shown, each as an icon of its category.
 2. **Given** a pointer device, **When** the visitor hovers an event icon, **Then** a short summary appears; **When** they click or tap it, **Then** full details open and stay until dismissed.
-3. **Given** an event whose date is a window (such as momiji in November), **When** its details are shown, **Then** the window is stated as approximate.
+3. **Given** an event whose date is a window (such as autumn leaves in November), **When** its details are shown, **Then** the window is stated as approximate.
 4. **Given** several events lie close together, **When** the map is zoomed out, **Then** their icons are grouped, and **When** the visitor zooms in, **Then** they separate into individual icons.
 5. **Given** an event has crowd, price or perk information (for example Chuseok has more tourists but free palace entry), **When** its details are shown, **Then** each piece is stated separately, and an event with only a note is shown with just that note.
 
@@ -85,7 +86,7 @@ Clicking an area opens a panel with its name, its weather for the selected month
 
 **Why this priority**: The map answers "where", the panel answers "what is it like there then". It reuses the data already shown.
 
-**Independent Test**: Click Kyoto in November and check that the panel shows its band, rain status, cost tier, and momiji event with its crowd and price note.
+**Independent Test**: Click Kyoto in November and check that the panel shows its band, rain status, cost tier, and autumn leaves event with its crowd and price note.
 
 **Acceptance Scenarios**:
 
@@ -151,7 +152,7 @@ The page looks finished: consistent colors, readable labels, and a layout that a
 - **FR-022**: Each area MAY carry a note on typical heating and cooling in accommodation (available, partial, not typical). When the selected month has cold nights where heating is not typical, or hot nights where cooling is not typical, the area panel MUST flag it. This flag MUST NOT change the map color.
 - **FR-024**: The area borders of each country MUST be drawn more prominently than province and city outlines at every zoom level.
 - **FR-026**: A card on the right MUST combine two panels: the top 10 comfortable (green) places for the selected section, grouped by country with the country flag (as an image, since flag emoji do not render on Windows), and below it the events active in that section, always five rows tall and scrolling. It MUST give way to the area panel when one is open, and be opened from a Best button on narrow screens. The visitor MUST be able to narrow both lists to a region by dragging a rectangle on the map (a Select area button, or Shift and drag), see its outline, zoom to it and clear it; Escape clears it.
-- **FR-027**: Events MUST carry a peak date and a spread in days (so a window is the peak plus or minus the spread) and MAY carry a front: a season that sweeps across a country, with the peak per area following latitude and overridable per area. Cherry blossom, autumn leaves and ginkgo MUST be modeled this way for Japan, Korea and China, with a spread of 7 days, and each country MUST show its own name for the season (for example momiji, danpung, hongye). An event MAY carry links to its Wikipedia page and its official site, shown in the event card; every link MUST be checked to resolve.
+- **FR-027**: Events MUST carry a peak date and a spread in days (so a window is the peak plus or minus the spread) and MAY carry a front: a season that sweeps across a country, with the peak per area following latitude and overridable per area. Cherry blossom, autumn leaves and ginkgo MUST be modeled this way for Japan, Korea and China, with a spread of 7 days, and each country MUST show its own name for the season first, in its own script (for example 紅葉 in Japan, 단풍 in Korea, 红叶 in China), with the Japanese terms (momiji, hanami) only as search aliases outside Japan. An event MAY carry links to its Wikipedia page and its official site, shown in the event card; every link MUST be checked to resolve.
 - **FR-028**: A global search box MUST find places (by name, airport code or country) and events (by name, by the local names of a season in each country, and by alternative names). Choosing a place flies to it and opens its panel; choosing an event moves the time control to its next peak, flies to it and opens its card. The "/" key focuses the box.
 - **FR-029**: Each event MUST show an icon that fits it (for example a maple leaf for autumn leaves, a ginkgo leaf for ginkgo, a blossom for cherry blossom, a book for book fairs, a music note for concerts), on the map, in lists and in cards.
 - **FR-025**: An event MAY apply to a whole country, and then it MUST be listed in every area of that country. An event MAY carry highlight points (the main places to see it); for the selected month these MUST be shown on the map as stars with their name on hover, and listed in the event card.
@@ -181,7 +182,7 @@ The page looks finished: consistent colors, readable labels, and a layout that a
 
 - The first release is a prototype: starter content for a handful of areas and events, not complete coverage. More content is added later without changing the page.
 - Starter areas include: Seoul, Busan, Kyoto, Tokyo, Hokkaido, Okinawa, Bangkok, Chiang Mai, Phuket, Ko Tao, Phu Quoc and Hanoi, with finer areas appearing as the visitor zooms in.
-- Starter events include: Songkran, Awa Odori, Comiket, momiji, silver grass festival, Chuseok, Golden Week and at least one concert.
+- Starter events include: Songkran, Awa Odori, Comiket, autumn leaves, silver grass festival, Chuseok, Golden Week and at least one concert.
 - Weather values are approximate and hand-curated or generated ahead of time from public climate data; they do not need to be exact.
 - The colors describe daytime comfort for walking in a baseline outfit (see Clarifications), so the 17-23C green band is a starting point. Dry heat such as summer in Astana may feel comfortable at higher temperatures; whether humidity shifts the bands is left for the plan, and the comfort rating covers such cases meanwhile.
 - The comfort rating is optional curator data and does not change map colors in this release.

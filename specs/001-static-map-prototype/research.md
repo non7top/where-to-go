@@ -2,10 +2,11 @@
 
 ## Climate data source
 
-- **Decision**: NASA POWER monthly point API (`temporal/monthly/point`), parameters `T2M_MAX`, `T2M_MIN`, `PRECTOTCORR`, years 2015-2024, averaged per month.
-- **Rationale**: One small request per point with no key. Checked live for Seoul: returns per-month daily-high, daily-low and rainfall per year. The climatology endpoint was rejected because its max and min are period extremes (Seoul January minimum -21C), not typical values.
-- **Alternatives considered**: Open-Meteo archive (works, but daily data for 450 points over several years risks the free daily call limit); hand-entered values (too slow for about 450 areas).
-- **Caveat**: The source is a reanalysis. The Seoul August mean daily high computes to about 32.7C from the ten years fetched, against roughly 29-30C from station data as I remember it (not checked). Overrides cover this.
+- **Decision**: NASA POWER monthly point API (`temporal/monthly/point`), parameters `T2M` (monthly mean), `T2M_RANGE` (mean daily range) and `PRECTOTCORR` (rain), years 2015-2024, averaged per month. Typical daytime high is mean plus half the range, typical night low is mean minus half the range.
+- **Rationale**: One small request per point with no key. `T2M_MAX` and `T2M_MIN` were tried first and rejected: they are the month's extremes, not typical values (for the Tokyo point, January `T2M_MAX` averaged 14.5C against 7.5C from mean plus half range, and `T2M_MAX - T2M_MIN` was about 19C against a mean daily range of 9.5C). The climatology endpoint has the same extremes problem (Seoul January minimum -21C).
+- **Alternatives considered**: Open-Meteo archive (works, but daily data for about 550 points over several years risks the free daily call limit); hand-entered values (too slow for about 550 areas).
+- **Caveat**: The source is a reanalysis on a coarse grid and the climate point is a label point, so values can be a few degrees off (the Tokyo point, in hills west of the city, runs cool). `data-src/overrides.json` allows a per-area-month offset. Accuracy is not a goal here.
+- **Note**: The fetch script raises Node's per-address connect timeout (`net.setDefaultAutoSelectFamilyAttemptTimeout`) because the default 250 ms failed against this host from the container.
 
 ## Rain and monsoon mark
 

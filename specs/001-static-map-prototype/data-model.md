@@ -12,8 +12,9 @@ GeoJSON FeatureCollection. Feature properties:
 | `name` | string | Display name |
 | `level` | `"country"` or `"province"` or `"island"` | Drives zoom range |
 | `country` | string | ISO 3166-1 alpha-2 |
-| `minzoom`, `maxzoom` | number | Zoom range in which the area is drawn |
-| `point` | [lon, lat] | Climate point used for the data |
+| `point` | [lon, lat] | Climate point used for the data (`[0, 0]` for countries, which hold a mean) |
+
+The zoom range in which each level is drawn is a constant in the map code, not per-area data.
 
 ## Monthly climate (`climate.json`)
 

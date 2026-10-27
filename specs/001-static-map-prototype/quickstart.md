@@ -9,6 +9,7 @@ make install    # install npm dependencies into a named volume
 make data       # regenerate public/data from Natural Earth and NASA POWER (optional; output is committed)
 make dev        # dev server on http://localhost:5173/where-to-go/
 make build      # production build into dist/
+make preview    # serve dist/ on http://localhost:4173/where-to-go/
 make lint
 make test
 ```

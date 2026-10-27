@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { rankGreen, scorePick } from '../src/lib/best';
+import { boundsFrom, boundsPolygon, inBounds, isTinyBox } from '../src/lib/scope';
 import type { AreaClimate, AreaProps } from '../src/data/types';
 
 describe('scorePick', () => {
@@ -28,5 +29,28 @@ describe('rankGreen', () => {
   });
   it('skips areas without climate data', () => {
     expect(rankGreen([area('none', 'city')], {}, 100, ['city'])).toEqual([]);
+  });
+});
+
+describe('scope bounds', () => {
+  it('normalises corners given in any order', () => {
+    expect(boundsFrom([130, 40], [120, 30])).toEqual({ west: 120, east: 130, south: 30, north: 40 });
+  });
+  it('treats no bounds as everything and edges as inside', () => {
+    const b = boundsFrom([120, 30], [130, 40]);
+    expect(inBounds(null, 0, 0)).toBe(true);
+    expect(inBounds(b, 125, 35)).toBe(true);
+    expect(inBounds(b, 130, 40)).toBe(true);
+    expect(inBounds(b, 131, 35)).toBe(false);
+    expect(inBounds(b, 125, 29)).toBe(false);
+  });
+  it('ignores a click or a sliver as a selection', () => {
+    expect(isTinyBox({ x: 10, y: 10 }, { x: 14, y: 90 })).toBe(true);
+    expect(isTinyBox({ x: 10, y: 10 }, { x: 80, y: 90 })).toBe(false);
+  });
+  it('closes the polygon ring', () => {
+    const ring = boundsPolygon(boundsFrom([1, 2], [3, 4]))[0]!;
+    expect(ring[0]).toEqual(ring[ring.length - 1]);
+    expect(ring).toHaveLength(5);
   });
 });

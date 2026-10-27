@@ -6,6 +6,7 @@ import { HALF_WINDOW, MID_DAY, MONTH_START, sectionLabel, seasonOf, SEASONS, wra
 export interface Dial {
   set(day: number): void;
   setBand(colors: readonly string[] | null, areaName: string): void;
+  goTo(day: number): void;
 }
 
 const H = 98;
@@ -184,6 +185,7 @@ export function createDial(
   render();
   return {
     set: (day) => set(day, false),
+    goTo: animateTo,
     setBand: (colors, name) => {
       tint = colors;
       areaName = name;

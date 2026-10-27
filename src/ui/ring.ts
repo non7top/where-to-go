@@ -149,6 +149,7 @@ export function createRing(
   render();
   return {
     set: (day) => set(day, false),
+    goTo: animateTo,
     setBand: (colors, name) => {
       band = colors;
       areaName = name;

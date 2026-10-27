@@ -3,13 +3,17 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import type { GeoJSONSource, LayerSpecification, MapGeoJSONFeature, Point } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point as GeoPoint } from 'geojson';
 import type { AppData } from '../data/load';
-import type { EventCategory, Level, MapEvent } from '../data/types';
+import type { Level, MapEvent } from '../data/types';
+import { iconFor } from '../lib/events';
 import { comfortColor, NO_DATA_COLOR } from '../lib/color';
 import { feltHigh } from '../lib/feel';
 import type { Occurrence } from '../lib/events';
+import { boundsFrom, boundsPolygon, isTinyBox } from '../lib/scope';
+import type { Bounds } from '../lib/scope';
 import { interpMonthly, isActive, monthOfDay } from '../lib/season';
 import { isMarked } from '../lib/rain';
-import { clusterIcon, eventIcon, RAIN_PATTERNS, rainTile, starIcon, tileImage } from './patterns';
+import { eventIcon, ICON_NAMES } from './icons';
+import { clusterIcon, RAIN_PATTERNS, rainTile, starIcon, tileImage } from './patterns';
 
 // maplibre-gl 6 finds its worker next to the main script, which a bundler breaks.
 // The standalone (file://) build sets __WTG_WORKER_URL__ to an inline blob instead.
@@ -26,7 +30,6 @@ const LEVELS: { level: Level; minzoom: number; maxzoom: number }[] = [
   { level: 'city', minzoom: CITY_MINZOOM, maxzoom: 24 },
   { level: 'island', minzoom: ISLAND_MINZOOM, maxzoom: 24 },
 ];
-const CATEGORIES: EventCategory[] = ['festival', 'fair', 'seasonal', 'holiday', 'concert'];
 
 interface XY {
   x: number;
@@ -38,6 +41,7 @@ export interface MapHandlers {
   onEvent?: (event: MapEvent, occ?: Occurrence) => void;
   onHoverArea?: (id: string | null, point: XY) => void;
   onHoverEvent?: (event: MapEvent | null, point: XY, label?: string) => void;
+  onBox?: (bounds: Bounds) => void;
 }
 
 export interface MapOptions {
@@ -53,6 +57,8 @@ export class WeatherMap {
   readonly map: GLMap;
   private day = 0;
   private eventKey = '';
+  private selecting = false;
+  private suppressClick = false;
   private ready = false;
   private hoverId: string | null = null;
   private selectedId: string | null = null;
@@ -145,6 +151,13 @@ export class WeatherMap {
       },
     );
     for (const l of layers) map.addLayer(l);
+    map.addSource('scope', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+    map.addLayer({ id: 'scope-fill', type: 'fill', source: 'scope', paint: { 'fill-color': css('--accent'), 'fill-opacity': 0.1 } });
+    map.addLayer({
+      id: 'scope-line', type: 'line', source: 'scope',
+      paint: { 'line-color': css('--accent'), 'line-width': 2.4, 'line-dasharray': [2, 1.5] },
+    });
+    if (this.opts.interactive) this.initBoxSelect();
 
     if (this.opts.interactive) this.initEvents();
     this.ready = true;
@@ -154,7 +167,7 @@ export class WeatherMap {
 
   private initEvents() {
     const { map } = this;
-    for (const c of CATEGORIES) map.addImage(c, eventIcon(c), { pixelRatio: 2 });
+    for (const name of ICON_NAMES) map.addImage(name, eventIcon(name), { pixelRatio: 2 });
     map.addImage('cluster', clusterIcon(), { pixelRatio: 2 });
     map.addImage('star', starIcon(), { pixelRatio: 2 });
     map.addSource('stars', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
@@ -178,7 +191,7 @@ export class WeatherMap {
     });
     map.addLayer({
       id: 'event-points', type: 'symbol', source: 'events', filter: ['!', ['has', 'point_count']],
-      layout: { 'icon-image': ['get', 'category'], 'icon-allow-overlap': true, 'icon-size': 1 },
+      layout: { 'icon-image': ['get', 'icon'], 'icon-allow-overlap': true, 'icon-size': 1 },
     });
 
     const areaLayers = LEVELS.map((l) => `fill-${l.level}`);
@@ -199,6 +212,7 @@ export class WeatherMap {
       this.opts.handlers?.onHoverArea?.(null, { x: 0, y: 0 });
     });
     map.on('click', async (e) => {
+      if (this.suppressClick) return;
       const hit = this.eventHit(e.point);
       if (hit) return void this.opts.handlers?.onEvent?.(hit.event, hit.occ);
       const cluster = this.clusterAt(e.point, eventLayers);
@@ -210,6 +224,80 @@ export class WeatherMap {
       const id = this.areaAt(e.point, areaLayers);
       if (id) this.opts.handlers?.onArea?.(id);
     });
+  }
+
+  // Rectangle selection: drag in select mode, or hold Shift and drag. It narrows the lists to that part of the map.
+  private initBoxSelect() {
+    const { map } = this;
+    map.boxZoom.disable();
+    const container = map.getCanvasContainer();
+    const box = document.createElement('div');
+    box.className = 'select-box';
+    box.hidden = true;
+    map.getContainer().appendChild(box);
+    let start: { x: number; y: number } | null = null;
+
+    const local = (e: PointerEvent) => {
+      // The canvas container itself has no size (the canvas is positioned inside it); the map element does.
+      const r = map.getContainer().getBoundingClientRect();
+      return { x: Math.min(r.width, Math.max(0, e.clientX - r.left)), y: Math.min(r.height, Math.max(0, e.clientY - r.top)) };
+    };
+    const draw = (a: { x: number; y: number }, b: { x: number; y: number }) => {
+      box.hidden = false;
+      Object.assign(box.style, {
+        left: `${Math.min(a.x, b.x)}px`, top: `${Math.min(a.y, b.y)}px`,
+        width: `${Math.abs(a.x - b.x)}px`, height: `${Math.abs(a.y - b.y)}px`,
+      });
+    };
+    const finish = (e: PointerEvent, cancel: boolean) => {
+      if (!start) return;
+      const end = local(e);
+      const a = start;
+      start = null;
+      box.hidden = true;
+      if (!this.selecting) map.dragPan.enable();
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onCancel);
+      if (cancel || isTinyBox(a, end)) return;
+      this.suppressClick = true;
+      setTimeout(() => (this.suppressClick = false), 0);
+      const p0 = map.unproject([a.x, a.y]);
+      const p1 = map.unproject([end.x, end.y]);
+      this.opts.handlers?.onBox?.(boundsFrom([p0.lng, p0.lat], [p1.lng, p1.lat]));
+    };
+    const onMove = (e: PointerEvent) => start && draw(start, local(e));
+    const onUp = (e: PointerEvent) => finish(e, false);
+    const onCancel = (e: PointerEvent) => finish(e, true);
+
+    container.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0 || !(this.selecting || e.shiftKey)) return;
+      start = local(e);
+      map.dragPan.disable();
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onCancel);
+    });
+  }
+
+  setSelectMode(on: boolean) {
+    this.selecting = on;
+    this.map.getCanvasContainer().classList.toggle('selecting', on);
+    if (on) this.map.dragPan.disable();
+    else this.map.dragPan.enable();
+  }
+
+  // Draws (or clears) the outline of the narrowed region.
+  setScope(bounds: Bounds | null) {
+    const source = this.map.getSource('scope') as GeoJSONSource | undefined;
+    source?.setData({
+      type: 'FeatureCollection',
+      features: bounds ? [{ type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: boundsPolygon(bounds) } }] : [],
+    });
+  }
+
+  fitTo(bounds: Bounds) {
+    this.map.fitBounds([[bounds.west, bounds.south], [bounds.east, bounds.north]], { padding: 60, duration: 800 });
   }
 
   private eventHit(point: Point): { event: MapEvent; label?: string; occ?: Occurrence } | null {
@@ -286,7 +374,7 @@ export class WeatherMap {
       properties: {
         id: occurrences[i]!.eventId,
         oi: i,
-        category: this.eventsById.get(occurrences[i]!.eventId)?.category,
+        icon: iconFor(this.eventsById.get(occurrences[i]!.eventId) ?? { category: 'festival' }),
       },
     }));
     const fc: FeatureCollection<GeoPoint> = { type: 'FeatureCollection', features };
@@ -309,6 +397,8 @@ export class WeatherMap {
       map.setPaintProperty(`line-${level}`, 'line-color', css(level === 'city' ? '--text' : '--outline'));
     }
     map.setPaintProperty('border-country', 'line-color', css('--border-strong'));
+    map.setPaintProperty('scope-fill', 'fill-color', css('--accent'));
+    map.setPaintProperty('scope-line', 'line-color', css('--accent'));
     map.setPaintProperty('area-hover', 'line-color', css('--text'));
     map.setPaintProperty('area-selected', 'line-color', css('--accent'));
   }

@@ -5,6 +5,9 @@ import type { AppData } from './data/load';
 import { bboxOf, pointInGeometry } from './lib/geo';
 import { comfortColor, yearColors } from './lib/color';
 import type { Occurrence } from './lib/events';
+import { buildSearchIndex } from './lib/search';
+import type { SearchItem } from './lib/search';
+import type { Bounds } from './lib/scope';
 import { circDist, dayOfYear, interpMonthly, MID_DAY, wrapDay } from './lib/season';
 import { etaText, etaToDay } from './lib/timeuntil';
 import { WeatherMap } from './map/map';
@@ -14,6 +17,7 @@ import { createRing } from './ui/ring';
 import { renderLegend } from './ui/legend';
 import { Panel } from './ui/panel';
 import { Picks } from './ui/picks';
+import { initSearch } from './ui/search';
 import { initMenu } from './ui/menu';
 import { cityMenuItems, findCityByCode } from './lib/cities';
 import { esc } from './ui/esc';
@@ -111,6 +115,8 @@ async function start() {
   const today = new Date();
   const todayDay = dayOfYear(today);
   let day = initial.d ?? todayDay;
+  let scope: Bounds | null = null;
+  let selecting = false;
   const tooltip = el('tooltip');
   let overEvent = false;
   const areaProps = data.areas.features.map((f) => f.properties);
@@ -136,6 +142,7 @@ async function start() {
     handlers: {
       onArea: (id) => panel.showArea(id),
       onEvent: (ev, occ) => panel.showEvent(ev, null, occ),
+      onBox: (b) => applyScope(b),
       onHoverEvent: (ev, p, label) => {
         overEvent = ev !== null;
         if (ev) showTip(`<b>${esc(label ? `${label}: ${ev.name}` : ev.name)}</b><small>${esc(ev.summary)}</small>`, p);
@@ -173,12 +180,40 @@ async function start() {
     main.flyTo(p.point[0], p.point[1], p.level === 'city' ? CITY_ZOOM : REGION_ZOOM);
     panel.showArea(id);
   };
-  const picks = new Picks(el('picks'), data, () => day, goArea, occByArea, (eventId, occ) => {
-    const ev = data.events.find((x) => x.id === eventId);
-    if (!ev) return;
-    main.flyTo(occ.lon, occ.lat, REGION_ZOOM);
-    panel.showEvent(ev, null, occ);
+  const picks = new Picks({
+    el: el('picks'),
+    data,
+    getDay: () => day,
+    getScope: () => scope,
+    isSelecting: () => selecting,
+    occByArea,
+    onPick: goArea,
+    onEvent: (eventId, occ) => {
+      const ev = data.events.find((x) => x.id === eventId);
+      if (!ev) return;
+      main.flyTo(occ.lon, occ.lat, REGION_ZOOM);
+      panel.showEvent(ev, null, occ);
+    },
+    actions: {
+      toggleSelect: () => {
+        selecting = !selecting;
+        main.setSelectMode(selecting);
+        // On a phone the list covers the map, so it steps aside while a rectangle is drawn.
+        if (selecting) document.body.classList.remove('picks-open');
+        picks.refresh();
+      },
+      clearScope: () => applyScope(null),
+      zoomScope: () => scope && main.fitTo(scope),
+    },
   });
+  const applyScope = (b: Bounds | null) => {
+    scope = b;
+    selecting = false;
+    main.setSelectMode(false);
+    main.setScope(b);
+    if (b) document.body.classList.add('picks-open');
+    picks.refresh();
+  };
 
   const writeHash = () => {
     const c = main.map.getCenter();
@@ -299,10 +334,31 @@ async function start() {
   });
   el('inset').addEventListener('click', () => main.flyTo(OKINAWA.lon, OKINAWA.lat, 7));
 
+  const onSearchPick = (item: SearchItem) => {
+    if (item.kind === 'area') return goArea(item.id);
+    const [eventId, country] = item.id.split('|');
+    const ev = data.events.find((x) => x.id === eventId);
+    const mine = data.occurrences.filter((o) => o.eventId === eventId && (!country || o.country === country));
+    if (!ev || !mine.length) return;
+    // The occurrence that comes first from today.
+    const occ = mine.reduce((best, o) => (wrapDay(o.day - todayDay) < wrapDay(best.day - todayDay) ? o : best));
+    dials[style].goTo(occ.day);
+    main.flyTo(occ.lon, occ.lat, REGION_ZOOM);
+    panel.showEvent(ev, null, occ);
+  };
+  const regionLabel = (cc: string) => regionNames.of(cc) ?? cc;
+  initSearch(el<HTMLInputElement>('search'), el('search-results'), buildSearchIndex(areaProps, data.events, regionLabel), onSearchPick);
+
   document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
+    if (e.key !== 'Escape' || e.defaultPrevented) return;
     if (cityMenu.close() || placeMenu.close()) return;
-    if (panel.isOpen()) panel.hide();
+    if (selecting) {
+      selecting = false;
+      main.setSelectMode(false);
+      return picks.refresh();
+    }
+    if (panel.isOpen()) return panel.hide();
+    if (scope) applyScope(null);
   });
 
   // Exposed for browser checks only.

@@ -3,7 +3,8 @@ import type { AreaProps, MapEvent } from '../data/types';
 import { nightFlag } from '../lib/comfort';
 import { comfortColor } from '../lib/color';
 import { feltHigh } from '../lib/feel';
-import { CATEGORY_LABELS } from '../lib/events';
+import { CATEGORY_LABELS, iconFor } from '../lib/events';
+import { iconDataUrl } from '../map/icons';
 import type { Occurrence } from '../lib/events';
 import { circDist, dayFromMonthDay, dayLabel, interpMonthly, isActive, monthOfDay, sectionLabel } from '../lib/season';
 import { RAIN_LABELS } from '../lib/rain';
@@ -134,7 +135,7 @@ export class Panel {
       return e ? [{ e, o }] : [];
     });
     const list = items.length
-      ? `<ul>${items.map(({ e, o }) => `<li><button type="button" data-act="event" data-id="${e.id}" data-oi="${this.data.occurrences.indexOf(o)}">${esc(e.name)} <small>(${CATEGORY_LABELS[e.category]}, ${peakText(o)})</small></button></li>`).join('')}</ul>`
+      ? `<ul>${items.map(({ e, o }) => `<li><button type="button" data-act="event" data-id="${e.id}" data-oi="${this.data.occurrences.indexOf(o)}"><img class="ev-icon" alt="" src="${iconDataUrl(iconFor(e))}"> ${esc(e.name)} <small>(${CATEGORY_LABELS[e.category]}, ${peakText(o)})</small></button></li>`).join('')}</ul>`
       : `<p class="sub">No listed events here in ${sectionLabel(day)}.</p>`;
     return `${title}${rows.join('')}<h3>Events</h3>${list}`;
   }
@@ -155,8 +156,10 @@ export class Panel {
       : '';
     const back = backTo ? `<p><button type="button" data-act="back" data-id="${backTo}">Back to area</button></p>` : '';
     const here = occ ? `<p><b>Peak here</b> ${esc(dayLabel(occ.day))}${occ.spread > 0 ? `, +-${occ.spread} days` : ''}</p>` : '';
-    return `<h2>${esc(e.name)}</h2>
-      <p class="sub">${CATEGORY_LABELS[e.category]}, ${esc(e.when)}${e.approx ? ' (approximate)' : ''}</p>
+    const title = occ?.label ?? e.name;
+    const alias = occ?.label ? `${esc(e.name)}. ` : '';
+    return `<h2><img class="ev-icon lg" alt="" src="${iconDataUrl(iconFor(e))}"> ${esc(title)}</h2>
+      <p class="sub">${alias}${CATEGORY_LABELS[e.category]}, ${esc(e.when)}${e.approx ? ' (approximate)' : ''}</p>
       ${here}<p>${esc(e.details ?? e.summary)}</p>${notes}${spots}${links}${back}`;
   }
 }

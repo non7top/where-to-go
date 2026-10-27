@@ -420,10 +420,87 @@ text.dial-eta {
   top: 12px;
   right: 12px;
   z-index: 4;
-  width: 300px;
-  max-height: calc(100% - 210px);
-  padding: 12px 14px;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  height: calc(100% - 190px);
+  min-height: 340px;
+  max-height: 660px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.pk {
+  padding: 12px 14px 0;
+}
+
+.pk-places {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pk-events {
+  flex: none;
+  padding-bottom: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.pk-scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.pk-places .pk-scroll {
+  flex: 1;
+  min-height: 0;
+  padding-bottom: 8px;
+}
+
+.pk-events .pk-scroll {
+  height: 208px;
+}
+
+.pk-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 2px;
+}
+
+.pk-tools button {
+  padding: 2px 9px;
+  font-size: 12px;
+}
+
+.pk-tools button.on {
+  color: var(--accent-text);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.pk-tools .hint {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 4px 1px 9px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+}
+
+.chip button {
+  border: 0;
+  color: var(--accent);
+  font-weight: 650;
 }
 
 #picks h2 {
@@ -438,7 +515,7 @@ text.dial-eta {
 }
 
 #picks h3 {
-  margin: 12px 0 4px;
+  margin: 10px 0 4px;
   font-size: 12px;
   color: var(--muted);
   text-transform: uppercase;
@@ -536,19 +613,95 @@ text.dial-eta {
   font-weight: 700;
 }
 
-.cat-dot {
+.ev-icon {
   flex: none;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--muted);
+  width: 22px;
+  height: 22px;
+  vertical-align: -5px;
 }
 
-.cat-festival { background: #d6336c; }
-.cat-fair { background: #7048e8; }
-.cat-seasonal { background: #0b8f7f; }
-.cat-holiday { background: #c47f00; }
-.cat-concert { background: #1971c2; }
+.ev-icon.lg {
+  width: 28px;
+  height: 28px;
+  vertical-align: -7px;
+}
+
+/* Search */
+.search {
+  position: relative;
+}
+
+#search {
+  width: 210px;
+  padding: 5px 10px;
+  font: inherit;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+#search:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+#search-results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 40;
+  width: 340px;
+  max-height: 60vh;
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+#search-results[hidden] {
+  display: none;
+}
+
+#search-results li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+#search-results li.active {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+#search-results li.none {
+  color: var(--muted);
+  cursor: default;
+}
+
+/* Rectangle selection on the map */
+.select-box {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 2px dashed var(--accent);
+}
+
+.select-box[hidden] {
+  display: none;
+}
+
+.maplibregl-canvas-container.selecting,
+.maplibregl-canvas-container.selecting .maplibregl-canvas {
+  cursor: crosshair;
+}
 
 body.panel-open #picks {
   display: none;
@@ -690,15 +843,33 @@ body.panel-open #picks {
 @media (max-width: 719px) {
   #picks {
     display: none;
-    top: 64px;
+    top: 108px;
     right: 8px;
     left: 8px;
     width: auto;
-    max-height: calc(100% - 64px - 214px);
+    height: calc(100% - 108px - 214px);
+    min-height: 0;
   }
 
   body.picks-open #picks {
-    display: block;
+    display: flex;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    max-width: calc(100% - 16px);
+  }
+
+  .search {
+    flex: 1 1 100%;
+  }
+
+  #search {
+    width: 100%;
+  }
+
+  #search-results {
+    width: 100%;
   }
 
   #picks-btn {
@@ -744,7 +915,10 @@ body.panel-open #picks {
     bottom: 222px;
   }
 
-  body.dial-ring #picks,
+  body.dial-ring #picks {
+    height: calc(100% - 108px - 178px);
+  }
+
   body.dial-ring #panel {
     max-height: calc(100% - 64px - 178px);
   }

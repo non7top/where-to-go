@@ -2,90 +2,132 @@ import type { AppData } from '../data/load';
 import { rankGreen } from '../lib/best';
 import type { Pick } from '../lib/best';
 import { comfortColor } from '../lib/color';
-import { CATEGORY_LABELS } from '../lib/events';
+import { CATEGORY_LABELS, iconFor } from '../lib/events';
 import type { Occurrence } from '../lib/events';
 import { feltHigh } from '../lib/feel';
-import { circDist, interpMonthly, isActive, sectionLabel } from '../lib/season';
+import { inBounds } from '../lib/scope';
+import type { Bounds } from '../lib/scope';
+import { circDist, dayLabel, interpMonthly, isActive, sectionLabel } from '../lib/season';
+import { iconDataUrl } from '../map/icons';
 import { esc } from './esc';
 import { flagImg } from './flags';
 
-const PER_COUNTRY_CITIES = 3;
-const PER_COUNTRY_REGIONS = 2;
+const TOP = 10;
 const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
-// Right-hand list of the most comfortable (green) cities and regions for the selected 15-day section.
+export interface PicksOptions {
+  el: HTMLElement;
+  data: AppData;
+  getDay: () => number;
+  getScope: () => Bounds | null;
+  isSelecting: () => boolean;
+  occByArea: Map<string, Occurrence[]>;
+  onPick: (id: string) => void;
+  onEvent: (eventId: string, occ: Occurrence) => void;
+  actions: { toggleSelect: () => void; clearScope: () => void; zoomScope: () => void };
+}
+
+// The right-hand card: the top 10 comfortable places on top, the events of the period below
+// (five rows tall, scrolling). Both follow the selected rectangle on the map, if there is one.
 export class Picks {
-  constructor(
-    private el: HTMLElement,
-    private data: AppData,
-    private getDay: () => number,
-    private onPick: (id: string) => void,
-    private occByArea: Map<string, Occurrence[]>,
-    private onEvent: (eventId: string, occ: Occurrence) => void,
-  ) {
-    el.addEventListener('click', (e) => {
-      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-id],[data-oi]');
-      if (t?.dataset.oi !== undefined) {
-        const occ = data.occurrences[Number(t.dataset.oi)];
-        if (occ) onEvent(occ.eventId, occ);
-      } else if (t?.dataset.id) onPick(t.dataset.id);
+  private last = '';
+
+  constructor(private o: PicksOptions) {
+    o.el.addEventListener('click', (e) => {
+      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-act],[data-id],[data-oi]');
+      if (!t) return;
+      if (t.dataset.act === 'select') o.actions.toggleSelect();
+      else if (t.dataset.act === 'clear') o.actions.clearScope();
+      else if (t.dataset.act === 'zoom') o.actions.zoomScope();
+      else if (t.dataset.oi !== undefined) {
+        const occ = o.data.occurrences[Number(t.dataset.oi)];
+        if (occ) o.onEvent(occ.eventId, occ);
+      } else if (t.dataset.id) o.onPick(t.dataset.id);
     });
   }
 
   refresh() {
-    const day = this.getDay();
-    const areas = this.data.areas.features.map((f) => f.properties);
+    const { data, el } = this.o;
+    const day = this.o.getDay();
+    const scope = this.o.getScope();
+    const areas = data.areas.features.map((f) => f.properties).filter((a) => inBounds(scope, a.point[0], a.point[1]));
     const cityNames = new Set(areas.filter((a) => a.level === 'city').map((a) => a.name));
-    const cities = rankGreen(areas, this.data.climate, day, ['city']);
     // A province named like a city (Seoul, Busan, Tokyo) would only repeat the city row.
-    const regions = rankGreen(areas, this.data.climate, day, ['province']).filter((p) => !cityNames.has(p.name));
+    const ranked = [
+      ...rankGreen(areas, data.climate, day, ['city']),
+      ...rankGreen(areas, data.climate, day, ['province']).filter((p) => !cityNames.has(p.name)),
+    ]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, TOP);
 
-    const byCountry = new Map<string, { cities: Pick[]; regions: Pick[]; best: number }>();
-    const group = (p: Pick) => {
-      let g = byCountry.get(p.country);
-      if (!g) byCountry.set(p.country, (g = { cities: [], regions: [], best: 0 }));
-      g.best = Math.max(g.best, p.score);
-      return g;
-    };
-    for (const p of cities) group(p).cities.push(p);
-    for (const p of regions) group(p).regions.push(p);
+    const byCountry = new Map<string, Pick[]>();
+    for (const p of ranked) byCountry.set(p.country, [...(byCountry.get(p.country) ?? []), p]);
+    const groups = [...byCountry.entries()].map(
+      ([cc, rows]) => `<h3 class="country">${flagImg(cc)}${esc(regionNames.of(cc) ?? cc)}</h3><ul>${rows.map((p) => this.row(p, day)).join('')}</ul>`,
+    );
 
-    const sections = [...byCountry.entries()]
-      .sort((a, b) => b[1].best - a[1].best)
-      .map(([cc, g]) => {
-        const rows = [...g.cities.slice(0, PER_COUNTRY_CITIES), ...g.regions.slice(0, PER_COUNTRY_REGIONS)];
-        return `<h3 class="country">${flagImg(cc)}${esc(regionNames.of(cc) ?? cc)}</h3><ul>${rows.map((p) => this.row(p, day)).join('')}</ul>`;
-      });
-    this.el.innerHTML = `<h2>Green places</h2>
-      <p class="sub">Comfortable weather, ${esc(sectionLabel(day))}, by country</p>
-      ${sections.join('') || '<p class="sub">Nothing in the green range.</p>'}${this.events(day)}`;
+    const selecting = this.o.isSelecting();
+    const tools = scope
+      ? `<span class="chip">Selected area <button type="button" data-act="zoom">Zoom</button><button type="button" data-act="clear">Clear</button></span>`
+      : '';
+    const hint = selecting ? 'Drag a rectangle on the map' : scope ? '' : 'Or hold Shift and drag on the map';
+    const html = `<section class="pk pk-places">
+        <div class="pk-head">
+          <h2>Top ${TOP} green places</h2>
+          <p class="sub">${esc(sectionLabel(day))}${scope ? ', in the selected area' : ''}</p>
+          <div class="pk-tools">
+            <button type="button" data-act="select" aria-pressed="${selecting}" class="${selecting ? 'on' : ''}">Select area</button>${tools}
+            <span class="hint">${hint}</span>
+          </div>
+        </div>
+        <div class="pk-scroll" data-scroll="places">${groups.join('') || '<p class="sub">Nothing in the green range here.</p>'}</div>
+      </section>
+      <section class="pk pk-events">
+        <h3>Events</h3>
+        <div class="pk-scroll" data-scroll="events">${this.events(day, scope)}</div>
+      </section>`;
+    if (html === this.last) return;
+    this.last = html;
+    const keep = [...el.querySelectorAll<HTMLElement>('[data-scroll]')].map((s) => [s.dataset.scroll, s.scrollTop] as const);
+    el.innerHTML = html;
+    for (const [name, top] of keep) {
+      const s = el.querySelector<HTMLElement>(`[data-scroll="${name}"]`);
+      if (s) s.scrollTop = top;
+    }
   }
 
-  // Every event whose peak window reaches the section, nearest peak first; a season front counts once.
-  private events(day: number): string {
+  // Every event whose peak window reaches the section, nearest peak first; one row per country for a season front.
+  private events(day: number, scope: Bounds | null): string {
+    const { data } = this.o;
     const groups = new Map<string, { best: number; n: number }>();
-    this.data.occurrences.forEach((o, i) => {
-      if (!isActive(o.day, o.spread, day)) return;
-      const g = groups.get(o.eventId);
-      if (!g) groups.set(o.eventId, { best: i, n: 1 });
+    data.occurrences.forEach((o, i) => {
+      if (!isActive(o.day, o.spread, day) || !inBounds(scope, o.lon, o.lat)) return;
+      const key = `${o.eventId}|${o.label ? (o.country ?? '') : ''}`;
+      const g = groups.get(key);
+      if (!g) groups.set(key, { best: i, n: 1 });
       else {
         g.n++;
-        if (circDist(o.day, day) < circDist(this.data.occurrences[g.best]!.day, day)) g.best = i;
+        if (circDist(o.day, day) < circDist(data.occurrences[g.best]!.day, day)) g.best = i;
       }
     });
-    const rows = [...groups.entries()]
-      .sort((a, b) => circDist(this.data.occurrences[a[1].best]!.day, day) - circDist(this.data.occurrences[b[1].best]!.day, day))
-      .flatMap(([id, g]) => {
-        const e = this.data.events.find((x) => x.id === id);
-        return e ? [`<li><button type="button" data-oi="${g.best}"><span class="cat-dot cat-${e.category}"></span><span class="pick-main"><b>${esc(e.name)}</b><small>${CATEGORY_LABELS[e.category]}, ${esc(e.when)}${g.n > 1 ? `, ${g.n} areas` : ''}</small></span></button></li>`] : [];
+    const rows = [...groups.values()]
+      .sort((a, b) => circDist(data.occurrences[a.best]!.day, day) - circDist(data.occurrences[b.best]!.day, day))
+      .flatMap((g) => {
+        const occ = data.occurrences[g.best]!;
+        const e = data.events.find((x) => x.id === occ.eventId);
+        if (!e) return [];
+        const flag = occ.label && occ.country ? flagImg(occ.country) : '';
+        const detail = g.n > 1 ? `${g.n} areas, peak around ${dayLabel(occ.day)}` : e.when;
+        return [`<li><button type="button" data-oi="${data.occurrences.indexOf(occ)}"><img class="ev-icon" alt="" src="${iconDataUrl(iconFor(e))}"><span class="pick-main"><b>${flag}${esc(occ.label ?? e.name)}</b><small>${CATEGORY_LABELS[e.category]}, ${esc(detail)}</small></span></button></li>`];
       });
-    return rows.length ? `<h3>Events</h3><ul>${rows.join('')}</ul>` : '<h3>Events</h3><p class="sub">No listed events in this period.</p>';
+    return rows.length ? `<ul>${rows.join('')}</ul>` : '<p class="sub">No listed events in this period.</p>';
   }
 
   private row(p: Pick, day: number): string {
-    const c = this.data.climate[p.id];
+    const { data } = this.o;
+    const c = data.climate[p.id];
     const shown = c ? interpMonthly(c.hi, day) : null;
-    const events = new Set((this.occByArea.get(p.id) ?? []).filter((o) => isActive(o.day, o.spread, day)).map((o) => o.eventId)).size;
+    const events = new Set((this.o.occByArea.get(p.id) ?? []).filter((o) => isActive(o.day, o.spread, day)).map((o) => o.eventId)).size;
     const wind = c?.wind ? interpMonthly(c.wind, day) : null;
     const felt = feltHigh(shown, wind);
     const rain = p.rainLevel >= 2 ? `<span class="pill" title="Rainy season">${p.rainLevel === 3 ? 'heavy rain' : 'rainy'}</span>` : '';

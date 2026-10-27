@@ -16,6 +16,7 @@
 - Q: How is the rain and monsoon mark decided? -> A: Derived from public rainfall data prepared ahead of time, with a hand override per area-month. In addition, each area-month can carry an optional subjective comfort rating from 5 to 1.
 - Q: Gradient or discrete colors? -> A: Smooth gradient.
 - Q: How are zoom-cuts presented? -> A: Both a shortcut list and a fixed inset for the main case (Okinawa).
+- Q: Do cool nights and indoor comfort matter? -> A: Cool nights are acceptable for the color, but evening comfort in accommodation matters, and some regions have heating or air conditioning in typical rooms and others do not (the user's example: Korea generally has none). So each area carries a note on typical heating and cooling, and the panel flags nights that are cold or hot where that is missing.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -84,6 +85,7 @@ Clicking an area opens a panel with its name, its weather for the selected month
 1. **Given** an area is clicked, **When** the panel opens, **Then** it shows the area name, weather for the selected month, a cost tier for that month, and a list of that month's events in the area.
 2. **Given** the panel is open, **When** the visitor changes the month, **Then** the panel content updates to the new month.
 3. **Given** an area has no events that month, **When** the panel opens, **Then** it says so rather than showing an empty list.
+4. **Given** an area where heating is not typical in accommodation, **When** the selected month has cold nights, **Then** the panel shows a night-comfort flag with the typical night temperature.
 
 ---
 
@@ -125,7 +127,6 @@ The page looks finished: consistent colors, readable labels, and a layout that a
 - **FR-005**: Weather MUST be defined per area, so nearby areas can differ; rain seasons MUST be per area.
 - **FR-006**: Finer areas MUST appear as the visitor zooms in, and coarser areas MUST be shown when zoomed out.
 - **FR-007**: The page MUST provide a shortcut list that jumps to small areas at a readable zoom, a fixed inset showing Okinawa at readable size, and a control to reset the view.
-- **FR-021**: Each area-month MAY carry a subjective comfort rating from 5 (best) to 1, set by a curator, and the area panel MUST show it when present.
 - **FR-008**: Events MUST be shown as category icons at their location, filtered by the selected month.
 - **FR-009**: Event categories MUST include festival or main event, fair or convention, seasonal sight, national holiday, and concert.
 - **FR-010**: Event details MUST open on hover (summary) and on click or tap (full details), and MUST be reachable without hover.
@@ -139,10 +140,12 @@ The page looks finished: consistent colors, readable labels, and a layout that a
 - **FR-018**: All controls MUST work with touch, mouse and keyboard.
 - **FR-019**: All map and event data MUST be produced ahead of time and shipped as static files; the running page MUST NOT need a server or any outside service.
 - **FR-020**: Event data MUST be kept separately from area data, and concert data separately from the other events, so each can be updated on its own.
+- **FR-021**: Each area-month MAY carry a subjective comfort rating from 5 (best) to 1, set by a curator, and the area panel MUST show it when present.
+- **FR-022**: Each area MAY carry a note on typical heating and cooling in accommodation (available, partial, not typical). When the selected month has cold nights where heating is not typical, or hot nights where cooling is not typical, the area panel MUST flag it. This flag MUST NOT change the map color.
 
 ### Key Entities *(include if feature involves data)*
 
-- **Area**: A place on the map with a name, a parent area, a shape, and a zoom range in which it shows. Has twelve monthly climate entries.
+- **Area**: A place on the map with a name, a parent area, a shape, a zoom range in which it shows, and an optional note on typical heating and cooling in accommodation. Has twelve monthly climate entries.
 - **Monthly climate**: For one area and one month: temperature range, rain status, rain or monsoon mark, cost tier, and an optional comfort rating from 5 to 1.
 - **Event**: A name, category, location, month coverage (exact date or approximate window), a short description, and optional crowd, price and perk notes.
 - **Shortcut**: A named jump target with a position and zoom, for small areas that vanish at region scale.
@@ -167,6 +170,8 @@ The page looks finished: consistent colors, readable labels, and a layout that a
 - Weather values are approximate and hand-curated or generated ahead of time from public climate data; they do not need to be exact.
 - The colors describe daytime comfort for walking in a baseline outfit (see Clarifications), so the 17-23C green band is a starting point. Dry heat such as summer in Astana may feel comfortable at higher temperatures; whether humidity shifts the bands is left for the plan, and the comfort rating covers such cases meanwhile.
 - The comfort rating is optional curator data and does not change map colors in this release.
+- Heating and cooling notes are hand-set by the curator from experience and may vary by place and hotel type; they are a hint, not a guarantee. The monthly climate therefore needs a typical night temperature as well as the daytime one.
+- Where the starter data lacks a heating or cooling note, no flag is shown.
 - The map need not be geographically precise; simplified outlines and rough area shapes are acceptable.
 - The cost tier for each area-month is hand-set, and events only annotate it in this release.
 - The page is in English only.

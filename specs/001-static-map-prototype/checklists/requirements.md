@@ -35,4 +35,5 @@
 
 - FR-019 (static files, no server) is a delivery constraint requested by the user and set by the constitution, not a framework choice.
 - Clarified 2026-10-27: temperature basis, rain mark source, gradient colors, zoom-cut presentation (see spec Clarifications).
+- Added after clarify: heating and cooling note per area with a night-comfort flag in the panel (FR-022).
 - Still open for the plan: whether humidity shifts the color bands (dry heat like Astana in summer feels comfortable above 23C), the public rainfall data source, and how the Okinawa inset is placed on narrow screens.

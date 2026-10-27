@@ -19,7 +19,22 @@
       "crowd": { "type": "string" },
       "price": { "type": "string" },
       "perk": { "type": "string" },
-      "areaId": { "type": "string" }
+      "areaId": { "type": "string" },
+      "country": { "type": "string", "pattern": "^[A-Z]{2}$" },
+      "highlights": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["name", "lon", "lat"],
+          "properties": {
+            "name": { "type": "string" },
+            "lon": { "type": "number", "minimum": 60, "maximum": 150 },
+            "lat": { "type": "number", "minimum": -12, "maximum": 56 },
+            "note": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      }
     },
     "additionalProperties": false
   }

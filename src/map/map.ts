@@ -5,9 +5,10 @@ import type { Feature, FeatureCollection, Point as GeoPoint } from 'geojson';
 import type { AppData } from '../data/load';
 import type { EventCategory, Level, MapEvent } from '../data/types';
 import { comfortColor, NO_DATA_COLOR } from '../lib/color';
+import { feltHigh } from '../lib/feel';
 import { eventsForMonth } from '../lib/events';
 import { isMarked } from '../lib/rain';
-import { clusterIcon, eventIcon, RAIN_PATTERNS, rainTile, tileImage } from './patterns';
+import { clusterIcon, eventIcon, RAIN_PATTERNS, rainTile, starIcon, tileImage } from './patterns';
 
 // maplibre-gl 6 finds its worker next to the main script, which a bundler breaks.
 // The standalone (file://) build sets __WTG_WORKER_URL__ to an inline blob instead.
@@ -35,7 +36,7 @@ export interface MapHandlers {
   onArea?: (id: string) => void;
   onEvent?: (event: MapEvent) => void;
   onHoverArea?: (id: string | null, point: XY) => void;
-  onHoverEvent?: (event: MapEvent | null, point: XY) => void;
+  onHoverEvent?: (event: MapEvent | null, point: XY, label?: string) => void;
 }
 
 export interface MapOptions {
@@ -117,6 +118,16 @@ export class WeatherMap {
     }
     layers.push(
       {
+        id: 'border-country', type: 'line', source: 'areas',
+        filter: ['==', ['get', 'level'], 'country'],
+        layout: { 'line-join': 'round' },
+        paint: {
+          'line-color': css('--border-strong'),
+          'line-opacity': 0.9,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 1.5, 1.2, 5, 2.4, 9, 3.6],
+        },
+      },
+      {
         id: 'area-hover', type: 'line', source: 'areas',
         paint: {
           'line-color': css('--text'),
@@ -143,6 +154,8 @@ export class WeatherMap {
     const { map } = this;
     for (const c of CATEGORIES) map.addImage(c, eventIcon(c), { pixelRatio: 2 });
     map.addImage('cluster', clusterIcon(), { pixelRatio: 2 });
+    map.addImage('star', starIcon(), { pixelRatio: 2 });
+    map.addSource('stars', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
     map.addSource('events', {
       type: 'geojson',
       data: { type: 'FeatureCollection', features: [] },
@@ -158,6 +171,10 @@ export class WeatherMap {
       },
     });
     map.addLayer({
+      id: 'event-stars', type: 'symbol', source: 'stars',
+      layout: { 'icon-image': 'star', 'icon-allow-overlap': true, 'icon-size': 0.9 },
+    });
+    map.addLayer({
       id: 'event-points', type: 'symbol', source: 'events', filter: ['!', ['has', 'point_count']],
       layout: { 'icon-image': ['get', 'category'], 'icon-allow-overlap': true, 'icon-size': 1 },
     });
@@ -166,11 +183,12 @@ export class WeatherMap {
     const eventLayers = ['event-points', 'event-clusters'];
 
     map.on('mousemove', (e) => {
-      const ev = this.eventAt(e.point);
+      const eh = this.eventHit(e.point);
+      const ev = eh?.event ?? null;
       const hit = ev ? null : this.areaAt(e.point, areaLayers);
       this.setHover(hit);
       map.getCanvas().style.cursor = ev || hit || this.clusterAt(e.point) ? 'pointer' : '';
-      this.opts.handlers?.onHoverEvent?.(ev, e.point);
+      this.opts.handlers?.onHoverEvent?.(ev, e.point, eh?.label);
       this.opts.handlers?.onHoverArea?.(hit, e.point);
     });
     map.on('mouseout', () => {
@@ -179,7 +197,7 @@ export class WeatherMap {
       this.opts.handlers?.onHoverArea?.(null, { x: 0, y: 0 });
     });
     map.on('click', async (e) => {
-      const ev = this.eventAt(e.point);
+      const ev = this.eventHit(e.point)?.event;
       if (ev) return void this.opts.handlers?.onEvent?.(ev);
       const cluster = this.clusterAt(e.point, eventLayers);
       if (cluster) {
@@ -192,9 +210,12 @@ export class WeatherMap {
     });
   }
 
-  private eventAt(point: Point): MapEvent | null {
-    const f = this.map.queryRenderedFeatures(point, { layers: ['event-points'] })[0];
-    return f ? (this.eventsById.get(f.properties?.id as string) ?? null) : null;
+  private eventHit(point: Point): { event: MapEvent; label?: string } | null {
+    const f = this.map.queryRenderedFeatures(point, { layers: ['event-points', 'event-stars'] })[0];
+    if (!f) return null;
+    const isStar = f.layer.id === 'event-stars';
+    const event = this.eventsById.get((isStar ? f.properties?.eventId : f.properties?.id) as string);
+    return event ? { event, label: isStar ? (f.properties?.name as string) : undefined } : null;
   }
 
   private clusterAt(point: Point, layers = ['event-clusters']): MapGeoJSONFeature | undefined {
@@ -231,7 +252,7 @@ export class WeatherMap {
       const c = this.data.climate[id];
       const level = c?.rainLevel[i] ?? null;
       this.map.setFeatureState({ source: 'areas', id }, {
-        color: comfortColor(c?.hi[i] ?? null),
+        color: comfortColor(feltHigh(c?.hi[i] ?? null, c?.wind?.[i])),
         rain: isMarked(level) ? level : 0,
       });
     }
@@ -248,6 +269,15 @@ export class WeatherMap {
     }));
     const fc: FeatureCollection<GeoPoint> = { type: 'FeatureCollection', features };
     source.setData(fc);
+
+    const stars: Feature<GeoPoint>[] = eventsForMonth(this.data.events, month).flatMap((e) =>
+      (e.highlights ?? []).map((h) => ({
+        type: 'Feature' as const,
+        geometry: { type: 'Point' as const, coordinates: [h.lon, h.lat] },
+        properties: { eventId: e.id, name: h.name },
+      })),
+    );
+    (this.map.getSource('stars') as GeoJSONSource | undefined)?.setData({ type: 'FeatureCollection', features: stars });
   }
 
   applyTheme() {
@@ -258,6 +288,7 @@ export class WeatherMap {
     for (const { level } of LEVELS) {
       map.setPaintProperty(`line-${level}`, 'line-color', css(level === 'city' ? '--text' : '--outline'));
     }
+    map.setPaintProperty('border-country', 'line-color', css('--border-strong'));
     map.setPaintProperty('area-hover', 'line-color', css('--text'));
     map.setPaintProperty('area-selected', 'line-color', css('--accent'));
   }

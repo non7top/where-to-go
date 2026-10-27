@@ -18,6 +18,7 @@ export interface AreaClimate {
   lo: (number | null)[];
   rain: (number | null)[];
   rainLevel: (RainLevel | null)[];
+  wind?: (number | null)[];
   cost: (1 | 2 | 3)[];
   comfort?: (number | null)[];
   heating?: Equipment;
@@ -39,6 +40,15 @@ export interface MapEvent {
   price?: string;
   perk?: string;
   areaId?: string;
+  country?: string;
+  highlights?: Highlight[];
+}
+
+export interface Highlight {
+  name: string;
+  lon: number;
+  lat: number;
+  note?: string;
 }
 
 export interface Shortcut {

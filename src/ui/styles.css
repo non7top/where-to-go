@@ -4,6 +4,7 @@
   --ocean: #cfe2ee;
   --land: #e8e4d9;
   --outline: rgba(255, 255, 255, 0.55);
+  --border-strong: #1f2a37;
   --panel: rgba(255, 255, 255, 0.94);
   --text: #1c2430;
   --muted: #566272;
@@ -19,6 +20,7 @@
     --ocean: #0e1a24;
     --land: #2a2e35;
     --outline: rgba(10, 16, 24, 0.55);
+    --border-strong: #dfe6ee;
     --panel: rgba(22, 29, 38, 0.94);
     --text: #e6ebf1;
     --muted: #9aa7b6;
@@ -58,6 +60,7 @@ body {
 #legend,
 #panel,
 #month-bar,
+#month-eta,
 #tooltip,
 #error {
   background: var(--panel);
@@ -177,9 +180,41 @@ button.primary {
   cursor: pointer;
 }
 
+.month-seg {
+  position: relative;
+}
+
+.month-seg.in-range {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
 .month-seg.active {
   background: var(--accent);
   color: var(--accent-text);
+}
+
+.month-seg.today::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+#month-eta {
+  position: absolute;
+  left: 50%;
+  bottom: 82px;
+  z-index: 5;
+  padding: 3px 12px;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 #legend {
@@ -420,8 +455,22 @@ button.primary {
     font-size: 14px;
   }
 
+  #month-eta {
+    top: 60px;
+    right: 8px;
+    bottom: auto;
+    left: auto;
+    width: 46px;
+    padding: 2px 0;
+    transform: none;
+    font-size: 11px;
+    line-height: 1.15;
+    text-align: center;
+    white-space: normal;
+  }
+
   #month-bar {
-    top: 64px;
+    top: 112px;
     right: 8px;
     bottom: 40px;
     left: auto;

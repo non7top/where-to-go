@@ -107,6 +107,24 @@ function glyph(ctx: CanvasRenderingContext2D, category: EventCategory, color: st
   }
 }
 
+export function starIcon(): ImageData {
+  const [, ctx] = canvas(48, 48);
+  ctx.beginPath();
+  for (let i = 0; i < 10; i++) {
+    const r = i % 2 === 0 ? 20 : 8.5;
+    const a = -Math.PI / 2 + (i * Math.PI) / 5;
+    ctx.lineTo(24 + r * Math.cos(a), 25 + r * Math.sin(a));
+  }
+  ctx.closePath();
+  ctx.fillStyle = '#ffc83d';
+  ctx.strokeStyle = '#7a4b00';
+  ctx.lineWidth = 3;
+  ctx.lineJoin = 'round';
+  ctx.fill();
+  ctx.stroke();
+  return ctx.getImageData(0, 0, 48, 48);
+}
+
 export function clusterIcon(): ImageData {
   const [, ctx] = canvas(48, 48);
   ctx.fillStyle = 'rgba(0,0,0,0.28)';

@@ -50,6 +50,12 @@
 - [x] T023 `src/lib/cities.ts` (menu grouping, lookup by any airport code) with unit tests; `src/ui/menu.ts` generic grouped menu; Cities button first in the top bar; `#c=<code>` start link
 - [x] T024 City layer on the map (outlined circles from zoom 4) and airport code in panel and tooltip. Checked in a browser: Busan from the menu flies to its sector and opens the panel with its own weather
 
+## Phase 7c: Feedback round (FR-002, FR-003, FR-024, FR-025)
+
+- [x] T025 Wind: `WS2M` fetched per point into `climate.json` (`wind`), `src/lib/feel.ts` felt high (0.7C per m/s above 3 m/s, floor 22C, warm days only), green band extended to 26C; legend and panel show the felt value. Checked: Nha Trang December and January green, Pattaya December yellow-green only (29C, about 4 m/s wind)
+- [x] T026 Month ring bar: selected month centered, range from today tinted, today marked, drag by steps, `src/lib/timeuntil.ts` days-or-months label (45 day limit); unit tests
+- [x] T027 Prominent country borders layer; nationwide events (`country`) listed in every area of the country; star highlights (`highlights`) with hover name and card list; Songkran made nationwide with four stars
+
 ## Phase 8: Hosting and checks
 
 - [ ] T020 `.github/workflows/pages.yml` (build in container, deploy `dist/`); run with `act` before any real run. Workflow written and passes actionlint; Ran `act push -j build --bind` with `--container-options "-u <uid>:<gid> --group-add <docker socket gid>"`: checkout, install and build all succeed and the dist archive is created, no root-owned files left. The final artifact upload fails inside act ("unknown field mime_type" from act's local artifact server, which does not support this upload-artifact version), so the upload and the deploy job are untested until a real run. Nothing has been pushed.

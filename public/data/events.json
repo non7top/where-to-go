@@ -1,10 +1,16 @@
 [
   {
-    "id": "songkran", "name": "Songkran", "category": "festival",
-    "lon": 98.99, "lat": 18.79, "months": [4], "when": "13-15 April",
-    "summary": "Thai New Year water festival, biggest in Chiang Mai.",
-    "details": "Nationwide water fights and temple visits for the Thai New Year. Chiang Mai has the largest street celebrations.",
-    "crowd": "Very crowded in city centres.", "price": "Hotels rise around the dates."
+    "id": "songkran", "name": "Songkran", "category": "festival", "country": "TH",
+    "lon": 100.9, "lat": 15.5, "months": [4], "when": "13-15 April, nationwide",
+    "summary": "Thai New Year water festival, celebrated all over Thailand.",
+    "details": "Water fights and temple visits for the Thai New Year in every town. The stars mark the best-known places to join in.",
+    "crowd": "Very crowded in city centres.", "price": "Hotels rise around the dates.",
+    "highlights": [
+      { "name": "Chiang Mai", "lon": 98.99, "lat": 18.79, "note": "Largest street celebrations, around the old city moat." },
+      { "name": "Bangkok (Silom and Khao San)", "lon": 100.5, "lat": 13.75, "note": "Big water-fight streets in the centre." },
+      { "name": "Pattaya", "lon": 100.88, "lat": 12.93, "note": "Celebrations run a few days longer than elsewhere." },
+      { "name": "Phuket (Patong)", "lon": 98.3, "lat": 7.89, "note": "Beach-town water fights." }
+    ]
   },
   {
     "id": "loy-krathong", "name": "Loy Krathong and Yi Peng", "category": "festival",

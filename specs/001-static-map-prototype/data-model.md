@@ -26,6 +26,7 @@ Object keyed by area `id`; each value:
 | `hi` | number[12] | Typical daytime high in C |
 | `lo` | number[12] | Typical night low in C |
 | `rain` | number[12] | Monthly rainfall in mm |
+| `wind` | number[12], optional | Mean wind speed in m/s; used to compute the felt daytime high |
 | `rainLevel` | (0,1,2,3)[12] | Derived, or overridden |
 | `cost` | (1,2,3)[12] | Cost tier, $ to $$$ |
 | `comfort` | (1..5 or null)[12] | Optional subjective rating, 5 best |
@@ -47,6 +48,8 @@ Country areas hold the mean of their provinces. A month with no data is `null` i
 | `details` | string | Text for the opened card |
 | `crowd`, `price`, `perk` | string, optional | Separate, any may be absent |
 | `areaId` | string, optional | Links to an area for the panel list |
+| `country` | string, optional | ISO code; the event applies to every area of that country |
+| `highlights` | array, optional | Main places for the event: `{ name, lon, lat, note? }`, drawn as stars |
 
 Concerts use the same shape and are kept in their own file so they can be replaced by a feed.
 

@@ -17,6 +17,9 @@
 - Q: Gradient or discrete colors? -> A: Smooth gradient.
 - Q: How are zoom-cuts presented? -> A: Both a shortcut list and a fixed inset for the main case (Okinawa).
 - Q: Do cool nights and indoor comfort matter? -> A: Cool nights are acceptable for the color, but evening comfort in accommodation matters, and some regions have heating or air conditioning in typical rooms and others do not (the user's example: Korea generally has none). So each area carries a note on typical heating and cooling, and the panel flags nights that are cold or hot where that is missing.
+- Q: Warm but windy days? -> A: Wind cools: the color uses a felt high, and green extends to 26C. Nha Trang in December and January should be green. Pattaya in December should be greenish more or less.
+- Q: What should the month control show? -> A: The selected month centered, the stretch from the current month to it colored, and the time until it: days when within 45 days, months beyond.
+- Q: Country borders and nationwide events? -> A: Country borders more prominent. Songkran is all of Thailand, with its main places highlighted by stars.
 - Q: What is the main starting point? -> A: A list of main cities with airports (Busan, Seoul and so on), each the center of a region sector with its own weather. Picking a city is how a visitor starts: the map moves to its sector and opens its panel.
 
 ## User Scenarios & Testing *(mandatory)*
@@ -122,8 +125,8 @@ The page looks finished: consistent colors, readable labels, and a layout that a
 ### Functional Requirements
 
 - **FR-001**: The page MUST show a zoomable, pannable map of Southeast Asia and East Asia.
-- **FR-002**: The page MUST provide a month control covering all twelve months, defaulting to the current month.
-- **FR-003**: Each area MUST be colored for the selected month on a smooth gradient of typical daytime temperature: bluish below 15C (colder is bluer), blending to green at about 17-23C, then orange up to about 30C, and red above. Cooler nights MUST NOT change the color.
+- **FR-002**: The page MUST provide a month control covering all twelve months as a ring with the selected month always in the center, defaulting to the current month. The stretch from the current month forward to the selected month MUST be tinted, and the current month marked. A label MUST show the time until the selected month: the number of days while it is within 45 days, otherwise the number of months.
+- **FR-003**: Each area MUST be colored for the selected month on a smooth gradient of the felt daytime high: bluish below 15C (colder is bluer), green from about 17 to 26C, then yellow, orange up to about 32C, and red above. The felt value is the typical daytime high reduced for wind on warm days, so a windy 26C reads as comfortable (Nha Trang in December and January). Cooler nights MUST NOT change the color.
 - **FR-004**: Rain and monsoon seasons MUST be shown as a mark separate from the temperature color, and MUST NOT change the color. The mark is derived from public rainfall data prepared ahead of time, and a curator MUST be able to override it per area and month.
 - **FR-005**: Weather MUST be defined per area, so nearby areas can differ; rain seasons MUST be per area.
 - **FR-006**: Finer areas MUST appear as the visitor zooms in, and coarser areas MUST be shown when zoomed out.
@@ -143,6 +146,8 @@ The page looks finished: consistent colors, readable labels, and a layout that a
 - **FR-020**: Event data MUST be kept separately from area data, and concert data separately from the other events, so each can be updated on its own.
 - **FR-021**: Each area-month MAY carry a subjective comfort rating from 5 (best) to 1, set by a curator, and the area panel MUST show it when present.
 - **FR-022**: Each area MAY carry a note on typical heating and cooling in accommodation (available, partial, not typical). When the selected month has cold nights where heating is not typical, or hot nights where cooling is not typical, the area panel MUST flag it. This flag MUST NOT change the map color.
+- **FR-024**: The area borders of each country MUST be drawn more prominently than province and city outlines at every zoom level.
+- **FR-025**: An event MAY apply to a whole country, and then it MUST be listed in every area of that country. An event MAY carry highlight points (the main places to see it); for the selected month these MUST be shown on the map as stars with their name on hover, and listed in the event card.
 - **FR-023**: The page MUST provide a Cities list as the main starting point. Each entry is a city with an airport, grouped by country, and is the center of a city sector with its own monthly weather. Choosing one MUST move the map to that sector and open its area panel, which shows the airport code. A start link MAY name a city by any of its airport codes.
 
 ### Key Entities *(include if feature involves data)*

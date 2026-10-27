@@ -5,6 +5,7 @@ import type { AppData } from './data/load';
 import { pointInGeometry } from './lib/geo';
 import { comfortColor } from './lib/color';
 import { MONTH_NAMES } from './lib/months';
+import { etaText, etaTo } from './lib/timeuntil';
 import { WeatherMap } from './map/map';
 import { renderLegend } from './ui/legend';
 import { Panel } from './ui/panel';
@@ -38,7 +39,11 @@ function eventAreaIndex(data: AppData): Map<string, Set<string>> {
   const index = new Map<string, Set<string>>();
   for (const e of data.events) {
     const ids = new Set<string>();
-    for (const f of data.areas.features) if (pointInGeometry(e.lon, e.lat, f.geometry)) ids.add(f.properties.id);
+    for (const f of data.areas.features) {
+      const inside = pointInGeometry(e.lon, e.lat, f.geometry);
+      // A nationwide event belongs to every area of its country, not only the one around its main point.
+      if (inside || (e.country && f.properties.country === e.country)) ids.add(f.properties.id);
+    }
     index.set(e.id, ids);
   }
   return index;
@@ -81,9 +86,9 @@ async function start() {
     handlers: {
       onArea: (id) => panel.showArea(id),
       onEvent: (ev) => panel.showEvent(ev),
-      onHoverEvent: (ev, p) => {
+      onHoverEvent: (ev, p, label) => {
         overEvent = ev !== null;
-        if (ev) showTip(`<b>${esc(ev.name)}</b><small>${esc(ev.summary)}</small>`, p);
+        if (ev) showTip(`<b>${esc(label ? `${label}: ${ev.name}` : ev.name)}</b><small>${esc(ev.summary)}</small>`, p);
       },
       onHoverArea: (id, p) => {
         if (!id) return overEvent ? undefined : showTip(null, p);
@@ -105,11 +110,16 @@ async function start() {
   };
   main.map.on('moveend', writeHash);
 
-  const bar = createMonthBar(el('month-bar'), month, (m) => {
+  const today = new Date();
+  const updateEta = () => {
+    el('month-eta').textContent = etaText(etaTo(today, month));
+  };
+  const bar = createMonthBar(el('month-bar'), month, today.getMonth() + 1, (m) => {
     month = m;
     main.setMonth(m);
     inset.setMonth(m);
     panel.refresh();
+    updateEta();
     writeHash();
   });
   window.addEventListener('hashchange', () => {
@@ -120,8 +130,10 @@ async function start() {
       main.setMonth(month);
       inset.setMonth(month);
       panel.refresh();
+      updateEta();
     }
   });
+  updateEta();
   main.setMonth(month);
   inset.setMonth(month);
 

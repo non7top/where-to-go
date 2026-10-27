@@ -2,6 +2,7 @@ import type { AppData } from '../data/load';
 import type { AreaProps, MapEvent } from '../data/types';
 import { nightFlag } from '../lib/comfort';
 import { comfortColor } from '../lib/color';
+import { feltHigh } from '../lib/feel';
 import { CATEGORY_LABELS, eventsForMonth } from '../lib/events';
 import { MONTH_NAMES } from '../lib/months';
 import { RAIN_LABELS } from '../lib/rain';
@@ -100,8 +101,11 @@ export class Panel {
     const tier = c.cost[i] ?? 2;
     const comfort = c.comfort?.[i] ?? null;
     const flag = nightFlag(lo, c.heating, c.cooling);
+    const wind = c.wind?.[i] ?? null;
+    const felt = feltHigh(hi, wind);
+    const feltNote = felt !== null && hi - felt >= 1 ? ` <span class="sub">feels like ${Math.round(felt)}&deg;C in the ${Math.round(wind!)} m/s wind</span>` : '';
     const rows = [
-      `<div class="row"><span class="temp-swatch" style="background:${comfortColor(hi)}"></span><div><b>${Math.round(hi)}&deg;C day</b>, ${lo === null ? 'n/a' : Math.round(lo)}&deg;C night</div></div>`,
+      `<div class="row"><span class="temp-swatch" style="background:${comfortColor(felt)}"></span><div><b>${Math.round(hi)}&deg;C day</b>, ${lo === null ? 'n/a' : Math.round(lo)}&deg;C night${feltNote}</div></div>`,
       `<div class="row"><span class="label">Rain</span><span class="pill">${RAIN_LABELS[level]}</span><span>about ${c.rain[i] ?? '?'} mm</span></div>`,
       `<div class="row"><span class="label">Cost</span><b>${'$'.repeat(tier)}</b><span style="opacity:.35">${'$'.repeat(3 - tier)}</span></div>`,
     ];
@@ -126,9 +130,12 @@ export class Panel {
       .filter((k) => e[k])
       .map((k) => `<p class="event-note"><b>${k[0]!.toUpperCase() + k.slice(1)}</b> ${esc(e[k]!)}</p>`)
       .join('');
+    const spots = e.highlights?.length
+      ? `<h3>Main spots</h3><ul>${e.highlights.map((h) => `<li><b>${esc(h.name)}</b>${h.note ? `: ${esc(h.note)}` : ''}</li>`).join('')}</ul>`
+      : '';
     const back = backTo ? `<p><button type="button" data-act="back" data-id="${backTo}">Back to area</button></p>` : '';
     return `<h2>${esc(e.name)}</h2>
       <p class="sub">${CATEGORY_LABELS[e.category]}, ${esc(e.when)}${e.approx ? ' (approximate)' : ''}</p>
-      <p>${esc(e.details ?? e.summary)}</p>${notes}${back}`;
+      <p>${esc(e.details ?? e.summary)}</p>${notes}${spots}${back}`;
   }
 }

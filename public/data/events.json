@@ -1,0 +1,77 @@
+[
+  {
+    "id": "songkran", "name": "Songkran", "category": "festival",
+    "lon": 98.99, "lat": 18.79, "months": [4], "when": "13-15 April",
+    "summary": "Thai New Year water festival, biggest in Chiang Mai.",
+    "details": "Nationwide water fights and temple visits for the Thai New Year. Chiang Mai has the largest street celebrations.",
+    "crowd": "Very crowded in city centres.", "price": "Hotels rise around the dates."
+  },
+  {
+    "id": "loy-krathong", "name": "Loy Krathong and Yi Peng", "category": "festival",
+    "lon": 98.99, "lat": 18.79, "months": [11], "when": "full moon of the 12th lunar month, usually November", "approx": true,
+    "summary": "Floating lanterns and krathong boats, Chiang Mai.",
+    "details": "Lanterns released into the sky and krathong floated on water at the November full moon."
+  },
+  {
+    "id": "awa-odori", "name": "Awa Odori", "category": "festival",
+    "lon": 134.55, "lat": 34.07, "months": [8], "when": "12-15 August",
+    "summary": "Japan's largest dance festival, in Tokushima.",
+    "details": "Dance groups parade through Tokushima over four nights during Obon.",
+    "crowd": "Large crowds; book ahead."
+  },
+  {
+    "id": "gion-matsuri", "name": "Gion Matsuri", "category": "festival",
+    "lon": 135.77, "lat": 35.0, "months": [7], "when": "the whole of July, floats on 17 and 24 July",
+    "summary": "Kyoto's month-long summer festival with float processions."
+  },
+  {
+    "id": "sapporo-snow", "name": "Sapporo Snow Festival", "category": "festival",
+    "lon": 141.35, "lat": 43.06, "months": [2], "when": "early February",
+    "summary": "Snow and ice sculptures in Odori Park.",
+    "crowd": "Busy; hotels fill early."
+  },
+  {
+    "id": "harbin-ice", "name": "Harbin Ice and Snow Festival", "category": "festival",
+    "lon": 126.53, "lat": 45.8, "months": [1, 2], "when": "January to February", "approx": true,
+    "summary": "Large ice sculptures and lit snow parks, deep winter."
+  },
+  {
+    "id": "comiket", "name": "Comiket", "category": "fair",
+    "lon": 139.79, "lat": 35.63, "months": [8, 12], "when": "twice a year, August and late December", "approx": true,
+    "summary": "Giant self-published comics convention at Tokyo Big Sight.",
+    "crowd": "Hundreds of thousands of visitors over the event days; nearby trains and hotels are very busy.",
+    "price": "Hotels near Tokyo Big Sight rise."
+  },
+  {
+    "id": "momiji-kyoto", "name": "Autumn leaves (momiji), Kyoto", "category": "seasonal",
+    "lon": 135.77, "lat": 35.01, "months": [11, 12], "when": "mid-November to early December", "approx": true,
+    "summary": "Peak autumn colour in Kyoto's temples and gardens.",
+    "details": "Timing shifts by a week or two each year and by altitude.",
+    "crowd": "Among the busiest times of the year.", "price": "Highest hotel prices of the year in Kyoto."
+  },
+  {
+    "id": "sakura-tokyo", "name": "Cherry blossom (sakura), Tokyo", "category": "seasonal",
+    "lon": 139.76, "lat": 35.68, "months": [3, 4], "when": "late March to early April", "approx": true,
+    "summary": "Cherry blossom viewing parties in parks and along rivers.",
+    "crowd": "Popular parks are crowded.", "price": "Hotels rise."
+  },
+  {
+    "id": "silver-grass-seoul", "name": "Silver grass festival, Haneul Park", "category": "seasonal",
+    "lon": 126.88, "lat": 37.57, "months": [10], "when": "October", "approx": true,
+    "summary": "Fields of silver grass in Haneul Park, Seoul, in autumn."
+  },
+  {
+    "id": "chuseok", "name": "Chuseok", "category": "holiday",
+    "lon": 126.98, "lat": 37.58, "months": [9, 10], "when": "three days around the autumn full moon, September or October", "approx": true,
+    "summary": "Korean harvest holiday with many events and festivals.",
+    "crowd": "More tourists than usual.",
+    "perk": "Free entrance to the palaces and to many events and festivals."
+  },
+  {
+    "id": "golden-week", "name": "Golden Week", "category": "holiday",
+    "lon": 139.7, "lat": 35.69, "months": [4, 5], "when": "29 April to 5 May", "approx": true,
+    "summary": "Run of Japanese public holidays.",
+    "details": "Often described as busy, but little effect has been noticed in practice.",
+    "perk": "Free entrance in many places."
+  }
+]

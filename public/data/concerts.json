@@ -1,0 +1,8 @@
+[
+  {
+    "id": "sample-concert", "name": "Sample concert (placeholder)", "category": "concert",
+    "lon": 139.75, "lat": 35.7, "months": [3], "when": "placeholder date",
+    "summary": "Placeholder showing the concert category. Replace with real listings.",
+    "details": "This entry is not a real event. Concert data lives in its own file so it can be edited or fed by a backend without touching the other events."
+  }
+]

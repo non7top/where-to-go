@@ -100,6 +100,9 @@ export function createDial(
     }
     const todayMark = onFront(rel) ? `<path class="dial-today" d="M${f(x(rel) - 4.5)} 69 L${f(x(rel) + 4.5)} 69 L${f(x(rel))} 76 Z"/>` : '';
     const halfFrame = drumX(HALF_WINDOW + 0.5, R);
+    // The area name shares the top line with the centered readout, so it gets only the space left of it.
+    const room = Math.floor(((W - 210) / 2 - 14) / 6.3);
+    const shownName = areaName.length <= room ? areaName : room >= 7 ? `${areaName.slice(0, room - 3)}...` : '';
 
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true">
       <defs><linearGradient id="dial-shade" x1="0" x2="1" y1="0" y2="0">
@@ -110,7 +113,7 @@ export function createDial(
       ${bands.join('')}${band}${marks.join('')}${labels.join('')}${todayMark}
       <rect class="dial-sel" x="${f(cx - halfFrame)}" y="24" width="${f(halfFrame * 2)}" height="48" rx="7"/>
       <rect class="dial-shade" x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="14" fill="url(#dial-shade)"/>
-      <text class="dial-area" x="14" y="16">${areaName}</text>
+      <text class="dial-area" x="14" y="16">${shownName}</text>
       <text class="dial-label" x="${cx}" y="16">${sectionLabel(value)} <tspan class="dial-eta">${seasonOf(value).name}, ${etaOf(value)}</tspan></text>
     </svg>`;
     el.setAttribute('aria-valuenow', String(Math.round(value)));

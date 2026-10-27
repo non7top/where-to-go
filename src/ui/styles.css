@@ -741,7 +741,7 @@ body.panel-open #picks {
   }
 
   body.dial-ring #inset {
-    bottom: 186px;
+    bottom: 222px;
   }
 
   body.dial-ring #picks,
@@ -770,7 +770,7 @@ body.panel-open #picks {
 
   #inset {
     right: 8px;
-    bottom: 116px;
+    bottom: 150px;
     width: 110px;
     height: 84px;
   }

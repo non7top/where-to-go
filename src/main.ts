@@ -81,8 +81,20 @@ function areaFinder(data: AppData): (lon: number, lat: number) => AreaProps | un
   const items = data.areas.features
     .map((f) => ({ f, box: bboxOf(f.geometry) }))
     .sort((a, b) => LEVEL_RANK[a.f.properties.level] - LEVEL_RANK[b.f.properties.level]);
-  return (lon, lat) =>
-    items.find(({ f, box }) => lon >= box[0] && lon <= box[2] && lat >= box[1] && lat <= box[3] && pointInGeometry(lon, lat, f.geometry))?.f.properties;
+  const centers = data.areas.features.map((f) => f.properties).filter((p) => p.level === 'province' || p.level === 'city');
+  return (lon, lat) => {
+    const hit = items.find(({ f, box }) => lon >= box[0] && lon <= box[2] && lat >= box[1] && lat <= box[3] && pointInGeometry(lon, lat, f.geometry));
+    if (hit) return hit.f.properties;
+    // Over the sea: take the nearest place within about 10 degrees.
+    const k = Math.cos((lat * Math.PI) / 180);
+    let best: AreaProps | undefined;
+    let bestD = 100;
+    for (const p of centers) {
+      const d = ((p.point[0] - lon) * k) ** 2 + (p.point[1] - lat) ** 2;
+      if (d < bestD) [best, bestD] = [p, d];
+    }
+    return best;
+  };
 }
 
 async function start() {
@@ -137,6 +149,13 @@ async function start() {
     },
   });
   if (!initial.v) main.fitRegion();
+  // The stylesheet can arrive after the map is created (standalone build), so follow the container size.
+  let userMoved = false;
+  for (const ev of ['mousedown', 'touchstart', 'wheel'] as const) main.map.on(ev, () => (userMoved = true));
+  new ResizeObserver(() => {
+    main.map.resize();
+    if (!initial.v && !userMoved) main.fitRegion();
+  }).observe(el('map'));
 
   const inset = new WeatherMap(el('inset-map'), data, { interactive: false, center: [OKINAWA.lon, OKINAWA.lat], zoom: 6.4 });
 
@@ -163,7 +182,11 @@ async function start() {
 
   const writeHash = () => {
     const c = main.map.getCenter();
-    history.replaceState(null, '', `#d=${Math.round(day)}&v=${c.lng.toFixed(2)},${c.lat.toFixed(2)},${main.map.getZoom().toFixed(2)}`);
+    try {
+      history.replaceState(null, '', `#d=${Math.round(day)}&v=${c.lng.toFixed(2)},${c.lat.toFixed(2)},${main.map.getZoom().toFixed(2)}`);
+    } catch {
+      // Opaque origins (some file:// and sandboxed pages) refuse history changes; the view just is not kept in the URL.
+    }
   };
   main.map.on('moveend', writeHash);
 

@@ -1,5 +1,6 @@
 import type { MenuItem } from '../lib/cities';
 import { esc } from './esc';
+import { flagImg } from './flags';
 
 export function initMenu(
   button: HTMLButtonElement,
@@ -10,7 +11,7 @@ export function initMenu(
   let lastGroup: string | undefined;
   menu.innerHTML = items
     .map((it) => {
-      const header = it.group !== undefined && it.group !== lastGroup ? `<li role="presentation" class="menu-group">${esc(it.group)}</li>` : '';
+      const header = it.group !== undefined && it.group !== lastGroup ? `<li role="presentation" class="menu-group">${it.groupCode ? flagImg(it.groupCode) : ''}${esc(it.group)}</li>` : '';
       lastGroup = it.group;
       return `${header}<li role="none"><button type="button" role="menuitem" data-id="${esc(it.id)}">${esc(it.label)}</button></li>`;
     })

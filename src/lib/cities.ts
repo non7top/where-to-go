@@ -4,13 +4,14 @@ export interface MenuItem {
   id: string;
   label: string;
   group?: string;
+  groupCode?: string;
 }
 
 // City sectors grouped by country name, countries and cities sorted alphabetically.
 export function cityMenuItems(areas: readonly AreaProps[], countryName: (cc: string) => string): MenuItem[] {
   return areas
     .filter((a) => a.level === 'city')
-    .map((a) => ({ id: a.id, label: a.iata ? `${a.name} (${a.iata})` : a.name, group: countryName(a.country) }))
+    .map((a) => ({ id: a.id, label: a.iata ? `${a.name} (${a.iata})` : a.name, group: countryName(a.country), groupCode: a.country }))
     .sort((a, b) => a.group.localeCompare(b.group) || a.label.localeCompare(b.label));
 }
 

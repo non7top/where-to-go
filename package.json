@@ -7,12 +7,14 @@
     "dev": "vite --host 0.0.0.0",
     "build": "tsc --noEmit && vite build",
     "build:standalone": "tsc --noEmit && vite build --config vite.standalone.config.ts",
-    "preview":"vite preview --host 0.0.0.0 --port 4173",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
     "lint": "eslint . && tsc --noEmit",
     "test": "vitest run && node scripts/validate-data.mjs",
+    "links": "node scripts/check-links.mjs",
     "data": "node scripts/build-areas.mjs && node scripts/fetch-climate.mjs"
   },
   "dependencies": {
+    "flag-icons": "^7.6.0",
     "maplibre-gl": "^6.16.0"
   },
   "devDependencies": {

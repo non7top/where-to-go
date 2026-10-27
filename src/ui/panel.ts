@@ -3,8 +3,9 @@ import type { AreaProps, MapEvent } from '../data/types';
 import { nightFlag } from '../lib/comfort';
 import { comfortColor } from '../lib/color';
 import { feltHigh } from '../lib/feel';
-import { CATEGORY_LABELS, eventsForMonth } from '../lib/events';
-import { MONTH_NAMES } from '../lib/months';
+import { CATEGORY_LABELS } from '../lib/events';
+import type { Occurrence } from '../lib/events';
+import { circDist, dayFromMonthDay, dayLabel, interpMonthly, isActive, monthOfDay, sectionLabel } from '../lib/season';
 import { RAIN_LABELS } from '../lib/rain';
 import { esc } from './esc';
 
@@ -17,22 +18,25 @@ const LEVEL_LABELS = {
 const EQUIPMENT = { yes: 'usually available', partial: 'only sometimes available', no: 'generally not available' };
 const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
-type View = { kind: 'area'; id: string } | { kind: 'event'; event: MapEvent; backTo: string | null } | null;
+type View =
+  | { kind: 'area'; id: string }
+  | { kind: 'event'; event: MapEvent; backTo: string | null; occ?: Occurrence }
+  | null;
+
+const peakText = (o: Pick<Occurrence, 'day' | 'spread'>) => `peak ${dayLabel(o.day)}${o.spread > 0 ? `, +-${o.spread} days` : ''}`;
 
 export class Panel {
   private view: View = null;
   private props = new Map<string, AreaProps>();
-  private eventAreas = new Map<string, Set<string>>();
 
   constructor(
     private el: HTMLElement,
     private data: AppData,
-    private getMonth: () => number,
+    private getDay: () => number,
     private onChange: (areaId: string | null) => void,
-    eventAreas: Map<string, Set<string>>,
+    private occByArea: Map<string, Occurrence[]>,
   ) {
     for (const f of data.areas.features) this.props.set(f.properties.id, f.properties);
-    this.eventAreas = eventAreas;
     el.addEventListener('click', (e) => {
       const t = (e.target as HTMLElement).closest<HTMLElement>('[data-act]');
       if (!t) return;
@@ -40,7 +44,8 @@ export class Panel {
       else if (t.dataset.act === 'back' && t.dataset.id) this.showArea(t.dataset.id);
       else if (t.dataset.act === 'event') {
         const ev = data.events.find((x) => x.id === t.dataset.id);
-        if (ev) this.showEvent(ev, this.view?.kind === 'area' ? this.view.id : null);
+        const occ = data.occurrences[Number(t.dataset.oi)];
+        if (ev) this.showEvent(ev, this.view?.kind === 'area' ? this.view.id : null, occ);
       }
     });
   }
@@ -55,8 +60,8 @@ export class Panel {
     this.onChange(id);
   }
 
-  showEvent(event: MapEvent, backTo: string | null = null) {
-    this.view = { kind: 'event', event, backTo };
+  showEvent(event: MapEvent, backTo: string | null = null, occ?: Occurrence) {
+    this.view = { kind: 'event', event, backTo, occ };
     this.render();
     this.onChange(null);
   }
@@ -82,26 +87,26 @@ export class Panel {
 
   private render() {
     if (!this.view) return;
-    if (this.view.kind === 'event') this.open(this.eventHtml(this.view.event, this.view.backTo));
+    if (this.view.kind === 'event') this.open(this.eventHtml(this.view.event, this.view.backTo, this.view.occ));
     else this.open(this.areaHtml(this.view.id));
   }
 
   private areaHtml(id: string): string {
     const p = this.props.get(id);
     const c = this.data.climate[id];
-    const month = this.getMonth();
-    const i = month - 1;
+    const day = this.getDay();
+    const i = monthOfDay(day) - 1;
     if (!p) return '<h2>Unknown area</h2>';
-    const title = `<h2>${esc(p.name)}${p.iata ? ` <small>${esc(p.iata)}</small>` : ''}</h2><p class="sub">${esc(regionNames.of(p.country) ?? p.country)}, ${LEVEL_LABELS[p.level]}. ${MONTH_NAMES[i]}.</p>`;
-    const hi = c?.hi[i] ?? null;
-    const lo = c?.lo[i] ?? null;
-    if (!c || hi === null) return `${title}<p>No climate data for this month.</p>`;
+    const title = `<h2>${esc(p.name)}${p.iata ? ` <small>${esc(p.iata)}</small>` : ''}</h2><p class="sub">${esc(regionNames.of(p.country) ?? p.country)}, ${LEVEL_LABELS[p.level]}. ${sectionLabel(day)}.</p>`;
+    const hi = c ? interpMonthly(c.hi, day) : null;
+    const lo = c ? interpMonthly(c.lo, day) : null;
+    if (!c || hi === null) return `${title}<p>No climate data for this time of year.</p>`;
 
     const level = c.rainLevel[i] ?? 0;
     const tier = c.cost[i] ?? 2;
     const comfort = c.comfort?.[i] ?? null;
     const flag = nightFlag(lo, c.heating, c.cooling);
-    const wind = c.wind?.[i] ?? null;
+    const wind = c.wind ? interpMonthly(c.wind, day) : null;
     const felt = feltHigh(hi, wind);
     const feltNote = felt !== null && hi - felt >= 1 ? ` <span class="sub">feels like ${Math.round(felt)}&deg;C in the ${Math.round(wind!)} m/s wind</span>` : '';
     const rows = [
@@ -118,24 +123,40 @@ export class Panel {
       rows.push(`<div class="row"><span class="pill warn">${what}</span><span>about ${Math.round(lo!)}&deg;C, and ${gear} in typical accommodation.</span></div>`);
     }
 
-    const evs = eventsForMonth(this.data.events, month).filter((e) => this.eventAreas.get(e.id)?.has(id));
-    const list = evs.length
-      ? `<ul>${evs.map((e) => `<li><button type="button" data-act="event" data-id="${e.id}">${esc(e.name)} <small>(${CATEGORY_LABELS[e.category]})</small></button></li>`).join('')}</ul>`
-      : `<p class="sub">No listed events here in ${MONTH_NAMES[i]}.</p>`;
+    const nearest = new Map<string, Occurrence>();
+    for (const o of this.occByArea.get(id) ?? []) {
+      if (!isActive(o.day, o.spread, day)) continue;
+      const best = nearest.get(o.eventId);
+      if (!best || circDist(o.day, day) < circDist(best.day, day)) nearest.set(o.eventId, o);
+    }
+    const items = [...nearest.values()].flatMap((o) => {
+      const e = this.data.events.find((x) => x.id === o.eventId);
+      return e ? [{ e, o }] : [];
+    });
+    const list = items.length
+      ? `<ul>${items.map(({ e, o }) => `<li><button type="button" data-act="event" data-id="${e.id}" data-oi="${this.data.occurrences.indexOf(o)}">${esc(e.name)} <small>(${CATEGORY_LABELS[e.category]}, ${peakText(o)})</small></button></li>`).join('')}</ul>`
+      : `<p class="sub">No listed events here in ${sectionLabel(day)}.</p>`;
     return `${title}${rows.join('')}<h3>Events</h3>${list}`;
   }
 
-  private eventHtml(e: MapEvent, backTo: string | null): string {
+  private eventHtml(e: MapEvent, backTo: string | null, occ?: Occurrence): string {
     const notes = (['crowd', 'price', 'perk'] as const)
       .filter((k) => e[k])
       .map((k) => `<p class="event-note"><b>${k[0]!.toUpperCase() + k.slice(1)}</b> ${esc(e[k]!)}</p>`)
       .join('');
     const spots = e.highlights?.length
-      ? `<h3>Main spots</h3><ul>${e.highlights.map((h) => `<li><b>${esc(h.name)}</b>${h.note ? `: ${esc(h.note)}` : ''}</li>`).join('')}</ul>`
+      ? `<h3>Main spots</h3><ul>${e.highlights.map((h) => `<li><b>${esc(h.name)}</b>${h.on ? ` <small>(${peakText({ day: dayFromMonthDay(h.on), spread: h.spread ?? 7 })})</small>` : ''}${h.note ? `: ${esc(h.note)}` : ''}</li>`).join('')}</ul>`
+      : '';
+    const links = e.links
+      ? `<p class="links">${[
+          e.links.wiki ? `<a href="${esc(e.links.wiki)}" target="_blank" rel="noopener noreferrer">Wikipedia</a>` : '',
+          e.links.official ? `<a href="${esc(e.links.official)}" target="_blank" rel="noopener noreferrer">Official site</a>` : '',
+        ].filter(Boolean).join(' &middot; ')}</p>`
       : '';
     const back = backTo ? `<p><button type="button" data-act="back" data-id="${backTo}">Back to area</button></p>` : '';
+    const here = occ ? `<p><b>Peak here</b> ${esc(dayLabel(occ.day))}${occ.spread > 0 ? `, +-${occ.spread} days` : ''}</p>` : '';
     return `<h2>${esc(e.name)}</h2>
       <p class="sub">${CATEGORY_LABELS[e.category]}, ${esc(e.when)}${e.approx ? ' (approximate)' : ''}</p>
-      <p>${esc(e.details ?? e.summary)}</p>${notes}${spots}${back}`;
+      ${here}<p>${esc(e.details ?? e.summary)}</p>${notes}${spots}${links}${back}`;
   }
 }

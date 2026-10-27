@@ -6,7 +6,8 @@ import type { AppData } from '../data/load';
 import type { EventCategory, Level, MapEvent } from '../data/types';
 import { comfortColor, NO_DATA_COLOR } from '../lib/color';
 import { feltHigh } from '../lib/feel';
-import { eventsForMonth } from '../lib/events';
+import type { Occurrence } from '../lib/events';
+import { interpMonthly, isActive, monthOfDay } from '../lib/season';
 import { isMarked } from '../lib/rain';
 import { clusterIcon, eventIcon, RAIN_PATTERNS, rainTile, starIcon, tileImage } from './patterns';
 
@@ -34,7 +35,7 @@ interface XY {
 
 export interface MapHandlers {
   onArea?: (id: string) => void;
-  onEvent?: (event: MapEvent) => void;
+  onEvent?: (event: MapEvent, occ?: Occurrence) => void;
   onHoverArea?: (id: string | null, point: XY) => void;
   onHoverEvent?: (event: MapEvent | null, point: XY, label?: string) => void;
 }
@@ -50,7 +51,8 @@ const css = (name: string) => getComputedStyle(document.documentElement).getProp
 
 export class WeatherMap {
   readonly map: GLMap;
-  private month = 1;
+  private day = 0;
+  private eventKey = '';
   private ready = false;
   private hoverId: string | null = null;
   private selectedId: string | null = null;
@@ -146,7 +148,7 @@ export class WeatherMap {
 
     if (this.opts.interactive) this.initEvents();
     this.ready = true;
-    this.setMonth(this.month);
+    this.setDay(this.day);
     this.applyTheme();
   }
 
@@ -197,8 +199,8 @@ export class WeatherMap {
       this.opts.handlers?.onHoverArea?.(null, { x: 0, y: 0 });
     });
     map.on('click', async (e) => {
-      const ev = this.eventHit(e.point)?.event;
-      if (ev) return void this.opts.handlers?.onEvent?.(ev);
+      const hit = this.eventHit(e.point);
+      if (hit) return void this.opts.handlers?.onEvent?.(hit.event, hit.occ);
       const cluster = this.clusterAt(e.point, eventLayers);
       if (cluster) {
         const zoom = await (map.getSource('events') as GeoJSONSource).getClusterExpansionZoom(cluster.id as number);
@@ -210,12 +212,17 @@ export class WeatherMap {
     });
   }
 
-  private eventHit(point: Point): { event: MapEvent; label?: string } | null {
+  private eventHit(point: Point): { event: MapEvent; label?: string; occ?: Occurrence } | null {
     const f = this.map.queryRenderedFeatures(point, { layers: ['event-points', 'event-stars'] })[0];
     if (!f) return null;
     const isStar = f.layer.id === 'event-stars';
     const event = this.eventsById.get((isStar ? f.properties?.eventId : f.properties?.id) as string);
-    return event ? { event, label: isStar ? (f.properties?.name as string) : undefined } : null;
+    if (!event) return null;
+    return {
+      event,
+      label: isStar ? (f.properties?.name as string) : undefined,
+      occ: isStar ? undefined : this.data.occurrences[f.properties?.oi as number],
+    };
   }
 
   private clusterAt(point: Point, layers = ['event-clusters']): MapGeoJSONFeature | undefined {
@@ -243,41 +250,54 @@ export class WeatherMap {
     if (id) this.map.setFeatureState({ source: 'areas', id }, { selected: true });
   }
 
-  setMonth(month: number) {
-    this.month = month;
+  // `day` is a continuous position in the year; climate blends between months, so colors move smoothly.
+  setDay(day: number) {
+    this.day = day;
     if (!this.ready) return;
-    const i = month - 1;
+    const month = monthOfDay(day) - 1;
     for (const f of this.data.areas.features) {
       const id = f.properties.id;
       const c = this.data.climate[id];
-      const level = c?.rainLevel[i] ?? null;
+      const level = c?.rainLevel[month] ?? null;
+      const hi = c ? interpMonthly(c.hi, day) : null;
+      const wind = c?.wind ? interpMonthly(c.wind, day) : null;
       this.map.setFeatureState({ source: 'areas', id }, {
-        color: comfortColor(feltHigh(c?.hi[i] ?? null, c?.wind?.[i])),
+        color: comfortColor(feltHigh(hi, wind)),
         rain: isMarked(level) ? level : 0,
       });
     }
-    this.setEvents(month);
+    this.setEvents(day);
   }
 
-  private setEvents(month: number) {
+  private setEvents(day: number) {
     const source = this.map.getSource('events') as GeoJSONSource | undefined;
     if (!source) return;
-    const features: Feature<GeoPoint>[] = eventsForMonth(this.data.events, month).map((e) => ({
+    const { occurrences, stars } = this.data;
+    const occIdx = occurrences.flatMap((o, i) => (isActive(o.day, o.spread, day) ? [i] : []));
+    const starIdx = stars.flatMap((st, i) => (isActive(st.day, st.spread, day) ? [i] : []));
+    // The active sets change only a few times a year, so skip the costly cluster rebuild in between.
+    const key = `${occIdx.join(',')}|${starIdx.join(',')}`;
+    if (key === this.eventKey) return;
+    this.eventKey = key;
+
+    const features: Feature<GeoPoint>[] = occIdx.map((i) => ({
       type: 'Feature',
-      geometry: { type: 'Point', coordinates: [e.lon, e.lat] },
-      properties: { id: e.id, category: e.category },
+      geometry: { type: 'Point', coordinates: [occurrences[i]!.lon, occurrences[i]!.lat] },
+      properties: {
+        id: occurrences[i]!.eventId,
+        oi: i,
+        category: this.eventsById.get(occurrences[i]!.eventId)?.category,
+      },
     }));
     const fc: FeatureCollection<GeoPoint> = { type: 'FeatureCollection', features };
     source.setData(fc);
 
-    const stars: Feature<GeoPoint>[] = eventsForMonth(this.data.events, month).flatMap((e) =>
-      (e.highlights ?? []).map((h) => ({
-        type: 'Feature' as const,
-        geometry: { type: 'Point' as const, coordinates: [h.lon, h.lat] },
-        properties: { eventId: e.id, name: h.name },
-      })),
-    );
-    (this.map.getSource('stars') as GeoJSONSource | undefined)?.setData({ type: 'FeatureCollection', features: stars });
+    const starFeatures: Feature<GeoPoint>[] = starIdx.map((i) => ({
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [stars[i]!.lon, stars[i]!.lat] },
+      properties: { eventId: stars[i]!.eventId, name: stars[i]!.name },
+    }));
+    (this.map.getSource('stars') as GeoJSONSource | undefined)?.setData({ type: 'FeatureCollection', features: starFeatures });
   }
 
   applyTheme() {

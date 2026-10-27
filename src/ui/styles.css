@@ -59,8 +59,7 @@ body {
 .topbar,
 #legend,
 #panel,
-#month-bar,
-#month-eta,
+#picks,
 #tooltip,
 #error {
   background: var(--panel);
@@ -158,69 +157,171 @@ button.primary {
   color: var(--muted);
 }
 
-#month-bar {
+#time {
   position: absolute;
   left: 50%;
-  bottom: 26px;
+  bottom: 24px;
   z-index: 5;
-  display: flex;
-  width: min(880px, calc(100% - 32px));
-  padding: 4px;
+  width: min(760px, calc(100% - 540px));
+  min-width: 360px;
   transform: translateX(-50%);
+}
+
+body.dial-ring #time {
+  bottom: 14px;
+  width: 224px;
+  min-width: 0;
+}
+
+.dial {
   touch-action: none;
   user-select: none;
+  cursor: grab;
+  filter: drop-shadow(0 2px 8px rgba(20, 30, 45, 0.3));
 }
 
-.month-seg {
-  flex: 1;
-  padding: 8px 0;
-  text-align: center;
-  font-weight: 550;
-  border-radius: 7px;
-  cursor: pointer;
+.dial:active {
+  cursor: grabbing;
 }
 
-.month-seg {
-  position: relative;
+.dial[hidden] {
+  display: none;
 }
 
-.month-seg.in-range {
-  background: color-mix(in srgb, var(--accent) 24%, transparent);
+#dial-drum {
+  height: 98px;
 }
 
-.month-seg.active {
-  background: var(--accent);
-  color: var(--accent-text);
+#dial-ring {
+  aspect-ratio: 1;
 }
 
-.month-seg.today::after {
-  content: '';
+.dial svg {
+  display: block;
+}
+
+#dial-switch {
   position: absolute;
-  left: 50%;
-  bottom: 3px;
-  width: 5px;
-  height: 5px;
-  margin-left: -2.5px;
-  border-radius: 50%;
-  background: currentColor;
+  top: -30px;
+  right: 0;
+  padding: 2px 10px;
+  font-size: 12px;
+  background: var(--panel);
 }
 
-#month-eta {
-  position: absolute;
-  left: 50%;
-  bottom: 82px;
-  z-index: 5;
-  padding: 3px 12px;
-  transform: translateX(-50%);
-  font-size: 13px;
+.dial-bg {
+  fill: var(--panel);
+  stroke: var(--border);
+}
+
+.dial-shade {
+  pointer-events: none;
+}
+
+.dial-m {
+  stroke: var(--border);
+  stroke-width: 0.6;
+}
+
+.dial-m.even {
+  fill: color-mix(in srgb, var(--text) 4%, transparent);
+}
+
+.dial-m.odd {
+  fill: color-mix(in srgb, var(--text) 11%, transparent);
+}
+
+.dial-ptr {
+  fill: var(--accent);
+}
+
+#dial-ring .dial-t {
+  font-size: 8.5px;
+}
+
+#dial-drum .dial-season {
+  fill: #fff;
+  stroke: rgba(0, 0, 0, 0.6);
+  stroke-width: 2.6px;
+  paint-order: stroke;
+  font-size: 10px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+#dial-ring .dial-season {
+  fill: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.dial-area {
+  fill: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+#dial-ring .dial-area {
+  font-size: 9.5px;
+  text-anchor: middle;
+}
+
+text.dial-eta {
+  font-size: 10.5px;
+  text-anchor: middle;
+}
+
+.dial-tick {
+  stroke: var(--muted);
+  stroke-width: 1;
+}
+
+.dial-tick.major {
+  stroke: var(--text);
+  stroke-width: 1.4;
+}
+
+.dial-range {
+  fill: var(--accent);
+  opacity: 0.85;
+}
+
+.dial-sel {
+  fill: color-mix(in srgb, var(--accent) 22%, transparent);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.dial-today {
+  fill: var(--text);
+}
+
+.dial-t {
+  fill: var(--text);
+  font-size: 15px;
+  font-weight: 650;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.dial-label {
+  fill: var(--text);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.dial-eta {
+  fill: var(--muted);
   font-weight: 600;
-  white-space: nowrap;
 }
 
 #legend {
   position: absolute;
   left: 12px;
-  bottom: 86px;
+  bottom: 24px;
   z-index: 4;
   width: 236px;
   padding: 10px 12px;
@@ -274,7 +375,7 @@ button.primary {
 #inset {
   position: absolute;
   right: 12px;
-  bottom: 86px;
+  bottom: 24px;
   z-index: 4;
   width: 190px;
   height: 140px;
@@ -312,6 +413,149 @@ button.primary {
   max-height: calc(100% - 270px);
   padding: 14px 16px;
   overflow: auto;
+}
+
+#picks {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 4;
+  width: 300px;
+  max-height: calc(100% - 210px);
+  padding: 12px 14px;
+  overflow: auto;
+}
+
+#picks h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+#picks .sub {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+#picks h3 {
+  margin: 12px 0 4px;
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+#picks ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#picks li button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 2px 0;
+  padding: 4px 6px;
+  border: 0;
+  text-align: left;
+}
+
+#picks li button:hover,
+#picks li button:focus-visible {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.flag {
+  flex: none;
+  width: 20px;
+  height: 15px;
+  margin-right: 6px;
+  vertical-align: -2px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18);
+  object-fit: cover;
+}
+
+#picks h3.country {
+  display: flex;
+  align-items: center;
+  margin: 12px 0 2px;
+  color: var(--text);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.menu-group {
+  display: flex;
+  align-items: center;
+}
+
+.links a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.temp-swatch.sm {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+}
+
+.pick-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.pick-main small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.pick-meta {
+  flex: none;
+  font-size: 12px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.pick-meta .pill {
+  margin-left: 4px;
+  padding: 0 6px;
+  font-size: 10px;
+}
+
+.ev {
+  color: #c47f00;
+  font-weight: 700;
+}
+
+.cat-dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.cat-festival { background: #d6336c; }
+.cat-fair { background: #7048e8; }
+.cat-seasonal { background: #0b8f7f; }
+.cat-holiday { background: #c47f00; }
+.cat-concert { background: #1971c2; }
+
+body.panel-open #picks {
+  display: none;
+}
+
+#picks-btn {
+  display: none;
 }
 
 #panel[hidden],
@@ -444,6 +688,27 @@ button.primary {
 }
 
 @media (max-width: 719px) {
+  #picks {
+    display: none;
+    top: 64px;
+    right: 8px;
+    left: 8px;
+    width: auto;
+    max-height: calc(100% - 64px - 214px);
+  }
+
+  body.picks-open #picks {
+    display: block;
+  }
+
+  #picks-btn {
+    display: inline-block;
+  }
+
+  .topbar h1 {
+    display: none;
+  }
+
   .topbar {
     top: 8px;
     left: 8px;
@@ -455,42 +720,39 @@ button.primary {
     font-size: 14px;
   }
 
-  #month-eta {
-    top: 60px;
+  #time {
     right: 8px;
-    bottom: auto;
-    left: auto;
-    width: 46px;
-    padding: 2px 0;
-    transform: none;
-    font-size: 11px;
-    line-height: 1.15;
-    text-align: center;
-    white-space: normal;
-  }
-
-  #month-bar {
-    top: 112px;
-    right: 8px;
-    bottom: 40px;
-    left: auto;
-    width: 46px;
-    flex-direction: column;
+    bottom: 22px;
+    left: 8px;
+    width: auto;
+    min-width: 0;
     transform: none;
   }
 
-  .month-seg {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    font-size: 12px;
+  body.dial-ring #time {
+    right: 4px;
+    bottom: 22px;
+    left: auto;
+    width: 156px;
+  }
+
+  body.dial-ring #legend {
+    bottom: 36px;
+  }
+
+  body.dial-ring #inset {
+    bottom: 186px;
+  }
+
+  body.dial-ring #picks,
+  body.dial-ring #panel {
+    max-height: calc(100% - 64px - 178px);
   }
 
   .credits {
-    right: 64px;
+    right: 8px;
     left: 8px;
+    bottom: 2px;
     width: auto;
     max-width: none;
     font-size: 9px;
@@ -501,25 +763,25 @@ button.primary {
 
   #legend {
     left: 8px;
-    bottom: 36px;
+    bottom: 116px;
     width: 200px;
     padding: 8px 10px;
   }
 
   #inset {
-    right: 64px;
-    bottom: 36px;
+    right: 8px;
+    bottom: 116px;
     width: 110px;
     height: 84px;
   }
 
   #panel {
-    top: auto;
-    right: 64px;
-    bottom: 36px;
+    top: 64px;
+    right: 8px;
+    bottom: auto;
     left: 8px;
     width: auto;
-    max-height: 58%;
+    max-height: calc(100% - 64px - 214px);
   }
 
   body.panel-open #legend,

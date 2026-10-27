@@ -16,6 +16,7 @@
         <div class="tools">
           <button id="cities-btn" class="primary" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="city-menu">Cities</button>
           <button id="shortcuts-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="shortcut-menu">Places</button>
+          <button id="picks-btn" type="button" aria-expanded="false" aria-controls="picks">Best</button>
           <button id="reset-btn" type="button">Reset view</button>
         </div>
         <ul id="city-menu" class="menu" role="menu" hidden></ul>
@@ -28,8 +29,12 @@
       </button>
 
       <aside id="legend" aria-label="Legend"></aside>
-      <div id="month-eta" role="status" aria-live="polite"></div>
-      <div id="month-bar"></div>
+      <div id="time">
+        <button id="dial-switch" type="button" aria-label="Switch between the drum and ring time controls">Ring view</button>
+        <div id="dial-drum" class="dial"></div>
+        <div id="dial-ring" class="dial" hidden></div>
+      </div>
+      <aside id="picks" aria-label="Green places for the selected period"></aside>
       <aside id="panel" hidden></aside>
       <div id="tooltip" role="tooltip" hidden></div>
       <div id="error" role="alert" hidden></div>

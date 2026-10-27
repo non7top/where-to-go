@@ -698,9 +698,14 @@ text.dial-eta {
   display: none;
 }
 
+/* The crosshair wins over the map's grab hand while a rectangle can be drawn or is being drawn. */
 .maplibregl-canvas-container.selecting,
-.maplibregl-canvas-container.selecting .maplibregl-canvas {
-  cursor: crosshair;
+.maplibregl-canvas-container.selecting .maplibregl-canvas,
+.maplibregl-canvas-container.box-hint,
+.maplibregl-canvas-container.box-hint .maplibregl-canvas,
+.maplibregl-canvas-container.box-hint:active,
+.maplibregl-canvas-container.selecting:active {
+  cursor: crosshair !important;
 }
 
 body.panel-open #picks {

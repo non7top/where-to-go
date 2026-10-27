@@ -202,7 +202,9 @@ export class WeatherMap {
       const ev = eh?.event ?? null;
       const hit = ev ? null : this.areaAt(e.point, areaLayers);
       this.setHover(hit);
-      map.getCanvas().style.cursor = ev || hit || this.clusterAt(e.point) ? 'pointer' : '';
+      // While a rectangle can be drawn the cursor stays a crosshair, whatever is under it.
+      const boxing = this.selecting || e.originalEvent.shiftKey;
+      map.getCanvas().style.cursor = boxing ? 'crosshair' : ev || hit || this.clusterAt(e.point) ? 'pointer' : '';
       this.opts.handlers?.onHoverEvent?.(ev, e.point, eh?.label);
       this.opts.handlers?.onHoverArea?.(hit, e.point);
     });
@@ -236,6 +238,11 @@ export class WeatherMap {
     box.hidden = true;
     map.getContainer().appendChild(box);
     let start: { x: number; y: number } | null = null;
+    const hint = (on: boolean) => container.classList.toggle('box-hint', on);
+    // Holding Shift over the map shows the crosshair before the drag starts.
+    window.addEventListener('keydown', (e) => e.key === 'Shift' && hint(true));
+    window.addEventListener('keyup', (e) => e.key === 'Shift' && !start && hint(false));
+    window.addEventListener('blur', () => !start && hint(false));
 
     const local = (e: PointerEvent) => {
       // The canvas container itself has no size (the canvas is positioned inside it); the map element does.
@@ -255,6 +262,7 @@ export class WeatherMap {
       const a = start;
       start = null;
       box.hidden = true;
+      hint(false);
       if (!this.selecting) map.dragPan.enable();
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
@@ -273,6 +281,7 @@ export class WeatherMap {
     container.addEventListener('pointerdown', (e) => {
       if (e.button !== 0 || !(this.selecting || e.shiftKey)) return;
       start = local(e);
+      hint(true);
       map.dragPan.disable();
       window.addEventListener('pointermove', onMove);
       window.addEventListener('pointerup', onUp);

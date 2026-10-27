@@ -2,16 +2,17 @@ export type Stop = readonly [tempC: number, hex: string];
 
 export const NO_DATA_COLOR = '#9aa0a6';
 
-// Daytime-high comfort gradient: blue when cool, green about 17-23C, orange to 30C, red beyond.
+// Felt daytime-high comfort gradient: blue when cool, green about 17-26C, yellow then orange to 32C, red beyond.
 export const COLOR_STOPS: readonly Stop[] = [
   [-5, '#27428f'],
   [5, '#3a6fd0'],
   [15, '#52a2e8'],
   [17.5, '#35ad6e'],
   [22.5, '#58b94a'],
-  [24.5, '#c4d03c'],
-  [26.5, '#f2b53a'],
-  [30, '#ec7a2c'],
+  [26, '#86c240'],
+  [28, '#c4d03c'],
+  [30, '#f2b53a'],
+  [32, '#ec7a2c'],
   [34, '#d42f2f'],
   [38, '#8c1c1c'],
 ];

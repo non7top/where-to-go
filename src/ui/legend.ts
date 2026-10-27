@@ -8,11 +8,11 @@ const pct = (t: number) => ((t - MIN) / (MAX - MIN)) * 100;
 
 export function renderLegend(el: HTMLElement) {
   const gradient = COLOR_STOPS.map(([t, hex]) => `${hex} ${pct(t).toFixed(1)}%`).join(', ');
-  const ticks = [10, 17, 23, 30].map((t) => `<span style="left:${pct(t).toFixed(1)}%">${t}</span>`).join('');
+  const ticks = [10, 17, 26, 30].map((t) => `<span style="left:${pct(t).toFixed(1)}%">${t}</span>`).join('');
   const rain = (kind: 'moderate' | 'heavy', label: string) =>
     `<div><span class="swatch-rain" style="background-image:url(${rainTile(kind).toDataURL()})"></span>${label}</div>`;
   el.innerHTML = `
-    <h2>Typical daytime high (&deg;C)</h2>
+    <h2>Daytime high, as felt (&deg;C)</h2>
     <div class="legend-bar" style="background:linear-gradient(to right, ${gradient})"></div>
     <div class="legend-ticks">${ticks}</div>
     <div class="legend-rain">${rain('moderate', RAIN_LABELS[2])}${rain('heavy', RAIN_LABELS[3])}</div>`;

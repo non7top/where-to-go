@@ -33,11 +33,11 @@ async function exists(p) {
 }
 
 async function fetchPower(lon, lat) {
-  const file = path.join(POWER_DIR, `v2_${lon.toFixed(2)}_${lat.toFixed(2)}_${YEARS[0]}-${YEARS[1]}.json`);
+  const file = path.join(POWER_DIR, `v3_${lon.toFixed(2)}_${lat.toFixed(2)}_${YEARS[0]}-${YEARS[1]}.json`);
   if (await exists(file)) return JSON.parse(await readFile(file, 'utf8'));
   const url =
     'https://power.larc.nasa.gov/api/temporal/monthly/point' +
-    `?parameters=T2M,T2M_RANGE,PRECTOTCORR&community=RE&longitude=${lon}&latitude=${lat}` +
+    `?parameters=T2M,T2M_RANGE,PRECTOTCORR,WS2M&community=RE&longitude=${lon}&latitude=${lat}` +
     `&start=${YEARS[0]}&end=${YEARS[1]}&format=JSON`;
   let lastErr;
   for (let attempt = 0; attempt < 8; attempt++) {
@@ -113,8 +113,8 @@ async function main() {
     return Math.min(3, Math.max(1, base + delta));
   });
 
-  const build = (a, hi, lo, rainMm) => {
-    const c = { hi: hi.map(round1), lo: lo.map(round1), rain: rainMm.map((v) => (v === null ? null : Math.round(v))) };
+  const build = (a, hi, lo, rainMm, wind) => {
+    const c = { hi: hi.map(round1), lo: lo.map(round1), rain: rainMm.map((v) => (v === null ? null : Math.round(v))), wind: wind.map(round1) };
     c.rainLevel = c.rain.map(rainLevel);
     c.cost = costFor(a.country);
     const country = overrides.country?.[a.country] ?? {};
@@ -143,7 +143,8 @@ async function main() {
     const hi = mid.map((v, i) => (v === null || half[i] === null ? null : v + half[i]));
     const lo = mid.map((v, i) => (v === null || half[i] === null ? null : v - half[i]));
     const rain = monthlyMeans(s.PRECTOTCORR).map((v, i) => (v === null ? null : v * DAYS[i]));
-    climate[a.id] = build(a, hi, lo, rain);
+    const wind = monthlyMeans(s.WS2M);
+    climate[a.id] = build(a, hi, lo, rain, wind);
   }
 
   // Country areas hold the mean of their provinces and islands are left out of the mean.
@@ -158,7 +159,8 @@ async function main() {
     const hi = Array.from({ length: 12 }, (_, i) => col('hi', i));
     const lo = Array.from({ length: 12 }, (_, i) => col('lo', i));
     const rain = Array.from({ length: 12 }, (_, i) => col('rain', i));
-    climate[a.id] = build(a, hi, lo, rain);
+    const wind = Array.from({ length: 12 }, (_, i) => col('wind', i));
+    climate[a.id] = build(a, hi, lo, rain, wind);
   }
 
   await writeFile(path.join(OUT, 'climate.json'), JSON.stringify(climate) + '\n');

@@ -14,6 +14,7 @@
         "rain": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": ["number", "null"], "minimum": 0 } },
         "rainLevel": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": ["integer", "null"], "minimum": 0, "maximum": 3 } },
         "cost": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": "integer", "minimum": 1, "maximum": 3 } },
+        "wind": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": ["number", "null"], "minimum": 0 } },
         "comfort": { "allOf": [{ "$ref": "#/$defs/months12" }], "items": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 } },
         "heating": { "enum": ["yes", "partial", "no"] },
         "cooling": { "enum": ["yes", "partial", "no"] }

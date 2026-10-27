@@ -4,6 +4,7 @@ import { loadAll } from './data/load';
 import type { AppData } from './data/load';
 import { bboxOf, pointInGeometry } from './lib/geo';
 import { comfortColor, yearColors } from './lib/color';
+import { EVENT_TYPES } from './lib/events';
 import type { Occurrence } from './lib/events';
 import { buildSearchIndex } from './lib/search';
 import type { SearchItem } from './lib/search';
@@ -22,7 +23,7 @@ import { initSearch } from './ui/search';
 import { initMenu } from './ui/menu';
 import { cityMenuItems, findCityByCode } from './lib/cities';
 import { esc } from './ui/esc';
-import type { AreaProps } from './data/types';
+import type { AreaProps, EventCategory } from './data/types';
 
 const el = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const OKINAWA = { lon: 127.9, lat: 26.5 };
@@ -118,6 +119,7 @@ async function start() {
   let day = initial.d ?? todayDay;
   let scope: Bounds | null = null;
   let selecting = false;
+  let types: ReadonlySet<EventCategory> = new Set(EVENT_TYPES);
   const tooltip = el('tooltip');
   let overEvent = false;
   const areaProps = data.areas.features.map((f) => f.properties);
@@ -187,6 +189,14 @@ async function start() {
     getDay: () => day,
     getScope: () => scope,
     isSelecting: () => selecting,
+    getTypes: () => types,
+    onToggleType: (t) => {
+      const next = new Set(types);
+      if (!next.delete(t)) next.add(t);
+      types = next;
+      main.setTypes(types);
+      picks.refresh();
+    },
     occByArea,
     onPick: goArea,
     onEvent: (eventId, occ) => {

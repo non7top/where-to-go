@@ -10,7 +10,7 @@ import type { SearchItem } from './lib/search';
 import type { Bounds } from './lib/scope';
 import { circDist, dayOfYear, interpMonthly, MID_DAY, wrapDay } from './lib/season';
 import { etaText, etaToDay } from './lib/timeuntil';
-import { comboIcon, ICON_NAMES } from './map/icons';
+import { comboIcon, eventIcon, ICON_NAMES } from './map/icons';
 import { WeatherMap } from './map/map';
 import { createDial } from './ui/dial';
 import type { Dial } from './ui/dial';
@@ -371,6 +371,7 @@ async function start() {
       inset,
       comfortColor,
       comboIcon,
+      eventIcon,
       ICON_NAMES,
       setDay: (d: number) => {
         day = wrapDay(d);

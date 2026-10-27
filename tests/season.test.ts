@@ -86,7 +86,7 @@ describe('fronts', () => {
     );
     expect(occurrences.map((o) => o.areaId).sort()).toEqual(['mid', 'special']);
     expect(occurrences.find((o) => o.areaId === 'special')).toMatchObject({ day: dayFromMonthDay('05-01'), spread: 3 });
-    expect(stars).toEqual([{ eventId: 'bloom', name: 'Spot', lon: 1, lat: 2, day: dayFromMonthDay('04-01'), spread: 7 }]);
+    expect(stars).toEqual([{ eventId: 'bloom', name: 'Spot', lon: 1, lat: 2, day: dayFromMonthDay('04-01'), spread: 7, tier: 1 }]);
   });
   it('uses the event peaks for highlights without their own date', () => {
     const e: MapEvent = {
@@ -96,6 +96,13 @@ describe('fronts', () => {
     const { occurrences, stars } = buildOccurrences([e], []);
     expect(occurrences).toHaveLength(1);
     expect(stars[0]).toMatchObject({ day: dayFromMonthDay('04-14'), spread: 1 });
+  });
+  it('carries the event tier to its places and stars, defaulting to 1', () => {
+    const e: MapEvent = { ...event, tier: 3, peaks: [{ on: '04-14', spread: 1 }] };
+    const { occurrences, stars } = buildOccurrences([e], [area('mid', 35)]);
+    expect(occurrences.map((o) => o.tier)).toEqual([3, 3]);
+    expect(stars.map((st) => st.tier)).toEqual([3]);
+    expect(buildOccurrences([{ ...e, tier: undefined }], []).occurrences[0]!.tier).toBe(1);
   });
 });
 
@@ -199,6 +206,9 @@ describe('dates worked out by rule', () => {
     expect(nthWeekday(2027, 11, 1, 'sat').getDate()).toBe(6);
     expect(nthWeekday(2026, 11, 2, 'sun').getDate()).toBe(8);
     expect(nthWeekday(2026, 2, 1, 'sun').getDate()).toBe(1);
+    expect(nthWeekday(2026, 7, -1, 'sat').getDate()).toBe(25);
+    expect(nthWeekday(2026, 8, -1, 'sat').getDate()).toBe(29);
+    expect(nthWeekday(2027, 2, -1, 'sun').getDate()).toBe(28);
   });
   it('labels a date and a multi-day span', () => {
     expect(dateLabel(new Date(2026, 10, 7), 2)).toBe('7-8 Nov 2026');

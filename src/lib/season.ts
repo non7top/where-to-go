@@ -104,8 +104,13 @@ export function seasonOf(day: number): SeasonSpan {
 
 const WEEKDAYS: readonly Weekday[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
-// The nth (1 for first) given weekday of a month, e.g. the first Saturday of November.
+// The nth (1 for first, -1 for last) given weekday of a month, e.g. the first Saturday of November.
 export function nthWeekday(year: number, month: number, nth: number, weekday: Weekday): Date {
+  if (nth < 0) {
+    const last = new Date(year, month, 0);
+    const back = (last.getDay() - WEEKDAYS.indexOf(weekday) + 7) % 7;
+    return new Date(year, month - 1, last.getDate() - back + (nth + 1) * 7);
+  }
   const shift = (WEEKDAYS.indexOf(weekday) - new Date(year, month - 1, 1).getDay() + 7) % 7;
   return new Date(year, month - 1, 1 + shift + (nth - 1) * 7);
 }

@@ -1,0 +1,888 @@
+[
+  {
+    "id": "nebuta",
+    "name": "Nebuta Matsuri (Aomori)",
+    "category": "festival",
+    "tier": 1,
+    "lon": 140.74,
+    "lat": 40.8244,
+    "peaks": [
+      {
+        "spread": 2,
+        "on": "08-04"
+      }
+    ],
+    "when": "2-7 August, Aomori",
+    "summary": "Huge illuminated warrior floats parade through Aomori city for six nights.",
+    "crowd": "Over a million visitors; hotels book out months ahead.",
+    "aliases": [
+      "ねぶた",
+      "ねぶた祭",
+      "Neputa"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Nebuta_Matsuri"
+    }
+  },
+  {
+    "id": "sendai-tanabata",
+    "name": "Sendai Tanabata Festival",
+    "category": "festival",
+    "tier": 1,
+    "lon": 140.8719,
+    "lat": 38.2602,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "08-07"
+      }
+    ],
+    "when": "6-8 August, Sendai",
+    "summary": "Japan's biggest Tanabata: giant streamers of paper and bamboo line the shopping arcades.",
+    "aliases": [
+      "tanabata",
+      "七夕",
+      "仙台七夕"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Sendai_Tanabata_Festival"
+    }
+  },
+  {
+    "id": "tenjin-matsuri",
+    "name": "Tenjin Matsuri (Osaka)",
+    "category": "festival",
+    "tier": 1,
+    "lon": 135.513,
+    "lat": 34.699,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "07-25"
+      }
+    ],
+    "when": "24-25 July, Osaka",
+    "summary": "One of the three great festivals of Japan: a river procession of boats and a fireworks night.",
+    "aliases": [
+      "osaka tenjin",
+      "天神祭"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Tenjin_Matsuri"
+    }
+  },
+  {
+    "id": "sanja-matsuri",
+    "name": "Sanja Matsuri (Asakusa)",
+    "category": "festival",
+    "tier": 1,
+    "lon": 139.7966,
+    "lat": 35.7148,
+    "peaks": [
+      {
+        "spread": 1,
+        "rule": {
+          "month": 5,
+          "nth": 3,
+          "weekday": "sat"
+        },
+        "length": 3
+      }
+    ],
+    "when": "third weekend of May, Asakusa, Tokyo",
+    "summary": "Tokyo's wildest festival: over a hundred portable shrines carried through Asakusa.",
+    "approx": true,
+    "aliases": [
+      "三社祭"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Sanja_Matsuri"
+    }
+  },
+  {
+    "id": "hakata-yamakasa",
+    "name": "Hakata Gion Yamakasa",
+    "category": "festival",
+    "tier": 2,
+    "lon": 130.4112,
+    "lat": 33.5926,
+    "peaks": [
+      {
+        "spread": 7,
+        "on": "07-15"
+      }
+    ],
+    "when": "1-15 July, Fukuoka (races at dawn on 15 July)",
+    "summary": "Teams race giant decorated floats through Hakata at 4:59 am on the final day.",
+    "aliases": [
+      "山笠",
+      "博多祇園山笠"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Hakata_Gion_Yamakasa"
+    }
+  },
+  {
+    "id": "kanto-akita",
+    "name": "Akita Kanto Festival",
+    "category": "festival",
+    "tier": 2,
+    "lon": 140.1024,
+    "lat": 39.72,
+    "peaks": [
+      {
+        "spread": 2,
+        "on": "08-04"
+      }
+    ],
+    "when": "3-6 August, Akita",
+    "summary": "Performers balance tall poles hung with dozens of lanterns on their foreheads and hands.",
+    "aliases": [
+      "竿燈",
+      "竿燈まつり"
+    ]
+  },
+  {
+    "id": "hanagasa-yamagata",
+    "name": "Yamagata Hanagasa Festival",
+    "category": "festival",
+    "tier": 2,
+    "lon": 140.3633,
+    "lat": 38.2554,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "08-06"
+      }
+    ],
+    "when": "5-7 August, Yamagata",
+    "summary": "Thousands of dancers in straw hats trimmed with safflower flowers.",
+    "aliases": [
+      "花笠まつり"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Yamagata_Hanagasa_Festival"
+    }
+  },
+  {
+    "id": "hirosaki-neputa",
+    "name": "Hirosaki Neputa Festival",
+    "category": "festival",
+    "tier": 3,
+    "lon": 140.464,
+    "lat": 40.603,
+    "peaks": [
+      {
+        "spread": 3,
+        "on": "08-04"
+      }
+    ],
+    "when": "1-7 August, Hirosaki",
+    "summary": "Fan-shaped lantern floats with painted warriors, a quieter cousin of the Aomori festival.",
+    "aliases": [
+      "弘前ねぷた",
+      "ねぷた"
+    ]
+  },
+  {
+    "id": "morioka-sansa",
+    "name": "Morioka Sansa Odori",
+    "category": "festival",
+    "tier": 3,
+    "lon": 141.1527,
+    "lat": 39.702,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "08-02"
+      }
+    ],
+    "when": "1-4 August, Morioka",
+    "summary": "Drumming dance parade that holds the Guinness record for the world's largest taiko parade.",
+    "aliases": [
+      "盛岡さんさ踊り",
+      "さんさ踊り"
+    ]
+  },
+  {
+    "id": "hakodate-port",
+    "name": "Hakodate Port Festival",
+    "category": "festival",
+    "tier": 3,
+    "lon": 140.7288,
+    "lat": 41.7688,
+    "peaks": [
+      {
+        "spread": 2,
+        "on": "08-03"
+      }
+    ],
+    "when": "1-5 August, Hakodate",
+    "summary": "Street dancing of squid dances (Ika Odori) and a night parade through the port city.",
+    "aliases": [
+      "函館港まつり"
+    ]
+  },
+  {
+    "id": "kochi-yosakoi",
+    "name": "Yosakoi Festival (Kochi)",
+    "category": "festival",
+    "tier": 2,
+    "lon": 133.5311,
+    "lat": 33.5597,
+    "peaks": [
+      {
+        "spread": 2,
+        "on": "08-11"
+      }
+    ],
+    "when": "9-12 August, Kochi",
+    "summary": "The original yosakoi: teams dance through the streets of Kochi with wooden clappers.",
+    "aliases": [
+      "yosakoi",
+      "よさこい祭り",
+      "よさこい"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Yosakoi"
+    }
+  },
+  {
+    "id": "yosakoi-soran",
+    "name": "YOSAKOI Soran Festival",
+    "category": "festival",
+    "tier": 3,
+    "lon": 141.3547,
+    "lat": 43.0618,
+    "peaks": [
+      {
+        "spread": 2,
+        "on": "06-11"
+      }
+    ],
+    "when": "early June, Sapporo",
+    "summary": "Sapporo version of the yosakoi dance festival with over 20,000 dancers.",
+    "approx": true,
+    "aliases": [
+      "YOSAKOIソーラン祭り"
+    ]
+  },
+  {
+    "id": "gozan-okuribi",
+    "name": "Daimonji Gozan Okuribi (Kyoto)",
+    "category": "festival",
+    "tier": 2,
+    "lon": 135.7981,
+    "lat": 35.0301,
+    "peaks": [
+      {
+        "spread": 0,
+        "on": "08-16"
+      }
+    ],
+    "when": "16 August, Kyoto",
+    "summary": "Five giant bonfires lit on the hills around Kyoto to send off the spirits at the end of Obon.",
+    "aliases": [
+      "五山送り火",
+      "大文字",
+      "大文字焼き"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Gozan_no_Okuribi"
+    }
+  },
+  {
+    "id": "jidai-matsuri",
+    "name": "Jidai Matsuri (Kyoto)",
+    "category": "festival",
+    "tier": 2,
+    "lon": 135.7683,
+    "lat": 35.0116,
+    "peaks": [
+      {
+        "spread": 0,
+        "on": "10-22"
+      }
+    ],
+    "when": "22 October, Kyoto",
+    "summary": "A procession in costume of Kyoto through 1,100 years, from Meiji back to the 8th century.",
+    "aliases": [
+      "時代祭"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Jidai_Matsuri"
+    }
+  },
+  {
+    "id": "aoi-matsuri",
+    "name": "Aoi Matsuri (Kyoto)",
+    "category": "festival",
+    "tier": 3,
+    "lon": 135.7728,
+    "lat": 35.0393,
+    "peaks": [
+      {
+        "spread": 0,
+        "on": "05-15"
+      }
+    ],
+    "when": "15 May, Kyoto",
+    "summary": "Heian-period court procession from the Imperial Palace to the Kamo shrines.",
+    "aliases": [
+      "葵祭"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Aoi_Matsuri"
+    }
+  },
+  {
+    "id": "takayama-spring",
+    "name": "Takayama Spring Festival",
+    "category": "festival",
+    "tier": 2,
+    "lon": 137.2522,
+    "lat": 36.1407,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "04-14"
+      }
+    ],
+    "when": "14-15 April, Takayama",
+    "summary": "Ornate floats and mechanical puppets in the old town of Takayama; one of the three most beautiful floats festivals.",
+    "aliases": [
+      "sanno matsuri",
+      "高山祭",
+      "山王祭"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Takayama_Festival"
+    }
+  },
+  {
+    "id": "takayama-autumn",
+    "name": "Takayama Autumn Festival",
+    "category": "festival",
+    "tier": 2,
+    "lon": 137.2522,
+    "lat": 36.1407,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "10-09"
+      }
+    ],
+    "when": "9-10 October, Takayama",
+    "summary": "The autumn edition (Hachiman Matsuri) with floats and lantern processions after dark.",
+    "aliases": [
+      "hachiman matsuri",
+      "高山祭",
+      "八幡祭"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Takayama_Festival"
+    }
+  },
+  {
+    "id": "chichibu-yomatsuri",
+    "name": "Chichibu Night Festival",
+    "category": "festival",
+    "tier": 2,
+    "lon": 139.0817,
+    "lat": 35.9916,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "12-03"
+      }
+    ],
+    "when": "2-3 December, Chichibu",
+    "summary": "Giant floats pulled through town at night with winter fireworks, among the three great float festivals.",
+    "aliases": [
+      "秩父夜祭"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Chichibu_Night_Festival"
+    }
+  },
+  {
+    "id": "nagasaki-kunchi",
+    "name": "Nagasaki Kunchi",
+    "category": "festival",
+    "tier": 2,
+    "lon": 129.8737,
+    "lat": 32.7503,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "10-08"
+      }
+    ],
+    "when": "7-9 October, Nagasaki",
+    "summary": "Autumn festival of Suwa Shrine with Dutch- and Chinese-style dances and dragon dances.",
+    "aliases": [
+      "長崎くんち"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Nagasaki_Kunchi"
+    }
+  },
+  {
+    "id": "kishiwada-danjiri",
+    "name": "Kishiwada Danjiri Matsuri",
+    "category": "festival",
+    "tier": 2,
+    "lon": 135.37,
+    "lat": 34.459,
+    "peaks": [
+      {
+        "spread": 1,
+        "rule": {
+          "month": 9,
+          "nth": 3,
+          "weekday": "sat"
+        },
+        "length": 2
+      }
+    ],
+    "when": "weekend before Respect for the Aged Day, Kishiwada (19-20 September 2026)",
+    "summary": "Wooden floats weighing about four tons race around street corners at full speed.",
+    "approx": true,
+    "aliases": [
+      "岸和田だんじり祭"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Kishiwada_Danjiri_Festival"
+    }
+  },
+  {
+    "id": "kawagoe-matsuri",
+    "name": "Kawagoe Festival",
+    "category": "festival",
+    "tier": 3,
+    "lon": 139.4857,
+    "lat": 35.9251,
+    "peaks": [
+      {
+        "spread": 1,
+        "rule": {
+          "month": 10,
+          "nth": 3,
+          "weekday": "sat"
+        },
+        "length": 2
+      }
+    ],
+    "when": "third weekend of October, Kawagoe",
+    "summary": "Edo-style floats in an old merchant town, with the floats facing off in hayashi music duels.",
+    "approx": true,
+    "aliases": [
+      "川越まつり"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Kawagoe,_Saitama"
+    }
+  },
+  {
+    "id": "sumida-fireworks",
+    "name": "Sumida River Fireworks",
+    "category": "festival",
+    "tier": 2,
+    "icon": "fireworks",
+    "lon": 139.8,
+    "lat": 35.71,
+    "peaks": [
+      {
+        "spread": 0,
+        "rule": {
+          "month": 7,
+          "nth": -1,
+          "weekday": "sat"
+        }
+      }
+    ],
+    "when": "last Saturday of July, Tokyo",
+    "summary": "About 20,000 fireworks launched from both sides of the Sumida River, Tokyo's oldest fireworks show.",
+    "crowd": "About a million visitors.",
+    "aliases": [
+      "hanabi",
+      "隅田川花火大会"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Sumidagawa_Fireworks_Festival"
+    }
+  },
+  {
+    "id": "nagaoka-fireworks",
+    "name": "Nagaoka Fireworks Festival",
+    "category": "festival",
+    "tier": 2,
+    "icon": "fireworks",
+    "lon": 138.83,
+    "lat": 37.44,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "08-03"
+      }
+    ],
+    "when": "2-3 August, Nagaoka",
+    "summary": "One of the three great fireworks festivals, with Shinano River shows including Phoenix fireworks.",
+    "aliases": [
+      "hanabi",
+      "長岡まつり大花火大会"
+    ]
+  },
+  {
+    "id": "omagari-fireworks",
+    "name": "Omagari National Fireworks Competition",
+    "category": "festival",
+    "tier": 2,
+    "icon": "fireworks",
+    "lon": 140.47,
+    "lat": 39.46,
+    "peaks": [
+      {
+        "spread": 0,
+        "rule": {
+          "month": 8,
+          "nth": -1,
+          "weekday": "sat"
+        }
+      }
+    ],
+    "when": "last Saturday of August, Daisen, Akita (29 August 2026)",
+    "summary": "Japan's top fireworks competition: the best pyrotechnicians in the country compete in daytime and night sections.",
+    "aliases": [
+      "hanabi",
+      "大曲の花火"
+    ]
+  },
+  {
+    "id": "suwa-fireworks",
+    "name": "Lake Suwa Fireworks Festival",
+    "category": "festival",
+    "tier": 3,
+    "icon": "fireworks",
+    "lon": 138.09,
+    "lat": 36.05,
+    "peaks": [
+      {
+        "spread": 0,
+        "on": "08-15"
+      }
+    ],
+    "when": "15 August, Suwa",
+    "summary": "About 40,000 fireworks over Lake Suwa, with a launch of the world's largest star mines.",
+    "aliases": [
+      "hanabi",
+      "諏訪湖祭湖上花火大会"
+    ]
+  },
+  {
+    "id": "mitama-matsuri",
+    "name": "Mitama Matsuri (Yasukuni)",
+    "category": "festival",
+    "tier": 3,
+    "lon": 139.743,
+    "lat": 35.6944,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "07-14"
+      }
+    ],
+    "when": "13-16 July, Tokyo",
+    "summary": "Thousands of lanterns light the Yasukuni approach at the start of the Obon season.",
+    "aliases": [
+      "みたままつり"
+    ]
+  },
+  {
+    "id": "kumagaya-uchiwa",
+    "name": "Kumagaya Uchiwa Festival",
+    "category": "festival",
+    "tier": 3,
+    "lon": 139.39,
+    "lat": 36.147,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "07-21"
+      }
+    ],
+    "when": "20-22 July, Kumagaya",
+    "summary": "Fan festival with portable shrines and festival floats in one of the hottest cities in Japan.",
+    "aliases": [
+      "熊谷うちわ祭"
+    ]
+  },
+  {
+    "id": "dontaku",
+    "name": "Hakata Dontaku",
+    "category": "festival",
+    "tier": 3,
+    "lon": 130.415,
+    "lat": 33.59,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "05-03"
+      }
+    ],
+    "when": "3-4 May, Fukuoka",
+    "summary": "Golden Week parade with costumed groups and music across Fukuoka; two million visitors.",
+    "aliases": [
+      "博多どんたく"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Hakata_Dontaku"
+    }
+  },
+  {
+    "id": "hiroshima-flower",
+    "name": "Hiroshima Flower Festival",
+    "category": "festival",
+    "tier": 3,
+    "lon": 132.4553,
+    "lat": 34.3918,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "05-04"
+      }
+    ],
+    "when": "3-5 May, Hiroshima",
+    "summary": "Golden Week flower parade and stages in Peace Boulevard.",
+    "aliases": [
+      "ひろしまフラワーフェスティバル"
+    ]
+  },
+  {
+    "id": "aoba-matsuri",
+    "name": "Sendai Aoba Festival",
+    "category": "festival",
+    "tier": 3,
+    "lon": 140.8719,
+    "lat": 38.2682,
+    "peaks": [
+      {
+        "spread": 1,
+        "rule": {
+          "month": 5,
+          "nth": 3,
+          "weekday": "sat"
+        },
+        "length": 2
+      }
+    ],
+    "when": "third weekend of May, Sendai",
+    "summary": "Sendai spring festival with the Suzume Odori sparrow dance.",
+    "approx": true,
+    "aliases": [
+      "仙台・青葉まつり"
+    ]
+  },
+  {
+    "id": "hyakumangoku",
+    "name": "Kanazawa Hyakumangoku Festival",
+    "category": "festival",
+    "tier": 3,
+    "lon": 136.6597,
+    "lat": 36.5619,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "06-06"
+      }
+    ],
+    "when": "first weekend of June, Kanazawa",
+    "summary": "Procession in samurai dress to mark the founding of the Kaga domain.",
+    "approx": true,
+    "aliases": [
+      "金沢百万石まつり"
+    ]
+  },
+  {
+    "id": "naha-tug",
+    "name": "Naha Great Tug-of-War",
+    "category": "festival",
+    "tier": 3,
+    "lon": 127.685,
+    "lat": 26.2124,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "10-10"
+      }
+    ],
+    "when": "around 10 October, Naha",
+    "summary": "A 200-tonne rope pulled by thousands in a Ryukyu ritual in Naha.",
+    "approx": true,
+    "aliases": [
+      "那覇大綱挽"
+    ]
+  },
+  {
+    "id": "nagasaki-lantern",
+    "name": "Nagasaki Lantern Festival",
+    "category": "festival",
+    "tier": 2,
+    "icon": "lantern",
+    "lon": 129.873,
+    "lat": 32.745,
+    "peaks": [
+      {
+        "spread": 8,
+        "on": "02-13"
+      }
+    ],
+    "when": "Lunar New Year, 15 days (6-21 February 2027)",
+    "summary": "Over 15,000 lanterns, dragon dances and Chinese stages around the Chinatown.",
+    "approx": true,
+    "aliases": [
+      "長崎ランタンフェスティバル"
+    ]
+  },
+  {
+    "id": "otaru-yukiakari",
+    "name": "Otaru Snow Light Path",
+    "category": "festival",
+    "tier": 2,
+    "icon": "snow",
+    "lon": 140.995,
+    "lat": 43.1907,
+    "peaks": [
+      {
+        "spread": 4,
+        "on": "02-11"
+      }
+    ],
+    "when": "about 7-16 February, Otaru",
+    "summary": "Candles and snow lanterns along the old canal and the railway street of Otaru.",
+    "approx": true,
+    "aliases": [
+      "小樽雪あかりの路"
+    ]
+  },
+  {
+    "id": "asahikawa-winter",
+    "name": "Asahikawa Winter Festival",
+    "category": "festival",
+    "tier": 3,
+    "icon": "snow",
+    "lon": 142.365,
+    "lat": 43.77,
+    "peaks": [
+      {
+        "spread": 3,
+        "on": "02-08"
+      }
+    ],
+    "when": "early February, Asahikawa",
+    "summary": "Huge snow and ice sculptures, with a giant snow stage.",
+    "approx": true,
+    "aliases": [
+      "旭川冬まつり"
+    ]
+  },
+  {
+    "id": "yokote-kamakura",
+    "name": "Yokote Kamakura Festival",
+    "category": "festival",
+    "tier": 3,
+    "icon": "snow",
+    "lon": 140.553,
+    "lat": 39.314,
+    "peaks": [
+      {
+        "spread": 1,
+        "on": "02-15"
+      }
+    ],
+    "when": "15-16 February, Yokote",
+    "summary": "Children sit in snow huts and serve rice cake and amazake to visitors by candlelight.",
+    "aliases": [
+      "横手のかまくら"
+    ]
+  },
+  {
+    "id": "saidaiji-eyo",
+    "name": "Saidaiji Eyo (Naked Festival)",
+    "category": "festival",
+    "tier": 2,
+    "lon": 134.0373,
+    "lat": 34.662,
+    "peaks": [
+      {
+        "spread": 0,
+        "rule": {
+          "month": 2,
+          "nth": 3,
+          "weekday": "sat"
+        }
+      }
+    ],
+    "when": "third Saturday of February, Okayama",
+    "summary": "Thousands of men in loincloths scramble for sacred sticks at midnight.",
+    "approx": true,
+    "aliases": [
+      "hadaka matsuri",
+      "naked festival",
+      "西大寺会陽",
+      "裸祭り"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Hadaka_Matsuri"
+    }
+  },
+  {
+    "id": "omizutori",
+    "name": "Omizutori (Todai-ji)",
+    "category": "festival",
+    "tier": 3,
+    "lon": 135.8398,
+    "lat": 34.689,
+    "peaks": [
+      {
+        "spread": 7,
+        "on": "03-12"
+      }
+    ],
+    "when": "1-14 March, Nara",
+    "summary": "Fire ritual at Todai-ji: monks swing giant torches from the Nigatsu-do balcony each night.",
+    "aliases": [
+      "お水取り"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Omizutori"
+    }
+  },
+  {
+    "id": "kanamara",
+    "name": "Kanamara Matsuri",
+    "category": "festival",
+    "tier": 3,
+    "lon": 139.705,
+    "lat": 35.5283,
+    "peaks": [
+      {
+        "spread": 0,
+        "rule": {
+          "month": 4,
+          "nth": 1,
+          "weekday": "sun"
+        }
+      }
+    ],
+    "when": "first Sunday of April, Kawasaki",
+    "summary": "A fertility festival at Kanayama Shrine, famous for its phallic floats.",
+    "approx": true,
+    "aliases": [
+      "かなまら祭"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Kanamara_Matsuri"
+    }
+  }
+]

@@ -1,0 +1,902 @@
+[
+  {
+    "id": "ume",
+    "name": "Plum blossom",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "plum",
+    "lon": 139.0,
+    "lat": 35.7,
+    "fronts": [
+      {
+        "country": "JP",
+        "spread": 10,
+        "anchors": [
+          [
+            31.6,
+            "02-10"
+          ],
+          [
+            33.6,
+            "02-20"
+          ],
+          [
+            35.7,
+            "03-01"
+          ],
+          [
+            38.3,
+            "03-25"
+          ],
+          [
+            40.8,
+            "04-15"
+          ],
+          [
+            43.1,
+            "04-28"
+          ]
+        ],
+        "label": "梅 (Ume)",
+        "aliases": [
+          "ume",
+          "plum",
+          "umemi",
+          "梅見",
+          "plum blossom"
+        ],
+        "minLat": 31
+      }
+    ],
+    "when": "late January in the south, early March around Tokyo, April in Hokkaido",
+    "summary": "Plum blossom comes before the cherry: a quieter, scented flower viewing.",
+    "approx": true,
+    "details": "Plum (ume) blooms from the far south in late January to Hokkaido in late April, a month before the cherry in each area. Dates are rough typical peaks, not a forecast; they move by a week or two each year.",
+    "crowd": "Far calmer than cherry season.",
+    "price": "Hotels are not yet at cherry prices.",
+    "highlights": [
+      {
+        "name": "Kairakuen (Mito)",
+        "lon": 140.4439,
+        "lat": 36.3786,
+        "note": "About 3,000 trees in one of the three great gardens.",
+        "on": "03-05",
+        "spread": 14,
+        "detail": true
+      },
+      {
+        "name": "Dazaifu Tenmangu",
+        "lon": 130.5349,
+        "lat": 33.5214,
+        "note": "Shrine with about 6,000 plum trees.",
+        "on": "02-25",
+        "spread": 12,
+        "detail": true
+      },
+      {
+        "name": "Yushima Tenjin (Tokyo)",
+        "lon": 139.7699,
+        "lat": 35.7078,
+        "on": "03-01",
+        "spread": 12,
+        "detail": true
+      },
+      {
+        "name": "Atami Plum Garden",
+        "lon": 139.0731,
+        "lat": 35.0958,
+        "note": "Early-blooming; also holds the Atami Baien Plum Festival.",
+        "on": "02-01",
+        "spread": 14,
+        "detail": true
+      },
+      {
+        "name": "Minabe Ume Forest",
+        "lon": 135.3667,
+        "lat": 33.7667,
+        "note": "Hillside of about 20,000 trees.",
+        "on": "02-05",
+        "spread": 14,
+        "detail": true
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Ume"
+    }
+  },
+  {
+    "id": "hydrangea",
+    "name": "Hydrangea",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "hydrangea",
+    "lon": 139.55,
+    "lat": 35.33,
+    "fronts": [
+      {
+        "country": "JP",
+        "spread": 10,
+        "anchors": [
+          [
+            31.6,
+            "06-05"
+          ],
+          [
+            33.6,
+            "06-10"
+          ],
+          [
+            35.7,
+            "06-18"
+          ],
+          [
+            38.3,
+            "06-28"
+          ],
+          [
+            40.8,
+            "07-08"
+          ],
+          [
+            43.1,
+            "07-20"
+          ]
+        ],
+        "label": "紫陽花 (Ajisai)",
+        "aliases": [
+          "ajisai",
+          "hydrangea",
+          "あじさい"
+        ],
+        "minLat": 31
+      }
+    ],
+    "when": "early June in Kyushu, mid to late June around Tokyo, July in Tohoku and Hokkaido",
+    "summary": "Hydrangea (ajisai) peaks in the rainy season, so the temples are best on a wet day.",
+    "approx": true,
+    "details": "Hydrangea (ajisai) blooms with the plum rain (tsuyu), moving north from early June. Dates are rough typical peaks, not a forecast; they move by a week or two each year.",
+    "crowd": "Temples are busy on weekends.",
+    "highlights": [
+      {
+        "name": "Meigetsu-in (Kamakura)",
+        "lon": 139.5497,
+        "lat": 35.3358,
+        "note": "The \"hydrangea temple\" with its blue hydrangeas.",
+        "on": "06-15",
+        "spread": 10,
+        "detail": true
+      },
+      {
+        "name": "Hase-dera (Kamakura)",
+        "lon": 139.5337,
+        "lat": 35.3125,
+        "on": "06-15",
+        "spread": 10,
+        "detail": true
+      },
+      {
+        "name": "Hakone Tozan Railway",
+        "lon": 139.0527,
+        "lat": 35.2476,
+        "note": "A train through illuminated hydrangeas in the evening.",
+        "on": "06-25",
+        "spread": 12,
+        "detail": true
+      },
+      {
+        "name": "Mimuroto-ji (Uji)",
+        "lon": 135.8039,
+        "lat": 34.8908,
+        "on": "06-15",
+        "spread": 10,
+        "detail": true
+      },
+      {
+        "name": "Yata-dera (Nara)",
+        "lon": 135.7747,
+        "lat": 34.6139,
+        "on": "06-20",
+        "spread": 10,
+        "detail": true
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Hydrangea"
+    }
+  },
+  {
+    "id": "higanbana",
+    "name": "Red spider lily (higanbana)",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "lily",
+    "lon": 139.3436,
+    "lat": 35.8978,
+    "fronts": [
+      {
+        "country": "JP",
+        "spread": 8,
+        "anchors": [
+          [
+            31.6,
+            "09-22"
+          ],
+          [
+            35.7,
+            "09-27"
+          ],
+          [
+            38.3,
+            "10-02"
+          ]
+        ],
+        "label": "彼岸花 (Higanbana)",
+        "aliases": [
+          "higanbana",
+          "spider lily",
+          "red spider lily",
+          "manjushage",
+          "曼珠沙華",
+          "death flower",
+          "flower of the dead",
+          "hell flower"
+        ],
+        "minLat": 31
+      }
+    ],
+    "when": "late September, a little later further north",
+    "summary": "Fields of red spider lilies (higanbana, the \"flower of the other shore\") bloom for a short week around the autumn equinox.",
+    "approx": true,
+    "details": "Higanbana (spider lily), also called flower of the dead or hell flower in Japan, blooms around the autumn equinox (Higan) when the family graves are visited. It flowers for about a week and is gone by October. Dates are rough typical peaks, not a forecast; they move by a week or two each year.",
+    "crowd": "Fields are busiest on the weekends of the peak week.",
+    "highlights": [
+      {
+        "name": "Kinchakuda (Hidaka)",
+        "lon": 139.3436,
+        "lat": 35.8978,
+        "note": "About five million lilies in one park; the best known site.",
+        "on": "09-25",
+        "spread": 10,
+        "detail": true
+      },
+      {
+        "name": "Gonkitsune no Sato (Handa)",
+        "lon": 136.9352,
+        "lat": 34.9187,
+        "note": "The lilies by Niimi Nankichi's fox story.",
+        "on": "09-20",
+        "spread": 10,
+        "detail": true
+      },
+      {
+        "name": "Inabuchi terraces (Asuka)",
+        "lon": 135.8306,
+        "lat": 34.4762,
+        "note": "Lilies framing rice terraces among old burial mounds.",
+        "on": "09-25",
+        "spread": 8,
+        "detail": true
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Lycoris_radiata"
+    }
+  },
+  {
+    "id": "cosmos",
+    "name": "Cosmos",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "cosmos",
+    "lon": 140.59,
+    "lat": 36.4,
+    "fronts": [
+      {
+        "country": "JP",
+        "spread": 10,
+        "anchors": [
+          [
+            43.1,
+            "09-10"
+          ],
+          [
+            38.3,
+            "10-01"
+          ],
+          [
+            35.7,
+            "10-20"
+          ],
+          [
+            33.6,
+            "11-01"
+          ]
+        ],
+        "label": "コスモス (Kosumosu)",
+        "aliases": [
+          "kosumosu",
+          "cosmos",
+          "akizakura",
+          "秋桜"
+        ],
+        "minLat": 33
+      }
+    ],
+    "when": "September in Hokkaido, October in the north and central Honshu, early November in the south",
+    "summary": "Fields of cosmos flowers in autumn, with the red kochia at the same time in Hitachi Seaside Park.",
+    "approx": true,
+    "details": "Cosmos (kosumosu, \"autumn cherry\") covers hill and field slopes in autumn, earliest in Hokkaido. Dates are rough typical peaks, not a forecast; they move by a week or two each year.",
+    "highlights": [
+      {
+        "name": "Hitachi Seaside Park",
+        "lon": 140.593,
+        "lat": 36.4009,
+        "note": "Cosmos and the red kochia bushes.",
+        "on": "10-15",
+        "spread": 10,
+        "detail": true
+      },
+      {
+        "name": "Showa Kinen Park (Tachikawa)",
+        "lon": 139.4014,
+        "lat": 35.7137,
+        "on": "10-10",
+        "spread": 12,
+        "detail": true
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Cosmos_(plant)"
+    }
+  },
+  {
+    "id": "nemophila",
+    "name": "Nemophila (baby blue eyes)",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "hydrangea",
+    "lon": 140.593,
+    "lat": 36.4009,
+    "peaks": [
+      {
+        "on": "04-28",
+        "spread": 8
+      }
+    ],
+    "when": "late April to early May, Hitachinaka",
+    "summary": "A hill of about five million pale blue nemophila flowers in Hitachi Seaside Park.",
+    "approx": true,
+    "crowd": "Heavy weekend crowds and traffic in Golden Week.",
+    "aliases": [
+      "nemophila",
+      "hitachi seaside",
+      "ネモフィラ",
+      "baby blue eyes"
+    ],
+    "highlights": [
+      {
+        "name": "Miharashi Hill (Hitachi Seaside Park)",
+        "lon": 140.593,
+        "lat": 36.4009,
+        "note": "The blue hill.",
+        "detail": true
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Hitachi_Seaside_Park"
+    }
+  },
+  {
+    "id": "wisteria",
+    "name": "Wisteria",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "wisteria",
+    "lon": 139.5192,
+    "lat": 36.3139,
+    "peaks": [
+      {
+        "on": "05-01",
+        "spread": 10
+      }
+    ],
+    "when": "late April to mid May",
+    "summary": "Hanging wisteria (fuji) tunnels and trellises, most famous at Ashikaga Flower Park.",
+    "approx": true,
+    "details": "Wisteria blooms from late April; the great sites hold light-ups at night. Dates are rough typical peaks, not a forecast; they move by a week or two each year.",
+    "aliases": [
+      "fuji",
+      "藤",
+      "wisteria",
+      "藤の花"
+    ],
+    "highlights": [
+      {
+        "name": "Ashikaga Flower Park",
+        "lon": 139.5192,
+        "lat": 36.3139,
+        "note": "The \"Great Wisteria\" over 150 years old.",
+        "on": "05-01",
+        "spread": 10,
+        "detail": true
+      },
+      {
+        "name": "Kameido Tenjin (Tokyo)",
+        "lon": 139.8267,
+        "lat": 35.6975,
+        "on": "04-25",
+        "spread": 10,
+        "detail": true
+      },
+      {
+        "name": "Kawachi Fuji Garden (Kitakyushu)",
+        "lon": 130.8157,
+        "lat": 33.8667,
+        "note": "Wisteria tunnels.",
+        "on": "04-30",
+        "spread": 8,
+        "detail": true
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Wisteria"
+    }
+  },
+  {
+    "id": "shibazakura",
+    "name": "Moss phlox (shibazakura)",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "sakura",
+    "lon": 139.0,
+    "lat": 36.0,
+    "peaks": [
+      {
+        "on": "04-30",
+        "spread": 14
+      }
+    ],
+    "when": "late April in Chichibu, early May at Fuji, late May in Hokkaido",
+    "summary": "Carpets of pink moss phlox, a \"ground cherry\" bloom that follows the sakura.",
+    "approx": true,
+    "details": "Moss phlox (shibazakura) carpets open from late April on the Kanto hills, with Fuji at the start of May and Hokkaido at the end of May. Dates are rough typical peaks, not a forecast; they move by a week or two each year.",
+    "aliases": [
+      "shibazakura",
+      "moss phlox",
+      "芝桜",
+      "moss pink"
+    ],
+    "highlights": [
+      {
+        "name": "Hitsujiyama Park (Chichibu)",
+        "lon": 139.0,
+        "lat": 35.9876,
+        "note": "Nine hills, 400,000 plants.",
+        "on": "04-25",
+        "spread": 10,
+        "detail": true
+      },
+      {
+        "name": "Fuji Shibazakura Festival (Motosuko)",
+        "lon": 138.5966,
+        "lat": 35.5072,
+        "note": "Moss phlox under Mount Fuji.",
+        "on": "05-05",
+        "spread": 12,
+        "detail": true
+      },
+      {
+        "name": "Takinoue Park (Hokkaido)",
+        "lon": 143.0,
+        "lat": 44.0903,
+        "on": "05-25",
+        "spread": 14,
+        "detail": true
+      }
+    ]
+  },
+  {
+    "id": "lavender",
+    "name": "Lavender (Furano)",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "lavender",
+    "lon": 142.4272,
+    "lat": 43.4157,
+    "peaks": [
+      {
+        "on": "07-15",
+        "spread": 10
+      }
+    ],
+    "when": "early to late July, Furano and Biei",
+    "summary": "Purple fields of lavender at Farm Tomita and the Biei hills.",
+    "approx": true,
+    "details": "Lavender at Furano blooms for about two weeks around mid July; Biei flowers run on to September. Dates are rough typical peaks, not a forecast; they move by a week or two each year.",
+    "crowd": "Busy on weekends; the best fields are best in the morning.",
+    "aliases": [
+      "furano",
+      "biei",
+      "ラベンダー",
+      "富良野"
+    ],
+    "highlights": [
+      {
+        "name": "Farm Tomita (Furano)",
+        "lon": 142.4272,
+        "lat": 43.4157,
+        "note": "Lavender fields, with the other flower stripes.",
+        "on": "07-15",
+        "spread": 10,
+        "detail": true
+      },
+      {
+        "name": "Shikisai no Oka (Biei)",
+        "lon": 142.464,
+        "lat": 43.523,
+        "note": "Rolling hills of flower stripes through the summer.",
+        "on": "07-20",
+        "spread": 12,
+        "detail": true
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Furano"
+    }
+  },
+  {
+    "id": "sunflower",
+    "name": "Sunflowers (Hokuryu)",
+    "category": "seasonal",
+    "tier": 3,
+    "icon": "sunflower",
+    "lon": 141.9078,
+    "lat": 43.7285,
+    "peaks": [
+      {
+        "on": "08-05",
+        "spread": 10
+      }
+    ],
+    "when": "early to mid August, Hokuryu, Hokkaido",
+    "summary": "Hokkaido sunflower field with about 1.5 million plants, the largest in Japan.",
+    "approx": true,
+    "aliases": [
+      "himawari",
+      "ひまわり",
+      "hokuryu"
+    ],
+    "highlights": [
+      {
+        "name": "Hokuryu Sunflower Village",
+        "lon": 141.9078,
+        "lat": 43.7285,
+        "on": "08-05",
+        "spread": 10,
+        "detail": true
+      },
+      {
+        "name": "Akeno Sunflower Festival (Hokuto)",
+        "lon": 138.4244,
+        "lat": 35.8219,
+        "note": "About 600,000 sunflowers with the Southern Alps behind.",
+        "on": "08-10",
+        "spread": 10,
+        "detail": true
+      }
+    ]
+  },
+  {
+    "id": "firefly",
+    "name": "Fireflies (hotaru)",
+    "category": "seasonal",
+    "tier": 3,
+    "icon": "firefly",
+    "lon": 135.9919,
+    "lat": 35.0583,
+    "peaks": [
+      {
+        "on": "06-10",
+        "spread": 10
+      }
+    ],
+    "when": "late May to mid June, Moriyama, Shiga",
+    "summary": "Genji fireflies in the Moriyama river valleys in June, among the best known in Japan.",
+    "approx": true,
+    "aliases": [
+      "hotaru",
+      "ほたる",
+      "蛍",
+      "moriyama",
+      "glow worm"
+    ],
+    "highlights": [
+      {
+        "name": "Moriyama Firefly Park (Shiga)",
+        "lon": 135.9919,
+        "lat": 35.0583,
+        "on": "06-10",
+        "spread": 10,
+        "detail": true
+      }
+    ]
+  },
+  {
+    "id": "juhyo",
+    "name": "Snow monsters (juhyo, Zao)",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "snow",
+    "lon": 140.4455,
+    "lat": 38.1357,
+    "peaks": [
+      {
+        "on": "02-10",
+        "spread": 21
+      }
+    ],
+    "when": "late January to late February, Zao, Yamagata",
+    "summary": "Trees coated in rime and snow into giant ghost shapes on the Zao ski slopes.",
+    "approx": true,
+    "details": "The Zao ropeway runs over the forest; floodlights light the monsters up on some evenings.",
+    "crowd": "Top ski season; book early.",
+    "aliases": [
+      "juhyo",
+      "snow monsters",
+      "zao",
+      "樹氷",
+      "蔵王"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Zaō_Onsen"
+    }
+  },
+  {
+    "id": "ryuhyo",
+    "name": "Drift ice (Abashiri)",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "snow",
+    "lon": 144.2733,
+    "lat": 44.0206,
+    "peaks": [
+      {
+        "on": "02-10",
+        "spread": 21
+      }
+    ],
+    "when": "late January to mid March, Abashiri, Hokkaido",
+    "summary": "Sea ice floating on the Okhotsk Sea, viewed from icebreaker tours.",
+    "approx": true,
+    "crowd": "Tours are timed to when the ice arrives; check the day before.",
+    "aliases": [
+      "ryuhyo",
+      "drift ice",
+      "流氷",
+      "abashiri",
+      "okhotsk"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Abashiri"
+    }
+  },
+  {
+    "id": "whale-okinawa",
+    "name": "Humpback whales (Okinawa)",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "whale",
+    "lon": 127.68,
+    "lat": 26.2124,
+    "peaks": [
+      {
+        "on": "02-10",
+        "spread": 30
+      }
+    ],
+    "when": "January to March, Kerama Islands, Naha",
+    "summary": "Humpbacks come to the warm waters around Okinawa to breed.",
+    "approx": true,
+    "aliases": [
+      "whale watching",
+      "kerama",
+      "クジラ",
+      "ホエールウォッチング"
+    ],
+    "highlights": [
+      {
+        "name": "Kerama Islands",
+        "lon": 127.2994,
+        "lat": 26.2,
+        "note": "Whale-watching boats from Naha, Zamami and Tokashiki.",
+        "on": "02-10",
+        "spread": 30,
+        "detail": true
+      }
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Kerama_Islands"
+    }
+  },
+  {
+    "id": "kawazu-zakura",
+    "name": "Kawazu cherry blossom",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "sakura",
+    "lon": 138.9892,
+    "lat": 34.7461,
+    "peaks": [
+      {
+        "on": "02-12",
+        "spread": 12
+      }
+    ],
+    "when": "February to early March, Kawazu, Izu",
+    "summary": "The early pink cherry that blooms in February along the Kawazu river, with a month-long festival.",
+    "approx": true,
+    "crowd": "Busy weekends; trains from Tokyo are the easy way.",
+    "aliases": [
+      "kawazu",
+      "河津桜",
+      "early sakura"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Kawazu,_Shizuoka"
+    }
+  },
+  {
+    "id": "inakadate-art",
+    "name": "Rice paddy art (Inakadate)",
+    "category": "seasonal",
+    "tier": 3,
+    "icon": "grass",
+    "lon": 140.5667,
+    "lat": 40.6167,
+    "peaks": [
+      {
+        "on": "08-01",
+        "spread": 30
+      }
+    ],
+    "when": "July to September, Inakadate, Aomori",
+    "summary": "Paddies planted with several colors of rice to form giant pictures.",
+    "approx": true,
+    "aliases": [
+      "tanbo art",
+      "田んぼアート",
+      "inakadate"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Inakadate,_Aomori"
+    }
+  },
+  {
+    "id": "pampas-hakone",
+    "name": "Pampas grass (Sengokuhara)",
+    "category": "seasonal",
+    "tier": 3,
+    "icon": "grass",
+    "lon": 139.0,
+    "lat": 35.267,
+    "peaks": [
+      {
+        "on": "10-28",
+        "spread": 12
+      }
+    ],
+    "when": "mid October to early November, Hakone",
+    "summary": "The Sengokuhara pampas grass field, golden at sunset.",
+    "approx": true,
+    "aliases": [
+      "susuki",
+      "pampas",
+      "ススキ",
+      "silver grass",
+      "sengokuhara"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Hakone"
+    }
+  },
+  {
+    "id": "luminarie",
+    "name": "Kobe Luminarie",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "lantern",
+    "lon": 135.1866,
+    "lat": 34.6861,
+    "peaks": [
+      {
+        "on": "12-08",
+        "spread": 5
+      }
+    ],
+    "when": "early December, Kobe",
+    "summary": "Light arches built in memory of the 1995 earthquake.",
+    "approx": true,
+    "crowd": "Queues of an hour or more; one-way crowd control.",
+    "aliases": [
+      "luminarie",
+      "ルミナリエ"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Kobe_Luminarie"
+    }
+  },
+  {
+    "id": "nabana-illumination",
+    "name": "Nabana no Sato Winter Illumination",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "lantern",
+    "lon": 136.726,
+    "lat": 35.025,
+    "peaks": [
+      {
+        "on": "12-15",
+        "spread": 45
+      }
+    ],
+    "when": "mid October to early May, Nagashima, Mie",
+    "summary": "One of Japan's biggest light-ups.",
+    "approx": true,
+    "aliases": [
+      "nabana",
+      "なばなの里",
+      "illumination"
+    ]
+  },
+  {
+    "id": "ashikaga-illumination",
+    "name": "Ashikaga Flower Fantasy",
+    "category": "seasonal",
+    "tier": 2,
+    "icon": "lantern",
+    "lon": 139.5192,
+    "lat": 36.3139,
+    "peaks": [
+      {
+        "on": "12-20",
+        "spread": 50
+      }
+    ],
+    "when": "late October to mid February, Ashikaga",
+    "summary": "The wisteria garden turned into a night park of about five million lights.",
+    "approx": true,
+    "aliases": [
+      "ashikaga",
+      "flower fantasy",
+      "あしかがフラワーパーク",
+      "illumination"
+    ]
+  },
+  {
+    "id": "shirakawago-lightup",
+    "name": "Shirakawa-go Winter Light-up",
+    "category": "seasonal",
+    "tier": 3,
+    "icon": "lantern",
+    "lon": 136.9066,
+    "lat": 36.2578,
+    "peaks": [
+      {
+        "on": "02-01",
+        "spread": 14
+      }
+    ],
+    "when": "a few evenings in late January and February, Shirakawa-go",
+    "summary": "Thatched farmhouses lit up in the snow on selected evenings.",
+    "approx": true,
+    "aliases": [
+      "shirakawa-go",
+      "白川郷",
+      "light up",
+      "gassho"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Shirakawa-g%C5%8D"
+    }
+  }
+]

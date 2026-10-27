@@ -1,4 +1,4 @@
-import type { AreaProps, IconName, MapEvent } from '../data/types';
+import type { AreaProps, IconName, MapEvent, Tier } from '../data/types';
 import { dateLabel, dayFromMonthDay, dayOfYear, isActive, nthWeekday } from './season';
 
 export const CATEGORY_LABELS: Record<MapEvent['category'], string> = {
@@ -17,6 +17,9 @@ const DEFAULT_ICON: Record<MapEvent['category'], IconName> = {
   concert: 'note',
 };
 
+// Map zoom from which each tier is drawn.
+export const TIER_MINZOOM: Record<Tier, number> = { 1: 0, 2: 5, 3: 6.5 };
+
 // An event's own icon, else the default for its category.
 export function iconFor(e: Pick<MapEvent, 'icon' | 'category'>): IconName {
   return e.icon ?? DEFAULT_ICON[e.category];
@@ -31,12 +34,14 @@ export interface Occurrence {
   areaId?: string;
   country?: string;
   label?: string;
+  tier: Tier;
   // For a date worked out by rule: the actual date, e.g. "7-8 Nov 2026".
   dateLabel?: string;
 }
 
 export interface StarPoint {
   eventId: string;
+  tier: Tier;
   name: string;
   lon: number;
   lat: number;
@@ -90,9 +95,10 @@ export function buildOccurrences(
   const occurrences: Occurrence[] = [];
   const stars: StarPoint[] = [];
   for (const e of events) {
+    const tier = e.tier ?? 1;
     const windows = peakWindows(e, now);
     for (const w of windows) {
-      occurrences.push({ eventId: e.id, lon: e.lon, lat: e.lat, day: w.day, spread: w.spread, country: e.country, dateLabel: w.dateLabel });
+      occurrences.push({ eventId: e.id, lon: e.lon, lat: e.lat, day: w.day, spread: w.spread, country: e.country, tier, dateLabel: w.dateLabel });
     }
     for (const f of e.fronts ?? []) {
       const overrides = new Map((f.overrides ?? []).map((o) => [o.areaId, o]));
@@ -101,13 +107,13 @@ export function buildOccurrences(
         const o = overrides.get(a.id);
         if (!o && f.minLat !== undefined && a.point[1] < f.minLat) continue;
         const day = o ? dayFromMonthDay(o.on) : peakFromAnchors(a.point[1], f.anchors);
-        occurrences.push({ eventId: e.id, lon: a.point[0], lat: a.point[1], day, spread: o?.spread ?? f.spread, areaId: a.id, country: f.country, label: f.label });
+        occurrences.push({ eventId: e.id, lon: a.point[0], lat: a.point[1], day, spread: o?.spread ?? f.spread, areaId: a.id, country: f.country, label: f.label, tier });
       }
     }
     for (const h of e.highlights ?? []) {
       const own = h.on ? [{ day: dayFromMonthDay(h.on), spread: h.spread ?? 7 }] : windows;
       for (const w of own) {
-        stars.push({ eventId: e.id, name: h.name, lon: h.lon, lat: h.lat, day: w.day, spread: w.spread, detail: h.detail });
+        stars.push({ eventId: e.id, name: h.name, lon: h.lon, lat: h.lat, day: w.day, spread: w.spread, detail: h.detail, tier });
       }
     }
   }

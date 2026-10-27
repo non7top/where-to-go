@@ -4,7 +4,8 @@ export type Level = 'country' | 'province' | 'city' | 'island';
 export type Equipment = 'yes' | 'partial' | 'no';
 export type IconName =
   | 'maple' | 'ginkgo' | 'sakura' | 'book' | 'note' | 'drops' | 'lantern' | 'boat' | 'snow'
-  | 'monitor' | 'moon' | 'grass' | 'calendar' | 'star' | 'booth';
+  | 'monitor' | 'moon' | 'grass' | 'calendar' | 'star' | 'booth'
+  | 'fireworks' | 'lily' | 'wisteria' | 'hydrangea' | 'lavender' | 'sunflower' | 'plum' | 'cosmos' | 'firefly' | 'whale' | 'sun';
 export type EventCategory = 'festival' | 'fair' | 'seasonal' | 'holiday' | 'concert';
 
 export interface AreaProps {
@@ -28,10 +29,14 @@ export interface AreaClimate {
   cooling?: Equipment;
 }
 
+// How prominent an event is: 1 shows on the whole map, 2 from a regional zoom, 3 only when zoomed in.
+export type Tier = 1 | 2 | 3;
+
 export interface MapEvent {
   id: string;
   name: string;
   category: EventCategory;
+  tier?: Tier;
   lon: number;
   lat: number;
   peaks?: Peak[];

@@ -3,8 +3,8 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import type { GeoJSONSource, LayerSpecification, Point } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point as GeoPoint } from 'geojson';
 import type { AppData } from '../data/load';
-import type { Level, MapEvent } from '../data/types';
-import { iconFor } from '../lib/events';
+import type { Level, MapEvent, Tier } from '../data/types';
+import { iconFor, TIER_MINZOOM } from '../lib/events';
 import { comfortColor, NO_DATA_COLOR } from '../lib/color';
 import { feltHigh } from '../lib/feel';
 import type { Occurrence } from '../lib/events';
@@ -396,8 +396,10 @@ export class WeatherMap {
     const source = this.map.getSource('events') as GeoJSONSource | undefined;
     if (!source) return;
     const { occurrences, stars } = this.data;
-    const occIdx = occurrences.flatMap((o, i) => (isActive(o.day, o.spread, day) ? [i] : []));
-    const starIdx = stars.flatMap((st, i) => (isActive(st.day, st.spread, day) ? [i] : []));
+    const zoom = this.map.getZoom();
+    const shown = (tier: Tier) => zoom >= TIER_MINZOOM[tier];
+    const occIdx = occurrences.flatMap((o, i) => (shown(o.tier) && isActive(o.day, o.spread, day) ? [i] : []));
+    const starIdx = stars.flatMap((st, i) => (shown(st.tier) && isActive(st.day, st.spread, day) ? [i] : []));
     // The active sets change only a few times a year, and the grid only with zoom, so skip the rebuild in between.
     const key = `${occIdx.join(',')}|${starIdx.join(',')}|${this.zoomKey}`;
     if (key === this.eventKey) return;

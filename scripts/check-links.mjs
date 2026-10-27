@@ -4,12 +4,12 @@ net.setDefaultAutoSelectFamilyAttemptTimeout(5000);
 
 import { readFile } from 'node:fs/promises';
 
-const FILES = ['events', 'concerts', 'fronts'];
+const FILES = JSON.parse(await readFile('public/data/event-files.json', 'utf8'));
 const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
 
 const urls = new Map();
 for (const f of FILES) {
-  for (const e of JSON.parse(await readFile(`public/data/${f}.json`, 'utf8'))) {
+  for (const e of JSON.parse(await readFile(`public/data/${f}`, 'utf8'))) {
     for (const [kind, url] of Object.entries(e.links ?? {})) urls.set(url, `${e.id} ${kind}`);
   }
 }

@@ -41,7 +41,9 @@ Country areas hold the mean of their provinces. A month with no data is `null` i
 | `id`, `name` | string | |
 | `category` | `"festival"`, `"fair"`, `"seasonal"`, `"holiday"`, `"concert"` | |
 | `lon`, `lat` | number | Icon position |
-| `months` | number[] | Months the event is active in |
+| `peaks` | `{ on: "MM-DD", spread: days }[]` | Peak dates; active when the 15-day section reaches peak plus or minus spread |
+| `fronts` | array, optional | A season sweeping a country: `{ country, anchors: [[lat, "MM-DD"]], spread, minLat?, overrides?: [{ areaId, on, spread? }] }`; the peak per province follows latitude |
+| `links` | `{ wiki?, official? }`, optional | https URLs, checked by `make` target `links` |
 | `when` | string | Human text, e.g. "13-15 April" or "about mid-November" |
 | `approx` | boolean | True for windows |
 | `summary` | string | One line for hover |
@@ -49,7 +51,7 @@ Country areas hold the mean of their provinces. A month with no data is `null` i
 | `crowd`, `price`, `perk` | string, optional | Separate, any may be absent |
 | `areaId` | string, optional | Links to an area for the panel list |
 | `country` | string, optional | ISO code; the event applies to every area of that country |
-| `highlights` | array, optional | Main places for the event: `{ name, lon, lat, note? }`, drawn as stars |
+| `highlights` | array, optional | Main places for the event: `{ name, lon, lat, note?, on?, spread? }`, drawn as stars in their own window (default: the event's peaks) |
 
 Concerts use the same shape and are kept in their own file so they can be replaced by a feed.
 

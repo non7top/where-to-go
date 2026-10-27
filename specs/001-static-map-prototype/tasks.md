@@ -56,6 +56,13 @@
 - [x] T026 Month ring bar: selected month centered, range from today tinted, today marked, drag by steps, `src/lib/timeuntil.ts` days-or-months label (45 day limit); unit tests
 - [x] T027 Prominent country borders layer; nationwide events (`country`) listed in every area of the country; star highlights (`highlights`) with hover name and card list; Songkran made nationwide with four stars
 
+## Phase 7d: Time control, green places and events (FR-002, FR-026, FR-027)
+
+- [x] T028 Continuous year dial: `src/lib/season.ts` (day of year, interpolation between months, peak and spread), `src/ui/dial.ts` (drum) and `src/ui/ring.ts` (ring), switch button remembered in localStorage, days-or-months label (`src/lib/timeuntil.ts`); seasons marked and the strip colored from the selected area or the map center (`yearColors`). Checked in a browser: both looks, switching, selection driving the band, Escape closing the selection
+- [x] T029 Green places panel (`src/lib/best.ts`, `src/ui/picks.ts`): cities and regions in the green range grouped by country with flag images, best first, plus the events of the period; Best button on narrow screens. Checked in a browser at 1280 px; the narrow-screen layout is not rechecked
+- [x] T030 Events as peak plus spread, with fronts for sakura and momiji (Japan, Korea, China); events researched for end of 2026 and 2027 (book fairs, trade and anime fairs, music festivals, Hong Kong dragon boat festival); Wikipedia and official links with `scripts/check-links.mjs` (45 links checked, 4 dead ones removed; one official link answers 403 to scripts but exists)
+- [ ] T031 Re-test the experimental `file://` standalone build with the new dial, flags and fronts, and recheck the narrow-screen layout of the dial, Best panel and area panel. Not done: the copy in D:\tmp is from before these changes
+
 ## Phase 8: Hosting and checks
 
 - [ ] T020 `.github/workflows/pages.yml` (build in container, deploy `dist/`); run with `act` before any real run. Workflow written and passes actionlint; Ran `act push -j build --bind` with `--container-options "-u <uid>:<gid> --group-add <docker socket gid>"`: checkout, install and build all succeed and the dist archive is created, no root-owned files left. The final artifact upload fails inside act ("unknown field mime_type" from act's local artifact server, which does not support this upload-artifact version), so the upload and the deploy job are untested until a real run. Nothing has been pushed.

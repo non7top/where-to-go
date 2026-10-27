@@ -63,6 +63,13 @@
 - [x] T030 Events as peak plus spread, with fronts for sakura and momiji (Japan, Korea, China); events researched for end of 2026 and 2027 (book fairs, trade and anime fairs, music festivals, Hong Kong dragon boat festival); Wikipedia and official links with `scripts/check-links.mjs` (45 links checked, 4 dead ones removed; one official link answers 403 to scripts but exists)
 - [x] T031 Standalone `file://` build and narrow screens rechecked. Standalone: renders fully, with no errors, in a sandboxed frame (opaque origin, the same conditions as file://); a `history.replaceState` error and a late-stylesheet map size problem found and fixed. Not observed: a real file:// page in a real browser (the headless Chromium here shows no map even over http, so it cannot tell). Phone width (390 px): drum and ring dials, Best panel and area panel checked; the area name on the drum is truncated to fit
 
+## Phase 7e: Feedback round: icons, ginkgo, right card, selection, search (FR-026 to FR-029)
+
+- [x] T032 Per-event icons drawn in `src/map/icons.ts` (maple, ginkgo, sakura, book, note, drops, lantern, boat, snow, monitor, moon, grass, calendar, star, booth) used on the map, in lists, cards and search; `iconFor` default by category; ginkgo front added; local names and aliases per country for sakura, momiji and ginkgo
+- [x] T033 Right card as two panels (`src/ui/picks.ts`): top 10 green places grouped by country, events five rows tall and scrolling, scroll position kept while the dial turns
+- [x] T034 Region narrowing by rectangle (`src/lib/scope.ts`, `WeatherMap.initBoxSelect`): Select area button or Shift and drag, outline on the map, Zoom and Clear, Escape clears. Checked in a browser with synthetic pointer events (a real mouse drag and touch drag are not tried)
+- [x] T035 Global search (`src/lib/search.ts`, `src/ui/search.ts`): places, airport codes, events, local names and aliases; "/" focuses it. Checked in a browser at desktop and 390 px widths
+
 ## Phase 8: Hosting and checks
 
 - [ ] T020 `.github/workflows/pages.yml` (build in container, deploy `dist/`); run with `act` before any real run. Workflow written and passes actionlint; Ran `act push -j build --bind` with `--container-options "-u <uid>:<gid> --group-add <docker socket gid>"`: checkout, install and build all succeed and the dist archive is created, no root-owned files left. The final artifact upload fails inside act ("unknown field mime_type" from act's local artifact server, which does not support this upload-artifact version), so the upload and the deploy job are untested until a real run. Nothing has been pushed.

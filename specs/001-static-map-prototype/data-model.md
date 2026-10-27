@@ -42,7 +42,8 @@ Country areas hold the mean of their provinces. A month with no data is `null` i
 | `category` | `"festival"`, `"fair"`, `"seasonal"`, `"holiday"`, `"concert"` | |
 | `lon`, `lat` | number | Icon position |
 | `peaks` | `{ on: "MM-DD", spread: days }[]` | Peak dates; active when the 15-day section reaches peak plus or minus spread |
-| `fronts` | array, optional | A season sweeping a country: `{ country, anchors: [[lat, "MM-DD"]], spread, minLat?, overrides?: [{ areaId, on, spread? }] }`; the peak per province follows latitude |
+| `fronts` | array, optional | A season sweeping a country: `{ country, label?, aliases?, anchors: [[lat, "MM-DD"]], spread, minLat?, overrides?: [{ areaId, on, spread? }] }` (`label` is the country's own name for the season, `aliases` are extra search names); the peak per province follows latitude |
+| `icon` | one of `maple ginkgo sakura book note drops lantern boat snow monitor moon grass calendar star booth`, optional | Defaults by category |
 | `links` | `{ wiki?, official? }`, optional | https URLs, checked by `make` target `links` |
 | `when` | string | Human text, e.g. "13-15 April" or "about mid-November" |
 | `approx` | boolean | True for windows |

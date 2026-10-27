@@ -12,7 +12,7 @@ import { clusterIcon, eventIcon, RAIN_PATTERNS, rainTile, tileImage } from './pa
 // maplibre-gl 6 finds its worker next to the main script, which a bundler breaks.
 setWorkerUrl(workerUrl);
 
-export const COUNTRY_MAXZOOM = 3;
+export const COUNTRY_MAXZOOM = 2.2;
 export const ISLAND_MINZOOM = 5;
 export const REGION_BOUNDS: [[number, number], [number, number]] = [[92, -10], [146, 48]];
 

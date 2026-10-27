@@ -121,7 +121,7 @@ async function main() {
 
   const landOut = path.join(OUT, 'land.geojson');
   await mapshaper([
-    landPath, '-clip', 'bbox=60,-15,160,60', '-filter-fields', 'NAME', '-simplify', '40%', 'visvalingam', 'keep-shapes',
+    landPath, '-clip', 'bbox=20,-45,180,80', '-filter-fields', 'NAME', '-simplify', '40%', 'visvalingam', 'keep-shapes',
     '-o', landOut, 'format=geojson', 'precision=0.02',
   ]);
 

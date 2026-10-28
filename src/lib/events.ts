@@ -9,6 +9,8 @@ export const CATEGORY_LABELS: Record<MapEvent['category'], string> = {
   concert: 'Concert',
 };
 
+export const EVENT_TYPES = Object.keys(CATEGORY_LABELS) as MapEvent['category'][];
+
 const DEFAULT_ICON: Record<MapEvent['category'], IconName> = {
   festival: 'star',
   fair: 'booth',

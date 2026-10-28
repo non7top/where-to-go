@@ -486,6 +486,32 @@ text.dial-eta {
   font-size: 11px;
 }
 
+.pk-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 2px 0 6px;
+}
+
+.pk-types button {
+  padding: 1px 8px;
+  font-size: 12px;
+  color: var(--muted);
+  border-radius: 999px;
+  text-decoration: line-through;
+}
+
+.pk-types button.on {
+  color: var(--accent-text);
+  background: var(--accent);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+.pk-types small {
+  opacity: 0.8;
+}
+
 .chip {
   display: inline-flex;
   align-items: center;

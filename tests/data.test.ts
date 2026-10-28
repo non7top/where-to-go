@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { buildOccurrences, peakWindows } from '../src/lib/events';
+import { buildOccurrences, EVENT_TYPES, peakWindows } from '../src/lib/events';
 import { dayFromMonthDay } from '../src/lib/season';
 import type { AreaProps, MapEvent } from '../src/data/types';
 
@@ -60,5 +60,17 @@ describe('fixed events in the shipped data', () => {
     expect(e.lat).toBeGreaterThan(35.5);
     expect(e.lat).toBeLessThan(35.8);
     expect(e.highlights?.map((h) => h.name).join(' ')).toMatch(/Odaiba.*Marunouchi/);
+  });
+});
+
+describe('event types', () => {
+  it('lists every category the schema allows, for the type filter', () => {
+    const schema = JSON.parse(readFileSync('specs/001-static-map-prototype/contracts/events.schema.json', 'utf8')) as { items: { properties: { category: { enum: string[] } } } };
+    expect([...EVENT_TYPES].sort()).toEqual([...schema.items.properties.category.enum].sort());
+  });
+  it('has at least one shipped event of each type', () => {
+    const files = read<string[]>('event-files.json');
+    const used = new Set(files.flatMap((f) => read<MapEvent[]>(f).map((e) => e.category)));
+    for (const t of EVENT_TYPES) expect(used.has(t)).toBe(true);
   });
 });

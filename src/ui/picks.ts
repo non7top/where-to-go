@@ -1,8 +1,9 @@
 import type { AppData } from '../data/load';
+import type { EventCategory } from '../data/types';
 import { rankGreen } from '../lib/best';
 import type { Pick } from '../lib/best';
 import { comfortColor } from '../lib/color';
-import { CATEGORY_LABELS, iconFor } from '../lib/events';
+import { CATEGORY_LABELS, EVENT_TYPES, iconFor } from '../lib/events';
 import type { Occurrence } from '../lib/events';
 import { feltHigh } from '../lib/feel';
 import { inBounds } from '../lib/scope';
@@ -21,6 +22,9 @@ export interface PicksOptions {
   getDay: () => number;
   getScope: () => Bounds | null;
   isSelecting: () => boolean;
+  // Event types currently shown; the rest are hidden from the list, the map and the star counts.
+  getTypes: () => ReadonlySet<EventCategory>;
+  onToggleType: (type: EventCategory) => void;
   occByArea: Map<string, Occurrence[]>;
   onPick: (id: string) => void;
   onEvent: (eventId: string, occ: Occurrence) => void;
@@ -34,12 +38,15 @@ export interface PicksOptions {
 // (five rows tall, scrolling). Both follow the selected rectangle on the map, if there is one.
 export class Picks {
   private last = '';
+  private categoryOf = new Map<string, EventCategory>();
 
   constructor(private o: PicksOptions) {
+    for (const e of o.data.events) this.categoryOf.set(e.id, e.category);
     o.el.addEventListener('click', (e) => {
-      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-act],[data-id],[data-oi]');
+      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-act],[data-id],[data-oi],[data-type]');
       if (!t) return;
-      if (t.dataset.act === 'select') o.actions.toggleSelect();
+      if (t.dataset.type) o.onToggleType(t.dataset.type as EventCategory);
+      else if (t.dataset.act === 'select') o.actions.toggleSelect();
       else if (t.dataset.act === 'clear') o.actions.clearScope();
       else if (t.dataset.act === 'zoom') o.actions.zoomScope();
       else if (t.dataset.oi !== undefined) {
@@ -81,6 +88,7 @@ export class Picks {
       ([cc, rows]) => `<h3 class="country">${flagImg(cc)}${esc(regionNames.of(cc) ?? cc)}</h3><ul>${rows.map((p) => this.row(p, day)).join('')}</ul>`,
     );
 
+    const events = this.events(day, scope);
     const selecting = this.o.isSelecting();
     const tools = scope
       ? `<span class="chip">Selected area <button type="button" data-act="zoom">Zoom</button><button type="button" data-act="clear">Clear</button></span>`
@@ -99,7 +107,8 @@ export class Picks {
       </section>
       <section class="pk pk-events">
         <h3>Events</h3>
-        <div class="pk-scroll" data-scroll="events">${this.events(day, scope)}</div>
+        <div class="pk-types" role="group" aria-label="Event types">${this.typeChips(events.counts)}</div>
+        <div class="pk-scroll" data-scroll="events">${events.html}</div>
       </section>`;
     if (html === this.last) return;
     this.last = html;
@@ -112,7 +121,7 @@ export class Picks {
   }
 
   // Every event whose peak window reaches the section, nearest peak first; one row per country for a season front.
-  private events(day: number, scope: Bounds | null): string {
+  private events(day: number, scope: Bounds | null): { html: string; counts: Map<EventCategory, number> } {
     const { data } = this.o;
     const groups = new Map<string, { best: number; n: number }>();
     data.occurrences.forEach((o, i) => {
@@ -125,7 +134,14 @@ export class Picks {
         if (circDist(o.day, day) < circDist(data.occurrences[g.best]!.day, day)) g.best = i;
       }
     });
+    const types = this.o.getTypes();
+    const counts = new Map<EventCategory, number>();
+    for (const g of groups.values()) {
+      const type = this.categoryOf.get(data.occurrences[g.best]!.eventId);
+      if (type) counts.set(type, (counts.get(type) ?? 0) + 1);
+    }
     const rows = [...groups.values()]
+      .filter((g) => types.has(this.categoryOf.get(data.occurrences[g.best]!.eventId) ?? 'festival'))
       .sort((a, b) => circDist(data.occurrences[a.best]!.day, day) - circDist(data.occurrences[b.best]!.day, day))
       .flatMap((g) => {
         const occ = data.occurrences[g.best]!;
@@ -135,14 +151,21 @@ export class Picks {
         const detail = g.n > 1 && !e.country ? `${g.n} areas, peak around ${dayLabel(occ.day)}` : e.when;
         return [`<li><button type="button" data-oi="${data.occurrences.indexOf(occ)}" data-ev="${esc(occ.eventId)}" data-cc="${esc(occ.label ? (occ.country ?? '') : '')}"><img class="ev-icon" alt="" src="${iconDataUrl(iconFor(e))}"><span class="pick-main"><b>${flag}${esc(occ.label ?? e.name)}</b><small>${CATEGORY_LABELS[e.category]}, ${esc(detail)}</small></span></button></li>`];
       });
-    return rows.length ? `<ul>${rows.join('')}</ul>` : '<p class="sub">No listed events in this period.</p>';
+    const html = rows.length ? `<ul>${rows.join('')}</ul>` : `<p class="sub">${types.size < EVENT_TYPES.length && counts.size ? 'No events of the chosen types in this period.' : 'No listed events in this period.'}</p>`;
+    return { html, counts };
+  }
+
+  private typeChips(counts: Map<EventCategory, number>): string {
+    const on = this.o.getTypes();
+    return EVENT_TYPES.map((t) => `<button type="button" data-type="${t}" aria-pressed="${on.has(t)}" class="${on.has(t) ? 'on' : ''}">${esc(CATEGORY_LABELS[t])} <small>${counts.get(t) ?? 0}</small></button>`).join('');
   }
 
   private row(p: Pick, day: number): string {
     const { data } = this.o;
     const c = data.climate[p.id];
     const shown = c ? interpMonthly(c.hi, day) : null;
-    const events = new Set((this.o.occByArea.get(p.id) ?? []).filter((o) => isActive(o.day, o.spread, day)).map((o) => o.eventId)).size;
+    const types = this.o.getTypes();
+    const events = new Set((this.o.occByArea.get(p.id) ?? []).filter((o) => isActive(o.day, o.spread, day) && types.has(this.categoryOf.get(o.eventId) ?? 'festival')).map((o) => o.eventId)).size;
     const wind = c?.wind ? interpMonthly(c.wind, day) : null;
     const felt = feltHigh(shown, wind);
     const rain = p.rainLevel >= 2 ? `<span class="pill" title="Rainy season">${p.rainLevel === 3 ? 'heavy rain' : 'rainy'}</span>` : '';

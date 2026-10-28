@@ -222,5 +222,42 @@
     "when": "about 31 July to 2 August (year not confirmed)",
     "approx": true,
     "summary": "Korean rock festival in Incheon."
+  },
+  {
+    "id": "strawberry-music-festival",
+    "name": "Strawberry Music Festival (China)",
+    "category": "concert",
+    "tier": 2,
+    "icon": "strawberry",
+    "lon": 113.869,
+    "lat": 22.932,
+    "peaks": [
+      {
+        "on": "05-03",
+        "spread": 2
+      },
+      {
+        "on": "10-04",
+        "spread": 1
+      }
+    ],
+    "when": "2027 dates not announced; the Dongguan edition is due back at Songshan Lake in 2027. Recent editions ran around Labor Day (2-4 May 2025 in Beijing Yanqing, 2-4 May 2026 in Dongguan) and National Day (4-5 October 2024, Dongguan)",
+    "approx": true,
+    "summary": "Modern Sky's touring indie music festival, one of the oldest in China, held in a different city each weekend of the season.",
+    "details": "Founded in 2009 by the label Modern Sky. Each edition is held in one or more cities with its own dates and lineup. The 2026 edition (theme \"On! Holiday!\") announced Beijing, Changsha, Chengdu, Dongguan, Harbin, Hohhot, Suzhou, Urumqi and Wuhan; Wuhan ran 4-5 April 2026 and the Foshan stop was cancelled in March. The dates shown on the map are the typical Labor Day and National Day slots, not announced dates. Dongguan 2026 drew over 90,000 people over three days with 36 acts, and a May 2026 report says it will return to Songshan Lake in 2027, with no dates yet. Check Modern Sky and the ticketing pages for 2027.",
+    "price": "Wuhan 2026 single-day tickets ran from 268 to 468 RMB (early bird to full price).",
+    "aliases": [
+      "草莓音乐节",
+      "caomei",
+      "caomei yinyuejie",
+      "modern sky",
+      "摩登天空",
+      "strawberry festival",
+      "strawberry"
+    ],
+    "links": {
+      "wiki": "https://en.wikipedia.org/wiki/Modern_Sky",
+      "official": "https://www.modernsky.com/home/"
+    }
   }
 ]

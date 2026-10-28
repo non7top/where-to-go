@@ -24,6 +24,9 @@ export const COUNTRY_MAXZOOM = 2.2;
 export const CITY_MINZOOM = 4;
 export const ISLAND_MINZOOM = 5;
 export const DETAIL_STAR_MINZOOM = 8;
+
+// Pixels between the top of a city circle and the center of an icon lifted above it.
+const ICON_LIFT = 14;
 export const REGION_BOUNDS: [[number, number], [number, number]] = [[92, -10], [146, 48]];
 
 const LEVELS: { level: Level; minzoom: number; maxzoom: number }[] = [
@@ -67,9 +70,16 @@ export class WeatherMap {
   private hoverId: string | null = null;
   private selectedId: string | null = null;
   private eventsById = new globalThis.Map<string, MapEvent>();
+  // Half-height in degrees of each airport city circle, keyed by its center.
+  private cityRadius = new globalThis.Map<string, number>();
 
   constructor(container: HTMLElement, private data: AppData, private opts: MapOptions) {
     for (const e of data.events) this.eventsById.set(e.id, e);
+    for (const f of data.areas.features) {
+      if (f.properties.level !== 'city' || f.geometry.type !== 'Polygon') continue;
+      const lats = f.geometry.coordinates[0]!.map((c) => c[1]!);
+      this.cityRadius.set(f.properties.point.join(','), (Math.max(...lats) - Math.min(...lats)) / 2);
+    }
     this.map = new GLMap({
       container,
       style: { version: 8, sources: {}, layers: [] },
@@ -414,8 +424,12 @@ export class WeatherMap {
 
     // Icons that would land on top of each other are grouped and laid out as a grid, four to a row.
     const points = occIdx.map((i) => {
-      const px = this.map.project([occurrences[i]!.lon, occurrences[i]!.lat]);
-      return { x: px.x, y: px.y, key: occurrences[i]!.eventId, index: i };
+      const o = occurrences[i]!;
+      const px = this.map.project([o.lon, o.lat]);
+      const radius = o.atCity ? this.cityRadius.get(`${o.lon},${o.lat}`) : undefined;
+      // Lift the icon above the city circle (its pixel radius changes with zoom) so the circle stays visible.
+      const lift = radius === undefined ? 0 : px.y - this.map.project([o.lon, o.lat + radius]).y + ICON_LIFT;
+      return { x: px.x, y: px.y - lift, key: o.eventId, index: i };
     });
     const keyOf = (o: Occurrence) => `|${o.eventId}:${o.label ? (o.country ?? '') : ''}|`;
     const features: Feature<GeoPoint>[] = stackPoints(points).flatMap((stack) =>

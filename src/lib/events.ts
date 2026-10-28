@@ -37,6 +37,8 @@ export interface Occurrence {
   country?: string;
   // Country the place is in, for the flag; `country` is only set for events that cover a whole country.
   home: string;
+  // Drawn at an airport city point, so the icon is lifted clear of the city circle.
+  atCity?: boolean;
   label?: string;
   tier: Tier;
   // For a date worked out by rule: the actual date, e.g. "7-8 Nov 2026".
@@ -132,7 +134,7 @@ export function buildOccurrences(
     const places = cities.length ? cities.map((a) => ({ lon: a.point[0], lat: a.point[1] })) : [{ lon: e.lon, lat: e.lat }];
     for (const w of windows) {
       for (const at of places) {
-        occurrences.push({ eventId: e.id, lon: at.lon, lat: at.lat, day: w.day, spread: w.spread, country: e.country, home: e.country ?? nearestCountry(at.lon, at.lat, areas), tier, dateLabel: w.dateLabel });
+        occurrences.push({ eventId: e.id, lon: at.lon, lat: at.lat, day: w.day, spread: w.spread, country: e.country, home: e.country ?? nearestCountry(at.lon, at.lat, areas), tier, dateLabel: w.dateLabel, ...(cities.length ? { atCity: true } : {}) });
       }
     }
     for (const f of e.fronts ?? []) {

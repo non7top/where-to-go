@@ -4,6 +4,7 @@ import { loadAll } from './data/load';
 import type { AppData } from './data/load';
 import { bboxOf, pointInGeometry } from './lib/geo';
 import { comfortColor, yearColors } from './lib/color';
+import { contrastingHigh, hostProvinces } from './lib/contrast';
 import { EVENT_TYPES } from './lib/events';
 import type { Occurrence } from './lib/events';
 import { buildSearchIndex } from './lib/search';
@@ -123,6 +124,7 @@ async function start() {
   const tooltip = el('tooltip');
   let overEvent = false;
   const areaProps = data.areas.features.map((f) => f.properties);
+  const hostOf = hostProvinces(data.areas.features);
   const names = new Map(areaProps.map((p) => [p.id, p.iata ? `${p.name} (${p.iata})` : p.name]));
   const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
@@ -154,7 +156,11 @@ async function start() {
         if (!id) return overEvent ? undefined : showTip(null, p);
         const c = data.climate[id];
         const hi = c ? interpMonthly(c.hi, day) : null;
-        showTip(`<b>${esc(names.get(id) ?? '')}</b><small>${hi === null ? 'no data' : `${Math.round(hi)}&deg;C daytime high`}</small>`, p);
+        const hostId = hostOf.get(id);
+        const hostC = hostId ? data.climate[hostId] : undefined;
+        const around = contrastingHigh(hi, hostC ? interpMonthly(hostC.hi, day) : null);
+        const aroundNote = around === null ? '' : `<small>${esc(names.get(hostId!) ?? '')} around: ${Math.round(around)}&deg;C</small>`;
+        showTip(`<b>${esc(names.get(id) ?? '')}</b><small>${hi === null ? 'no data' : `${Math.round(hi)}&deg;C daytime high`}</small>${aroundNote}`, p);
       },
     },
   });
